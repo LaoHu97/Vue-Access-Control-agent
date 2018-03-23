@@ -9,7 +9,38 @@ function padding(s, len) {
   for (var i = 0; i < len; i++) { s = '0' + s; }
   return s;
 };
+//金额格式化
+export const number_format = function(number, decimals, dec_point, thousands_sep) {
+  /*
+  * 参数说明：
+  * number：要格式化的数字
+  * decimals：保留几位小数
+  * dec_point：小数点符号
+  * thousands_sep：千分位符号
+  * */
+  number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+      prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+      sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+      dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+      s = '',
+      toFixedFix = function (n, prec) {
+          var k = Math.pow(10, prec);
+          return '' + Math.ceil(n * k) / k;
+      };
 
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  var re = /(-?\d+)(\d{3})/;
+  while (re.test(s[0])) {
+      s[0] = s[0].replace(re, "$1" + sep + "$2");
+  }
+
+  if ((s[1] || '').length < prec) {
+      s[1] = s[1] || '';
+      s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
+}
 //sessionStorage
 export const session = function(key, value){
   if (value === void(0)) {
@@ -96,7 +127,7 @@ export const buildMenu = function (array, ckey) {
 //日期格式化
 export const dateFormat = function (source, ignore_minute) {
   var myDate;
-  var separate = '-';
+  var separate = '/';
   var minute = '';
   if (source === void(0)) {
     source = new Date();
@@ -196,3 +227,37 @@ export const formatDate = {
           return null;
       }
 };
+export const debounce = function(func, wait, immediate) {
+  let timeout, args, context, timestamp, result
+
+  const later = function() {
+    // 据上一次触发时间间隔
+    const last = +new Date() - timestamp
+
+    // 上次被包装函数被调用时间间隔last小于设定时间间隔wait
+    if (last < wait && last > 0) {
+      timeout = setTimeout(later, wait - last)
+    } else {
+      timeout = null
+      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+      if (!immediate) {
+        result = func.apply(context, args)
+        if (!timeout) context = args = null
+      }
+    }
+  }
+
+  return function(...args) {
+    context = this
+    timestamp = +new Date()
+    const callNow = immediate && !timeout
+    // 如果延时不存在，重新设定延时
+    if (!timeout) timeout = setTimeout(later, wait)
+    if (callNow) {
+      result = func.apply(context, args)
+      context = args = null
+    }
+
+    return result
+  }
+}

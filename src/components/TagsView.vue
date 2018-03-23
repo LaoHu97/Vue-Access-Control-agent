@@ -2,7 +2,7 @@
   <div class="tags-view-container">
     <scroll-pane class='tags-view-wrapper' ref='scrollPane'>
       <router-link ref='tag' class="tags-view-item" :class="isActive(tag)?'active':''" v-for="tag in Array.from(visitedViews)"
-        :to="tag.path" :key="tag.path" @contextmenu.prevent.native="openMenu(tag,$event)">
+        :to="{ path: tag.path, query: tag.query }" :key="tag.path" @contextmenu.prevent.native="openMenu(tag,$event)">
         {{tag.title}}
         <span class='el-icon-close' @click.prevent.stop='closeSelectedTag(tag)'></span>
       </router-link>
@@ -98,7 +98,7 @@ export default {
       this.$store.dispatch('delAllViews')
       this.$router.push('/index/table')
     },
-    openMenu(tag, e) {
+    openMenu(tag, e) {      
       this.visible = true
       this.selectedTag = tag
       this.left = e.clientX

@@ -39,10 +39,12 @@
     </el-table-column>
     <el-table-column prop="saleName" label="业务员" width="120">
     </el-table-column>
-    <el-table-column label="操作" width="120">
+    <el-table-column label="操作" min-width="310">
       <template slot-scope="scope">
 					<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">分配业务员</el-button>
-				</template>
+          <el-button size="mini" @click="lookStore(scope.$index, scope.row)">查看门店</el-button>
+          <el-button size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
+			</template>
     </el-table-column>
   </el-table>
   <!--修改分配业务员界面-->
@@ -138,6 +140,12 @@ export default {
       } else {
         this.optionsMers = [];
       }
+    },
+    lookStore(index, row){
+      this.$router.push({ path: '/index/page7', query: { mid: row.mid } })
+    },
+    lookEmp(index, row){
+      this.$router.push({ path: '/index/page8', query: { mid: row.mid } })
     },
     formatState: function(row, column) {
       return row.status == 0 ? "禁止" : row.status == 1 ? "正常" : "未知"

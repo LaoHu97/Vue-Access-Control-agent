@@ -64,3 +64,45 @@ export const queryAgentLc = params => { return instance.post(`${preUrlPath}/pay/
 export const showMerStatement = params => { return instance.post(`${preUrlPath}/pay/ag/showMerStatement`,params).then(res => res.data); };
 //商户日交易统计
 export const queryMerDaySum = params => { return instance.post(`${preUrlPath}/pay/ag/queryMerDaySum`,params).then(res => res.data); };
+
+
+//首页
+export const showAgentDate = params => { return instance.post(`${preUrlPath}/pay/ag/showAgentDate`,params).then(res => res.data); };
+//公告列表
+export const getNotices = params => { return instance.post(`${preUrlPath}/pay/sys/getNotices`,params).then(res => res.data); };
+//公告详情
+export const getNoticeById = params => { return instance.post(`${preUrlPath}/pay/sys/getNoticeById`,params).then(res => res.data); };
+//商户月排行榜
+export const queryMerMonthData = params => { return instance.post(`${preUrlPath}/pay/ag/queryMerMonthData`,params).then(res => res.data); };
+
+
+//商家设置
+//添加门店
+export const addStore = params => { return instance.post(`${preUrlPath}/pay/ag/addStore`,params).then(res => res.data); };
+//门店管理
+export const queryStoresShop = params => { return instance.post(`${preUrlPath}/pay/ag/queryStoresShop`,params).then(res => res.data); };
+//列表修改
+export const updateStore = params => { return instance.post(`${preUrlPath}/pay/ag/updateStore`,params).then(res => res.data); };
+//门店删除
+export const deleteStore = params => { return instance.post(`${preUrlPath}/pay/ag/deleteStore`,params).then(res => res.data); };
+//门店状态
+export const updateStoreState = params => { return instance.post(`${preUrlPath}/pay/ag/updateStoreState`,params).then(res => res.data); };
+//重置密码
+export const resetStorePwd = params => { return instance.post(`${preUrlPath}/pay/ag/resetStorePwd`,params).then(res => res.data); };
+
+//款台查询
+export const queryEmployeeShop = params => { return instance.post(`${preUrlPath}/pay/ag/queryEmployeeShop`,params).then(res => res.data); };
+//款台详情
+export const queryEmployeeDetail = params => { return instance.post(`${preUrlPath}/pay/ag/queryEmployeeDetail`,params).then(res => res.data); };
+//款台密码重置
+export const resetEmployeePwd = params => { return instance.post(`${preUrlPath}/pay/ag/resetEmployeePwd`,params).then(res => res.data); };
+//款台增加
+export const addEmployee = params => { return instance.post(`${preUrlPath}/pay/ag/addEmployee`,params).then(res => res.data); };
+//款台修改
+export const updateEmployee = params => { return instance.post(`${preUrlPath}/pay/ag/updateEmployee`,params).then(res => res.data); };
+//款台删除
+export const deleteEmployee = params => { return instance.post(`${preUrlPath}/pay/ag/deleteEmployee`,params).then(res => res.data); };
+//款台状态
+export const updateEmployeeStatus = params => { return instance.post(`${preUrlPath}/pay/ag/updateEmployeeStatus`,params).then(res => res.data); };
+//门店模糊查询
+export const selectStoreList = params => { return instance.post(`${preUrlPath}/pay/ag/selectStoreList`,params).then(res => res.data); };

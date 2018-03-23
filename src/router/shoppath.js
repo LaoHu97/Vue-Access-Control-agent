@@ -28,6 +28,13 @@ export default [{
         title: '商户日交易统计', icon: 'table', noCache: true, code:'20180320161920_59'
       },
       component: (resolve) => require(['../views/agent/nav1/Table2.vue'], resolve)
+    },{
+      path: 'table3',
+      name: '商户排行',
+      meta: {
+        title: '商户排行', icon: 'table', noCache: true, code:'20180320161920_59'
+      },
+      component: (resolve) => require(['../views/agent/nav1/Table3.vue'], resolve)
     }]
   },{
     path: '/index',
@@ -57,6 +64,20 @@ export default [{
         title: '新增商户', icon: 'table', noCache: true, code:'20180320144204_9', hidden:true
       },
       component: (resolve) => require(['../views/agent/nav2/Page6.vue'], resolve)
+    },{
+      path: 'page7',
+      name: '门店管理',
+      meta: {
+        title: '门店管理', icon: 'table1', noCache: false, code:'20180320110406_49', hidden:true
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page7.vue'], resolve)
+    },{
+      path: 'page8',
+      name: '款台管理',
+      meta: {
+        title: '款台管理', icon: 'table', noCache: true, code:'20180320110420_40', hidden:true
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page8.vue'], resolve)
     }]
   },{
     path: '/index',
