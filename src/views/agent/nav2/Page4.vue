@@ -1,13 +1,13 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
-    <el-form :inline="true" :model="whole">
-      <el-tag type="primary" style="">商户总数：{{whole.sum}}</el-tag>
-    </el-form>
-  </el-row>
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
-    <el-form :inline="true" :model="filters" ref="filters">
+  <el-form :inline="true" :model="whole">
+    <el-row>
+      <el-tag type="primary" style="margin:0 10px 20px 0;">商户总数：{{whole.sum}}</el-tag>
+    </el-row>
+  </el-form>
+  <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-row>
       <el-form-item>
         <el-input v-model="filters.mname" placeholder="商户名称" style="width: 220px;"></el-input>
       </el-form-item>
@@ -15,31 +15,38 @@
         <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
         <el-button type="primary" @click="getShop" size="medium" round>新增商户</el-button>
       </el-form-item>
-    </el-form>
-  </el-row>
+    </el-row>
+  </el-form>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="merchant_alias" label="商户简称" min-width="100">
-    </el-table-column>
-    <el-table-column prop="business_name" label="行业类目">
-    </el-table-column>
-    <el-table-column prop="merchant_person" label="负责人">
-    </el-table-column>
-    <el-table-column prop="merchant_phone" label="负责人电话">
-    </el-table-column>
-    <el-table-column prop="merchant_status" label="审核状态" min-width="100" :formatter="merchant_status">
-    </el-table-column>
-    <el-table-column prop="error_msg" label="返回信息" min-width="100">
-    </el-table-column>
-    <el-table-column label="操作" min-width="150">
-      <template slot-scope="scope">
-					<el-button type="primary" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
-					<el-button size="mini" @click="handleDetails(scope.$index, scope.row)">详情</el-button>
-				</template>
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="merchant_alias" label="商户简称" min-width="100">
+      </el-table-column>
+      <el-table-column prop="business_name" label="行业类目" min-width="120">
+      </el-table-column>
+      <el-table-column prop="merchant_person" label="负责人">
+      </el-table-column>
+      <el-table-column prop="merchant_phone" label="负责人电话" min-width="120">
+      </el-table-column>
+      <el-table-column prop="merchant_status" label="审核状态" min-width="100" :formatter="merchant_status">
+      </el-table-column>
+      <el-table-column prop="error_msg" label="返回信息" min-width="100">
+      </el-table-column>
+      <el-table-column label="操作" width="150">
+        <template slot-scope="scope">
+            <el-button type="warning" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
+            <el-button type="info" size="mini" @click="handleDetails(scope.$index, scope.row)">详情</el-button>
+          </template>
+      </el-table-column>
+    </el-table>
+  </div>
+  <!--工具条-->
+  <el-row class="toolbar">
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+    </el-pagination>
+  </el-row>
   <!--修改界面-->
-  <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false" size="small">
+  <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false">
     <el-form :model="modForm" label-width="140px" :rules="modFormRules" ref="modForm" label-position="left">
       <el-row>
         <el-col :span="22">
@@ -501,11 +508,6 @@
       </el-col>
     </el-form>
   </el-dialog>
-  <!--工具条-->
-  <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-    </el-pagination>
-  </el-col>
 
 </section>
 </template>
@@ -1137,9 +1139,6 @@ export default {
         this.detailsForm.rate_code = res.data.rate_code;
       })
 
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
     editSubmit: function() {
       this.modForm.merchant_id_expire = util.formatDate.format(new Date(this.modForm.merchant_id_expire), 'yyyyMMdd');

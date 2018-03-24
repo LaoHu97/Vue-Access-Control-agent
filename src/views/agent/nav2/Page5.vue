@@ -1,18 +1,18 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row style="padding-bottom: 20px;">
     <el-form :inline="true" :model="whole">
       <el-tag type="primary" style="">商户总数：{{whole.sum}}</el-tag>
     </el-form>
   </el-row>
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
-    <el-form :inline="true" :model="filters" ref="filters">
+  <el-row>
+    <el-form :inline="true" :model="filters" ref="filters" size="medium">
       <el-form-item>
-        <el-input v-model="filters.mname" placeholder="商户名称" style="width: 220px;"></el-input>
+        <el-input v-model="filters.mname" placeholder="商户名称"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="filters.maccount" placeholder="商户帐号" style="width: 220px;"></el-input>
+        <el-input v-model="filters.maccount" placeholder="商户帐号"></el-input>
       </el-form-item>
       <el-form-item prop="parag">
         <el-select v-model="filters.parag" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale">
@@ -26,31 +26,38 @@
     </el-form>
   </el-row>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="mid" label="商户号" width="80">
-    </el-table-column>
-    <el-table-column prop="mname" label="商户名称" min-width="120">
-    </el-table-column>
-    <el-table-column prop="maccount" label="商户帐号" width="120">
-    </el-table-column>
-    <el-table-column prop="rate" label="商户费率（千分比）" width="180">
-    </el-table-column>
-    <el-table-column prop="status" label="登录状态" width="120" :formatter="formatState">
-    </el-table-column>
-    <el-table-column prop="saleName" label="业务员" width="120">
-    </el-table-column>
-    <el-table-column label="操作" min-width="310">
-      <template slot-scope="scope">
-					<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">分配业务员</el-button>
-          <el-button size="mini" @click="lookStore(scope.$index, scope.row)">查看门店</el-button>
-          <el-button size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
-			</template>
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="mid" label="商户号">
+      </el-table-column>
+      <el-table-column prop="mname" label="商户名称" min-width="240">
+      </el-table-column>
+      <el-table-column prop="maccount" label="商户帐号">
+      </el-table-column>
+      <el-table-column prop="rate" label="商户费率（千分比）" min-width="150">
+      </el-table-column>
+      <el-table-column prop="status" label="登录状态" :formatter="formatState">
+      </el-table-column>
+      <el-table-column prop="saleName" label="业务员">
+      </el-table-column>
+      <el-table-column label="操作" width="310">
+        <template slot-scope="scope">
+            <el-button type="success" size="mini" @click="handleEdit(scope.$index, scope.row)">分配业务员</el-button>
+            <el-button type="info" size="mini" @click="lookStore(scope.$index, scope.row)">查看门店</el-button>
+            <el-button type="info" size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+  <!--工具条-->
+  <el-row class="toolbar">
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+    </el-pagination>
+  </el-row>
   <!--修改分配业务员界面-->
   <el-dialog title="分配业务员" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" ref="editForm">
-      <el-form-item prop="sale">
+      <el-form-item label="业务员" prop="sale">
         <el-select v-model="editForm.sale" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale" >
           <el-option v-for="item in options" :value="item.id" :label="item.value" :key="item.id">
           </el-option>
@@ -62,12 +69,6 @@
       <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
     </div>
   </el-dialog>
-  <!--工具条-->
-  <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-    </el-pagination>
-  </el-col>
-
 </section>
 </template>
 

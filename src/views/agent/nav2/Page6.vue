@@ -1,9 +1,10 @@
 <template lang="html">
   <section>
     <h2 style="padding-left:50px">新增商户</h2>
-  <el-form ref="form" :model="form" :rules="rules" label-width="140px" label-position="left" style="margin-left:20%">
+  <el-form ref="form" :model="form" :rules="rules" label-width="150px" label-position="left" size="medium" style="margin-left:20%">
     <el-row>
       <el-col :span="14">
+        <span class="title_text">商户入网信息</span>
         <el-form-item label="商户名称：" prop="merchant_name">
           <el-input v-model="form.merchant_name" auto-complete="off"></el-input>
         </el-form-item>
@@ -18,21 +19,14 @@
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="营业执照名称：" prop="merchant_company">
+        <el-form-item label="注册名称：" prop="merchant_company">
           <el-input v-model="form.merchant_company" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="营业执照地址：" prop="merchant_address">
-          <el-input v-model="form.merchant_address" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="商户所在省市：" prop="merchant_province3" style="float: left;">
+        <el-form-item label="所在省市：" prop="merchant_province3" style="float: left;">
           <el-select v-model="form.merchant_province3" placeholder="请选择" @change="provInce"  @visible-change="province3" style="width:160px;">
             <el-option
               v-for="item in optionsprovince3"
@@ -56,71 +50,29 @@
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="费率（千分比）：" prop="rate_code">
-          <template>
-            <el-select v-model="form.rate_code" placeholder="请选择">
-              <el-option
-                v-for="item in rate_code"
-                :label="item.label"
-                :value="item.value"
-                :key="item.value">
-              </el-option>
-            </el-select>
-          </template>
+        <el-form-item label="商户地址" prop="merchant_address">
+          <el-input v-model="form.merchant_address" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="负责人：" prop="merchant_person">
+        <el-form-item label="商户联系人：" prop="merchant_person">
           <el-input v-model="form.merchant_person" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="负责人电话：" prop="merchant_phone">
+        <el-form-item label="联系人电话：" prop="merchant_phone">
           <el-input v-model="form.merchant_phone" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="负责人邮箱：" prop="merchant_email">
+        <el-form-item label="联系人邮箱：" prop="merchant_email">
           <el-input v-model="form.merchant_email" auto-complete="off"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="证件类型：" prop="merchant_id_type">
-          <template>
-            <el-select v-model="form.merchant_id_type" placeholder="请选择">
-              <el-option
-                v-for="item in merchant_id_type"
-                :label="item.label"
-                :value="item.value"
-                :key="item.value">
-              </el-option>
-            </el-select>
-          </template>
-        </el-form-item>
-      </el-col>
-      <el-col :span="14">
-        <el-form-item label="证件有效期：" prop="merchant_id_expire">
-            <el-date-picker
-              v-model="form.merchant_id_expire"
-              type="date"
-              :editable='false'
-              placeholder="选择日期">
-            </el-date-picker>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="证件号码：" prop="merchant_id_no">
-          <el-input v-model="form.merchant_id_no" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -157,10 +109,17 @@
           </el-select>
         </el-form-item>
       </el-col>
+    </el-row>
+
+
+
+    <!-- 商户结算信息 -->
+    <el-row>
       <el-col :span="14">
-        <el-form-item label="账户类型：" prop="account_type">
+        <span class="title_text">商户结算信息</span>
+        <el-form-item label="结算账户类型：" prop="account_type">
           <template>
-            <el-radio-group v-model="form.account_type" @change="merchantAccount_type">
+            <el-radio-group v-model="form.account_type">
               <el-radio label="1">对公</el-radio>
               <el-radio label="2">对私</el-radio>
             </el-radio-group>
@@ -170,28 +129,75 @@
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="法人姓名：" prop="artif_nm">
-          <el-input v-model="form.artif_nm" auto-complete="off" :disabled="artif_nm"></el-input>
+        <el-form-item label="是否法人入账：">
+          <template>
+            <el-radio-group>
+              <el-radio label="1">法人入账</el-radio>
+              <el-radio label="2">非法人入账</el-radio>
+            </el-radio-group>
+          </template>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="开户名：" prop="account_name">
+        <el-form-item label="法人姓名：" prop="artif_nm">
+          <el-input v-model="form.artif_nm" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="14">
+        <el-form-item label="结算人证件类型：" prop="merchant_id_type">
+          <template>
+            <el-select v-model="form.merchant_id_type" placeholder="请选择">
+              <el-option
+                v-for="item in merchant_id_type"
+                :label="item.label"
+                :value="item.value"
+                :key="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="14">
+        <el-form-item label="结算人证件号码：" prop="merchant_id_no">
+          <el-input v-model="form.merchant_id_no" auto-complete="off"></el-input>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="14">
+        <el-form-item label="结算人证件有效期：" prop="merchant_id_expire">
+            <el-date-picker
+              v-model="form.merchant_id_expire"
+              type="date"
+              :editable='false'
+              placeholder="选择日期">
+            </el-date-picker>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="14">
+        <el-form-item label="结算人账户开户名：" prop="account_name">
           <el-input v-model="form.account_name" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="开户帐号：" prop="account_no">
+        <el-form-item label="结算人账户开户号：" prop="account_no">
           <el-input v-model.trim="form.account_no" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
       <el-col :span="16">
-        <el-form-item label="开户银行：" prop="bank_name" style="float:left">
+        <el-form-item label="结算账户开户行：" prop="bank_name" style="float:left">
             <el-select v-model="form.bank_name" placeholder="请选择银行" @visible-change="bank" :loading="logining"  style="width:150px;">
               <el-option
                 v-for="item in bank_name"
@@ -225,7 +231,7 @@
     </el-row>
     <el-row>
       <el-col :span="14">
-        <el-form-item label="开户银行支行：" prop="branch">
+        <el-form-item label="结算户开户支行：" prop="branch">
           <template>
             <el-select v-model="form.branch" placeholder="请选择" @visible-change="bankBranch" :multiple="false" filterable remote :remote-method="remoteBranch" :loading="loading">
               <el-option
@@ -236,48 +242,6 @@
               </el-option>
             </el-select>
           </template>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="商户类型：" prop="merchant_type">
-          <template>
-            <el-radio-group v-model="form.merchant_type" @change="merchantType">
-              <el-radio label="1">普通</el-radio>
-              <el-radio label="2">二级</el-radio>
-            </el-radio-group>
-          </template>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="万鼎大商户：" prop="parent_no">
-          <template>
-            <el-select v-model="form.parent_no" :disabled="nopapye" placeholder="请选择" @visible-change="parent">
-              <el-option
-                v-for="item in parent_no"
-                :label="item.appname"
-                :value="item.id"
-                :key="item.id">
-              </el-option>
-            </el-select>
-          </template>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="微信appId：" prop="wx_appid">
-          <el-input v-model="form.wx_appid" auto-complete="off" :disabled="appId"></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <el-row>
-      <el-col :span="14">
-        <el-form-item label="微信appSecret：" prop="wx_appsecret">
-          <el-input v-model="form.wx_appsecret" auto-complete="off" :disabled="appSecret"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -297,7 +261,39 @@
         </el-form-item>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col :span="14">
+        <span class="title_text">商户汇率信息</span>
+        <el-form-item label="费率（千分比）：" prop="rate_code">
+          <template>
+            <el-select v-model="form.rate_code" placeholder="请选择">
+              <el-option
+                v-for="item in rate_code"
+                :label="item.label"
+                :value="item.value"
+                :key="item.value">
+              </el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="14">
+        <el-form-item label="商户类型：" prop="merchant_type">
+          <template>
+            <el-radio-group v-model="form.merchant_type" @change="merchantType">
+              <el-radio label="1">普通</el-radio>
+              <el-radio label="2">二级</el-radio>
+            </el-radio-group>
+          </template>
+        </el-form-item>
+      </el-col>
+    </el-row>
   </el-form>
+
+
+  
   <el-form ref="imageUrl" :model="imageUrl" :rules="rules" label-width="240px" label-position="top" style="padding: 20px 60px;">
     <el-row>
       <el-col :span="5">
@@ -486,7 +482,6 @@ export default {
       nopapye: false,
       appSecret: true,
       appId: true,
-      artif_nm: true,
       logining: false,
       imageUrl: {
         file1: '',
@@ -501,35 +496,34 @@ export default {
         file10: '',
       },
       form: {
-        merchant_name: '',
-        merchant_alias: '',
-        merchant_company: '',
-        merchant_address: '',
+        merchant_name: '',//商户名称
+        merchant_alias: '',//商户简称
+        merchant_company: '',//注册名称
+        merchant_province3: '',//所在省市
+        merchant_province4: '',//所在省市
+        merchant_address: '',//商户地址
+        merchant_person: '',//商户联系人
+        merchant_phone: '',//联系人电话
+        merchant_email: '',//联系人邮箱
+        business1: '',//行业类目01
+        business2: '',//行业类目02
+        business3: '',//行业类目03
+
+
+        account_type: '2',//结算账户类型
+        artif_nm: '',//法人姓名
+        merchant_id_type: '0',//结算人证件类型
+        merchant_id_no: '',//结算人证件号码
+        merchant_id_expire: '',//结算人证件有效期
+        account_name: '',//结算人账户开户名
+        account_no: '',//结算人账户开户号
+        bank_name: '',//结算账户开户行
+        merchant_province1: '',//结算账户开户行省市01
+        merchant_province2: '',//结算账户开户行省市02
+        branch: '',//结算户开户支行
+        nowrap: '',//业务员
         rate_code: 'M0060',
-        merchant_person: '',
-        merchant_phone: '',
-        merchant_email: '',
-        merchant_id_type: '0',
-        merchant_id_expire: '',
-        merchant_id_no: '',
-        account_type: '2',
-        merchant_type: '2',
-        account_name: '',
-        account_no: '',
-        business1: '',
-        business2: '',
-        business3: '',
-        bank_name: '',
-        branch: '',
-        merchant_province1: '',
-        merchant_province2: '',
-        merchant_province3: '',
-        merchant_province4: '',
-        parent_no: '',
-        nowrap: '',
-        wx_appid: '',
-        wx_appsecret: '',
-        artif_nm: ''
+        merchant_type: '2'
       },
       merchant_id_type: [{
           value: '0',
@@ -699,16 +693,14 @@ export default {
       optionsbuiness1: [],
       optionsbuiness2: [],
       optionsbuiness3: [],
-      optionsprovince1: [],
-      optionsprovince2: [],
+      optionsprovince1: [],//结算账户开户行省市列表
+      optionsprovince2: [],//结算账户开户行省市列表
       optionsprovince3: [],
       optionsprovince4: [],
       loading: false,
-      bank_name: [],
-      branchname: [],
-      branchname1: [],
-      parent_no: [],
-      nowrap: [],
+      bank_name: [],//结算账户开户行列表
+      branchname: [],//结算户开户支行列表
+      nowrap: [],//业务员列表
       rules: {
         merchant_name: [{
             required: true,
@@ -859,10 +851,6 @@ export default {
           required: true,
           message: '请选择开户银行所在市'
         }],
-        parent_no: [{
-          required: false,
-          message: '请选择富有大商户号'
-        }],
         nowrap: [{
           required: true,
           message: '请选择业务员'
@@ -977,14 +965,6 @@ export default {
       })
 
     },
-    //账户类型
-    merchantAccount_type: function() {
-      if (this.form.account_type == 1) {
-        this.artif_nm = false
-      } else {
-        this.artif_nm = true
-      }
-    },
     //商户类型
     merchantType: function() {
       if (this.form.merchant_type == 1) {
@@ -996,12 +976,6 @@ export default {
         this.appId = true;
         this.appSecret = true;
       }
-    },
-    //富有大商户号
-    parent: function() {
-      getTokenList().then((res) => {
-        this.parent_no = res.data.tokenList
-      })
     },
     addSubmit: function() {
       this.$refs.form.validate((valid) => {
@@ -1024,31 +998,31 @@ export default {
             this.form.merchant_id_expire = "";
           }
           let para = {
-            merchant_name: this.form.merchant_name,
-            merchant_alias: this.form.merchant_alias,
-            merchant_company: this.form.merchant_company,
-            merchant_address: this.form.merchant_address,
+            merchant_name: this.form.merchant_name,//商户名称
+            merchant_alias: this.form.merchant_alias,//商户简称
+            merchant_company: this.form.merchant_company,//注册名称
+            merchant_province: this.form.merchant_province3,//所在省市
+            merchant_city: this.form.merchant_province4,//所在省市
+            merchant_address: this.form.merchant_address,//商户地址
+            merchant_person: this.form.merchant_person,//商户联系人
+            merchant_phone: this.form.merchant_phone,//联系人电话
+            merchant_email: this.form.merchant_email,//联系人邮箱
+            business_id: this.form.business3,//行业类目03
+
+            // 商户结算信息
+            account_type: this.form.account_type,//结算账户类型
+            artif_nm: this.form.artif_nm,//法人姓名
+            merchant_id_type: this.form.merchant_id_type,//结算人证件类型
+            merchant_id_no: this.form.merchant_id_no,//结算人证件号码
+            merchant_id_expire: starttime,//结算人证件有效期
+            account_name: this.form.account_name,//结算人账户开户名
+            account_no: this.form.account_no,//结算人账户开户号
+            bank_no: this.form.branch,//结算户开户支行
+            id: this.form.nowrap,//业务员
             rate_code: this.form.rate_code,
-            merchant_person: this.form.merchant_person,
-            merchant_phone: this.form.merchant_phone,
-            merchant_email: this.form.merchant_email,
-            merchant_id_type: this.form.merchant_id_type,
-            merchant_id_expire: starttime,
-            merchant_id_no: this.form.merchant_id_no,
-            account_type: this.form.account_type,
             merchant_type: this.form.merchant_type,
-            account_name: this.form.account_name,
-            account_no: this.form.account_no,
-            account_phone: "",
-            business_id: this.form.business3,
-            merchant_province: this.form.merchant_province3,
-            merchant_city: this.form.merchant_province4,
-            bank_no: this.form.branch,
-            parent_no: this.form.parent_no,
-            wx_appid: this.form.wx_appid,
-            wx_appsecret: this.form.wx_appsecret,
-            id: this.form.nowrap,
-            artif_nm: this.form.artif_nm,
+
+
             file1: this.imageUrl.file1,
             file2: this.imageUrl.file2,
             file3: this.imageUrl.file3,
@@ -1165,4 +1139,12 @@ export default {
 </script>
 
 <style lang="css">
+  .title_text{
+    display: block;
+    color: #8492a6;
+    font-size: 18px;
+    margin-bottom: 25px;
+    line-height: 45px;
+    border-bottom: 1px solid #DCDFE6;
+  }
 </style>

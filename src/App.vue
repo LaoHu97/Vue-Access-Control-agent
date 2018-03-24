@@ -11,6 +11,7 @@ import Vue from 'vue';
 import instance from './api';
 import userPath from './router/fullpath';
 import * as util from './assets/util.js';
+import { loginOut, menu } from './api/agent'
 
 //请求拦截句柄
 let myInterceptor;
@@ -140,20 +141,15 @@ export default {
       }]));
     },
     signin: function(callback) {
+      const loading = this.$loading({
+        lock: true,
+        text: '请稍候,正在加载',
+        background: '#fff'
+      });
       let vm = this;
-      //检查登录状态
-      // let localUser = util.session('token');
-      // if (!localUser || !localUser.token) {
-      //   return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
-      // }
-      //设置请求头统一携带token
-      // instance.defaults.headers.common['Authorization'] = 'Bearer ' + localUser.token;
       //获取用户信息及权限数据
-      instance.get(`/pay1/syscore/menu`, {
-        params: {
-
-        }
-      }).then((res) => {
+      menu().then(res=>{
+        loading.close();
         let userInfo = res.data;
         //取得资源权限对象
         // let resourcePermission = vm.getPermission(userInfo);
@@ -161,7 +157,6 @@ export default {
         // vm.setInterceptor(resourcePermission);
         //获得实际路由
         let allowedRouter = vm.getRoutes(userInfo);
-        console.log(userPath);
         //若无可用路由限制访问
         if (!allowedRouter || !allowedRouter.length) {
           return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
@@ -209,6 +204,7 @@ export default {
       this.$router.replace({path: '/login'});
       //清除动态标签
       this.$store.dispatch('delAllViews')
+      loginOut()
     }
   },
   created: function(newPath) {

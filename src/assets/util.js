@@ -156,8 +156,6 @@ export const dateFormat = function (source, ignore_minute) {
 };
 //ajax错误处理
 export const catchError = function(error) {    
-  console.log(error);
-  
   if (error.data) {
     switch (error.data.status) {
       case 400:
@@ -187,6 +185,12 @@ export const catchError = function(error) {
           type: 'error'
         });
     }
+  }else{
+    Vue.prototype.$message({
+      message: '请检查网络连接，或稍后再试',
+      type: 'error',
+      duration:10000
+    });
   }
   return Promise.reject(error);
 };

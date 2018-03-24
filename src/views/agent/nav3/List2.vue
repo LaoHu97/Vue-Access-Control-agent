@@ -1,6 +1,6 @@
 <template>
 <section>
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="sale" ref="sale">
       <el-form-item prop="old">
         <el-select v-model="sale.old" placeholder="请选择旧业务员" clearable filterable @visible-change="testSaleold">

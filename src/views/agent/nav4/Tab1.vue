@@ -1,7 +1,7 @@
 <template>
 	<section>
 			<el-form :inline="true" :model="filters"  ref="filters">
-				<el-col :span="24" style="padding: 20px 0 0 20px">
+				<el-row>
 					<el-form-item prop="time1">
 	          <el-date-picker
 	            v-model="filters.time1"
@@ -35,30 +35,33 @@
           <el-form-item style="float: right;">
             <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
           </el-form-item>
-        </el-col>
+				</el-row>
 			</el-form>
 		<!--列表-->
-		<el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-			<el-table-column prop="settled_date" label="结算时间" min-width="140">
-			</el-table-column>
-			<el-table-column prop="sum_total" label="有效笔数" min-width="140">
-			</el-table-column>
-			<el-table-column prop="sum_amt" label="有效金额（￥）" min-width="140">
-			</el-table-column>
-			<el-table-column prop="rebate_amt" label="提成金额（￥）" min-width="140">
-			</el-table-column>
-			<el-table-column prop="status" label="状态" min-width="140">
-				<template slot-scope="scope">
-					<span>{{scope.row.status == 1 ? '待结算' : scope.row.status == 2 ? '结算中' : '已结算'}}</span>
-					<el-button v-if="scope.row.status==1" size="mini" @click="handleYes(scope.$index, scope.row)">确认</el-button>
-				</template>
-			</el-table-column>
-			<el-table-column  label="操作" width="140">
-				<template slot-scope="scope">
-					<el-button type="primary" size="mini" @click="handleSee(scope.$index, scope.row)">查看</el-button>
-				</template>
-			</el-table-column>
-		</el-table>
+    <div v-loading="listLoading">
+      <el-table :data="users" border highlight-current-row style="width: 100%;">
+        <el-table-column prop="settled_date" label="结算时间" min-width="80">
+        </el-table-column>
+        <el-table-column prop="sum_total" label="有效笔数" min-width="120">
+        </el-table-column>
+        <el-table-column prop="sum_amt" label="有效金额（￥）" min-width="120">
+        </el-table-column>
+        <el-table-column prop="rebate_amt" label="提成金额（￥）" min-width="120">
+        </el-table-column>
+        <el-table-column prop="status" label="状态" min-width="140">
+          <template slot-scope="scope">
+            <span>{{scope.row.status == 1 ? '待结算' : scope.row.status == 2 ? '结算中' : '已结算'}}</span>
+            <el-button v-if="scope.row.status==1" type="success" size="mini" @click="handleYes(scope.$index, scope.row)">确认</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column  label="操作" width="80">
+          <template slot-scope="scope">
+            <el-button type="info" size="mini" @click="handleSee(scope.$index, scope.row)">查看</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
 
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
@@ -223,9 +226,6 @@ export default {
       var rid = row.id;
       sessionStorage.setItem("rid", JSON.stringify(rid));
       this.$router.push("/index/tab2");
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

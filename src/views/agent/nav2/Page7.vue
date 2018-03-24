@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-form-item prop="storeName">
         <el-input v-model="filters.storeName" placeholder="请输入门店名称"></el-input>
@@ -14,7 +14,7 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
+  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
     <el-table-column prop="storeName" label="门店名称" min-width="120">
     </el-table-column>
     <el-table-column prop="address" label="门店地址" min-width="180">
@@ -32,12 +32,12 @@
           </el-switch>
       </template>
     </el-table-column>
-    <el-table-column label="操作" min-width="250">
+    <el-table-column label="操作" width="340">
       <template slot-scope="scope">
-          <el-button size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
-					<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-					<el-button size="mini" @click="handleDet(scope.$index, scope.row)">详情</el-button>
-          <el-button size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
+          <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+					<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+					<el-button type="info" size="mini" @click="handleDet(scope.$index, scope.row)">详情</el-button>
+          <el-button type="info" size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
 				</template>
     </el-table-column>
   </el-table>
@@ -451,10 +451,8 @@ export default {
               telephone: this.editForm.telephone,
               shopHours: this.startTime + "-" + this.endTime
             };
-            //para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
             updateStore(para).then((res) => {
               this.editLoading = false;
-              
               let {
                 status,
                 message
@@ -508,9 +506,6 @@ export default {
         }
       });
     },
-    selsChange: function(sels) {
-      this.sels = sels;
-    },
     //重置按钮
     // resetForm(formName) {
     // 		this.$refs[formName].resetFields();
@@ -521,7 +516,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

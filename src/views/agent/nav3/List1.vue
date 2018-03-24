@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-form-item prop="name">
         <el-input v-model="filters.name" placeholder="请输入业务员姓名"></el-input>
@@ -14,46 +14,39 @@
   </el-row>
 
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="id" label="编号" width="80">
+  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
+    <el-table-column prop="id" label="编号" min-width="80">
     </el-table-column>
-    <el-table-column prop="name" label="姓名" width="120">
+    <el-table-column prop="name" label="姓名" min-width="120">
     </el-table-column>
-    <el-table-column prop="saccount" label="登录帐号" width="120">
+    <el-table-column prop="saccount" label="登录帐号" min-width="120">
     </el-table-column>
-    <el-table-column prop="phone" label="手机号" width="130">
+    <el-table-column prop="phone" label="手机号" min-width="120">
     </el-table-column>
     <el-table-column prop="address" label="住址" min-width="120">
     </el-table-column>
-    <el-table-column label="状态" width="100">
+    <el-table-column label="状态">
       <template slot-scope="scope">
           <el-switch
             name="value"
-						on-text="开启"
-            off-text="关闭"
             @change="test(scope.$index, scope.row)"
             v-model="scope.row.status">
           </el-switch>
         </template>
     </el-table-column>
-    <el-table-column label="密码重置" width="120">
+    <el-table-column label="操作" width="180">
       <template slot-scope="scope">
-					<el-button size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
-				</template>
-    </el-table-column>
-    <el-table-column label="操作" width="90">
-      <template slot-scope="scope">
-					<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-					<!-- <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
+        <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+				<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 				</template>
     </el-table-column>
   </el-table>
 
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row class="toolbar">
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
   <!--修改界面-->
   <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" :rules="editFormRules" ref="editForm">
@@ -441,9 +434,6 @@ export default {
         }
       });
     },
-    selsChange: function(sels) {
-      this.sels = sels;
-    }
   },
   mounted() {
     this.getUsers();

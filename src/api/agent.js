@@ -1,5 +1,9 @@
 import instance from './index';
 const preUrlPath = '';
+//获取菜单权限
+export const menu = params => { return instance.get(`${preUrlPath}/pay/syscore/menu`,{ params: params }); };
+//检查是否拥有权限
+export const checkPermission = params => { return instance.post(`${preUrlPath}/pay/syscore/checkPermission`, params).then(res => res.data); };
 //登录
 export const loginVerify = params => { return instance.post(`${preUrlPath}/pay/ag/loginVerify`, params).then(res => res.data); };
 //退出

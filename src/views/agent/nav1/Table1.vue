@@ -1,7 +1,7 @@
 <template>
 <section>
-  <el-form :inline="true" :model="filters" ref="filters">
-    <el-row style="padding: 20px 0 0 10px">
+  <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-row>
       <el-form-item prop="state">
         <el-select v-model="filters.state" clearable placeholder="请选择支付方式">
           <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
@@ -24,29 +24,27 @@
     </el-row>
   </el-form>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="mname" label="商户名称" min-width="100">
-    </el-table-column>
-    <el-table-column prop="trans_amt" label="交易金额" min-width="100">
-    </el-table-column>
-    <el-table-column prop="amount" label="有效金额" min-width="100">
-    </el-table-column>
-    <el-table-column prop="sum_total" label="交易笔数" width="100">
-    </el-table-column>
-    <el-table-column prop="refund_amt" label="退款金额" width="100">
-    </el-table-column>
-    <el-table-column prop="pay_type" label="支付方式" width="100">
-    </el-table-column>
-    <el-table-column prop="factorage" label="手续费" width="100">
-    </el-table-column>
-    <el-table-column prop="surplus" label="结余金额" width="100">
-    </el-table-column>
-    <!-- <el-table-column label="操作" width="100">
-      <template scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
-				</template>
-    </el-table-column> -->
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="mname" label="商户名称" min-width="100">
+      </el-table-column>
+      <el-table-column prop="trans_amt" label="交易金额" min-width="100">
+      </el-table-column>
+      <el-table-column prop="amount" label="有效金额" min-width="100">
+      </el-table-column>
+      <el-table-column prop="sum_total" label="交易笔数" width="100">
+      </el-table-column>
+      <el-table-column prop="refund_amt" label="退款金额" width="100">
+      </el-table-column>
+      <el-table-column prop="pay_type" label="支付方式" width="100">
+      </el-table-column>
+      <el-table-column prop="factorage" label="手续费" width="100">
+      </el-table-column>
+      <el-table-column prop="surplus" label="结余金额" width="100">
+      </el-table-column>
+    </el-table>
+  </div>
+
 
   <!--工具条-->
   <el-col :span="24" class="toolbar">

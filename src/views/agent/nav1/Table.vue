@@ -1,8 +1,28 @@
 <template>
 <section>
   <!--工具条-->
-  <el-form :inline="true" :model="filters" ref="filters">
-    <el-row style="padding: 0 0 0 10px">
+  <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-row>
+        <el-form-item prop="state1">
+          <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+            <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="play">
+          <el-select v-model="filters.play" clearable placeholder="请选择支付场景">
+            <el-option v-for="item in optionsScene" :key="item.valueScene" :label="item.labelScene" :value="item.valueScene">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="state">
+          <el-select v-model="filters.state" clearable placeholder="请选择支付状态">
+            <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
+            </el-option>
+          </el-select>
+        </el-form-item>
+    </el-row>
+    <el-row>
         <el-form-item prop="time1">
           <el-date-picker v-model="filters.time1" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
           </el-date-picker>
@@ -12,64 +32,39 @@
           </el-date-picker>
         </el-form-item>
         <el-tag type="gray">可查询最近三个月的信息</el-tag>
-    </el-row>
-    <el-row>
-      <el-col :span="4" style="padding: 0 0 0 10px">
-        <el-form-item prop="state1">
-          <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
-            <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
-            </el-option>
-          </el-select>
+        <el-form-item style="float: right;">
+          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
         </el-form-item>
-      </el-col>
-      <el-col :span="4">
-        <el-form-item prop="play">
-          <el-select v-model="filters.play" clearable placeholder="请选择支付场景">
-            <el-option v-for="item in optionsScene" :key="item.valueScene" :label="item.labelScene" :value="item.valueScene">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <el-col :span="4">
-        <el-form-item prop="state">
-          <el-select v-model="filters.state" clearable placeholder="请选择支付状态">
-            <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
-            </el-option>
-          </el-select>
-        </el-form-item>
-      </el-col>
-      <el-form-item style="float: right;">
-        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-        <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
-      </el-form-item>
     </el-row>
   </el-form>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" @selection-change="selsChange" style="width: 100%;">
-    <el-table-column prop="orderId" label="订单ID" min-width="140">
-    </el-table-column>
-    <el-table-column prop="mname" label="商户名称" min-width="140">
-    </el-table-column>
-    <el-table-column prop="payTime" label="付款时间" width="200">
-    </el-table-column>
-    <el-table-column prop="goodsPrice" label="交易金额" width="95">
-    </el-table-column>
-    <el-table-column prop="status" label="交易状态" width="160" :formatter="formatPay2">
-    </el-table-column>
-    <el-table-column prop="payWay" label="支付方式" width="120" :formatter="formatPay1">
-    </el-table-column>
-    <el-table-column label="操作" width="100">
-      <template slot-scope="scope">
-					<el-button size="mini" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
-				</template>
-    </el-table-column>
-  </el-table>
-
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row>
+      <el-table-column prop="orderId" label="订单ID" min-width="280">
+      </el-table-column>
+      <el-table-column prop="mname" label="商户名称">
+      </el-table-column>
+      <el-table-column prop="payTime" label="付款时间"  min-width="160">
+      </el-table-column>
+      <el-table-column prop="goodsPrice" label="交易金额">
+      </el-table-column>
+      <el-table-column prop="status" label="交易状态" :formatter="formatPay2">
+      </el-table-column>
+      <el-table-column prop="payWay" label="支付方式" :formatter="formatPay1">
+      </el-table-column>
+      <el-table-column label="操作" width="100">
+        <template slot-scope="scope">
+            <el-button size="mini" type="info" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
+          </template>
+      </el-table-column>
+    </el-table>
+  </div>
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row :span="24" class="toolbar">
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 
   <!--编辑界面-->
   <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false">
@@ -272,7 +267,10 @@ export default {
           this.filters.time1 = res.data.returnST;
           this.users = res.data.orderList;
         }
-        this.listLoading = false;
+        setTimeout(() => {
+          this.listLoading = false;
+        }, 1500);
+        
       });
     },
     //显示编辑界面
@@ -293,9 +291,6 @@ export default {
       } else {
         this.editForm.status = "未知"
       }
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();

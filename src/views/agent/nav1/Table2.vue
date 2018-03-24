@@ -1,13 +1,13 @@
 <template>
 <section>
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row class="toolbar">
     <el-form :inline="true" :model="whole">
         <el-tag type="primary"  style="margin:10px 10px 20px 0;">交易总金额（元）：{{whole.sumAmt}}元</el-tag>
         <el-tag type="primary" style="">交易总笔数（笔）：{{whole.countRow}}笔</el-tag>
     </el-form>
   </el-row>
-  <el-form :inline="true" :model="filters" ref="filters">
-    <el-row style="padding: 20px 0 0 10px">
+  <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-row>
       <el-form-item prop="state1">
         <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
           <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
@@ -36,33 +36,29 @@
     </el-row>
   </el-form>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="mname" label="商户名称" min-width="100">
-    </el-table-column>
-    <el-table-column prop="trans_amt" label="交易金额" min-width="100">
-    </el-table-column>
-    <el-table-column prop="amount" label="有效金额" min-width="100">
-    </el-table-column>
-    <el-table-column prop="sum_total" label="交易笔数">
-    </el-table-column>
-    <el-table-column prop="refund_amt" label="退款金额">
-    </el-table-column>
-    <el-table-column prop="factorage" label="手续费">
-    </el-table-column>
-    <el-table-column prop="avg_amt" label="平均每笔交易额" min-width="120">
-    </el-table-column>
-    <!-- <el-table-column label="操作" width="100">
-      <template scope="scope">
-					<el-button size="small" @click="handleEdit(scope.$index, scope.row)">交易详情</el-button>
-				</template>
-    </el-table-column> -->
-  </el-table>
-
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="mname" label="商户名称" min-width="100">
+      </el-table-column>
+      <el-table-column prop="trans_amt" label="交易金额" min-width="100">
+      </el-table-column>
+      <el-table-column prop="amount" label="有效金额" min-width="100">
+      </el-table-column>
+      <el-table-column prop="sum_total" label="交易笔数">
+      </el-table-column>
+      <el-table-column prop="refund_amt" label="退款金额">
+      </el-table-column>
+      <el-table-column prop="factorage" label="手续费">
+      </el-table-column>
+      <el-table-column prop="avg_amt" label="平均每笔交易额" min-width="120">
+      </el-table-column>
+    </el-table>
+  </div>
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row class="toolbar">
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 </section>
 </template>
 

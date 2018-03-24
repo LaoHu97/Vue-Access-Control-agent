@@ -1,7 +1,7 @@
 <template>
 <section>
   <!--工具条-->
-  <el-row :span="24" class="toolbar" style="padding-bottom: 0px;">
+  <el-row>
     <el-form :inline="true" :model="filters">
       <el-form-item>
         <template>
@@ -25,12 +25,15 @@
   </el-row>
 
   <!--列表-->
+  <div>
+
+  </div>
   <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
     <el-table-column prop="username" label="款台名称" min-width="120">
     </el-table-column>
     <el-table-column prop="account" label="登录帐号" min-width="120">
     </el-table-column>
-    <el-table-column label="款台状态" min-width="120">
+    <el-table-column label="款台状态" min-width="80">
       <template slot-scope="scope">
           <el-switch
             name="value"
@@ -41,28 +44,19 @@
     </el-table-column>
     <el-table-column label="二维码" width="100">
       <template slot-scope="scope">
-          <el-button size="small" @click="handleCode(scope.$index, scope.row)">二维码</el-button>
+          <el-button type="success" size="mini" @click="handleCode(scope.$index, scope.row)">二维码</el-button>
         </template>
     </el-table-column>
     <el-table-column label="会员支付二维码" width="140" v-if="showVipCode">
       <template slot-scope="scope">
-          <el-button size="small" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
+          <el-button type="success" size="mini" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
         </template>
     </el-table-column>
-    <el-table-column label="密码重置" width="100">
+    <el-table-column label="操作" width="250">
       <template slot-scope="scope">
-          <el-button size="small" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
-        </template>
-    </el-table-column>
-    <el-table-column label="详情" width="90">
-      <template slot-scope="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
-        </template>
-    </el-table-column>
-    <el-table-column label="操作" width="90">
-      <template slot-scope="scope">
-          <el-button size="small" @click="handleModify(scope.$index, scope.row)">修改</el-button>
-          <!-- <el-button type="danger" size="small" @click="handleDel(scope.$index, scope.row)">删除</el-button> -->
+          <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+          <el-button type="warning" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
+          <el-button type="info" size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
         </template>
     </el-table-column>
   </el-table>
@@ -562,7 +556,6 @@ export default {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             this.editLoading = true;
-            
             let para = {
               eid: this.modForm.eid,
               username: this.modForm.username,
@@ -572,9 +565,7 @@ export default {
               storeId: this.modForm.value,
               ali_operation_id: this.modForm.ali_operation_id,
               wsy_num: this.modForm.wsy_num
-
             };
-            //para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
             updateEmployee(para).then((res) => {
               var _this = this;
               this.editLoading = false;
@@ -597,44 +588,12 @@ export default {
         }
       });
     },
-    //删除
-    // handleDel: function (index, row) {
-    //     this.$confirm('确认删除该记录吗?', '提示', {
-    //         type: 'warning'
-    //     }).then(() => {
-    //         this.listLoading = true;
-    //         
-    //         let para = { eid: row.eid };
-    //         deleteEmployee(para).then((res) => {
-    //             this.listLoading = false;
-    //             
-    //             let {status,message}=res;
-    //             if(status==200){
-    //                 this.$notify({
-    //                     title: '成功',
-    //                     message: message,
-    //                     type: 'success'
-    //                 });
-    //             }else {
-    //                 this.$notify({
-    //                     title: '失败',
-    //                     message: message,
-    //                     type: 'success'
-    //                 });
-    //             }
-    //             this.getUsers();
-    //         });
-    //     }).catch(() => {
-    //
-    //     });
-    // },
     //新增
     addSubmit: function() {
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
             this.addLoading = true;
-            
             let para = {
               storeId: this.addForm.value,
               username: this.addForm.username,
@@ -642,7 +601,8 @@ export default {
               phone: this.addForm.phone,
               email: this.addForm.email,
               terminal_id: this.addForm.terminal_id,
-              wsy_num: this.addForm.wsy_num
+              wsy_num: this.addForm.wsy_num,
+              mid: this.$route.query.mid
             };
             addEmployee(para).then((res) => {
               let {
@@ -650,7 +610,6 @@ export default {
                 status
               } = res;
               this.addLoading = false;
-              
               if (status == 200) {
                 this.$notify({
                   title: '成功',

@@ -1,7 +1,7 @@
 <template>
 <section>
-  <el-form :inline="true" :model="filters" ref="filters">
-    <el-row style="padding: 20px 0 0 10px">
+  <el-form :inline="true" :model="filters" ref="filters"  size="medium">
+    <el-row>
       <el-form-item prop="state1">
         <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="inputLoading" clearable @visible-change="clickShop">
           <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
@@ -25,23 +25,27 @@
     </el-row>
   </el-form>
   <!--列表-->
-  <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="mname" label="商户名称" min-width="120">
-    </el-table-column>
-    <el-table-column prop="amount" label="交易金额(元)">
-    </el-table-column>
-    <el-table-column prop="settled_date" label="统计时间" :formatter="formatter_date">
-    </el-table-column>
-    <el-table-column prop="sum_total" label="交易笔数">
-    </el-table-column>
-    <el-table-column prop="refund_amt" label="退款金额(元)">
-    </el-table-column>
-  </el-table>
+  <div v-loading="listLoading">
+    <el-table :data="users" border highlight-current-row style="width: 100%;">
+      <el-table-column prop="mname" label="商户名称" min-width="120">
+      </el-table-column>
+      <el-table-column prop="" label="创建时间" :formatter="formatter_date">
+      </el-table-column>
+      <el-table-column prop="" label="业务员">
+      </el-table-column>
+      <el-table-column prop="sum_total" label="月交易笔数(笔)">
+      </el-table-column>
+      <el-table-column prop="amount" label="月交易金额(元)">
+      </el-table-column>
+      <el-table-column label="排行榜">
+      </el-table-column>
+    </el-table>
+  </div>
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
+  <el-row class="toolbar">
     <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
     </el-pagination>
-  </el-col>
+  </el-row>
 </section>
 </template>
 
