@@ -62,10 +62,10 @@
   </el-table>
 
   <!--工具条-->
-  <el-col :span="24" class="toolbar">
-    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
+  <el-row class="toolbar">
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
     </el-pagination>
-  </el-col>
+  </el-row>
   <!--修改界面-->
   <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="modForm" :rules="modFormRules" ref="editForm">
