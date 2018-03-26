@@ -41,6 +41,33 @@
   <!--列表-->
   <div v-loading="listLoading">
     <el-table :data="users" border highlight-current-row>
+      <el-table-column type="expand">
+        <template slot-scope="props">
+          <el-form label-position="left" inline class="table-expand">
+            <el-form-item label="商户名称：">
+              <span>{{ props.row.mname }}</span>
+            </el-form-item>
+            <el-form-item label="订单 ID：">
+              <span>{{ props.row.orderId }}</span>
+            </el-form-item>
+            <el-form-item label="第三方订单号：">
+              <span>{{ props.row.transactionId }}</span>
+            </el-form-item>
+            <el-form-item label="交易金额(元)：">
+              <span>{{ props.row.goodsPrice }}</span>
+            </el-form-item>
+            <el-form-item label="付款时间：">
+              <span>{{ props.row.payTime }}</span>
+            </el-form-item>
+            <el-form-item label="交易状态：">
+              <span>{{ props.row.status == 1 ? '已支付' : props.row.status == 3 ? '已支付（有退款）' : '未知' }} </span>
+            </el-form-item>
+            <el-form-item label="支付方式：">
+              <span>{{ props.row.payWay == 'WX' ? '微信' : props.row.payWay == 'ALI' ? '支付宝' : '未知' }}</span>
+            </el-form-item>
+          </el-form>
+        </template>
+      </el-table-column>
       <el-table-column prop="orderId" label="订单ID" min-width="280">
       </el-table-column>
       <el-table-column prop="mname" label="商户名称">

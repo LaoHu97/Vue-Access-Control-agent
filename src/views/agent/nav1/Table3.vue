@@ -29,9 +29,9 @@
     <el-table :data="users" border highlight-current-row style="width: 100%;">
       <el-table-column prop="mname" label="商户名称" min-width="120">
       </el-table-column>
-      <el-table-column prop="" label="创建时间" :formatter="formatter_date">
+      <el-table-column prop="" label="统计时间" :formatter="formatter_date">
       </el-table-column>
-      <el-table-column prop="" label="业务员">
+      <el-table-column prop="saleName" label="业务员">
       </el-table-column>
       <el-table-column prop="sum_total" label="月交易笔数(笔)">
       </el-table-column>
