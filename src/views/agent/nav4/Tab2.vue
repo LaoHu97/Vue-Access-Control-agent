@@ -77,7 +77,7 @@ export default {
     //返回上一页
     Return: function() {
       sessionStorage.removeItem("rid"); //删除session
-      this.$router.push("/tab1");
+      this.$router.push("/index1/tab1");
     },
     //获取用户列表
     handleCurrentChange(val) {

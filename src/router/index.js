@@ -20,6 +20,10 @@ let baseRoute = [{
   name: '公告',
   component: (resolve) => require(['../views/index/noticeDetails.vue'], resolve)
 },{
+  path: '/notonline',
+  name: '敬请期待',
+  component: (resolve) => require(['../views/index/notonline.vue'], resolve)
+},{
   path: '/401',
   name: '无权访问',
   component: (resolve) => require(['../views/common/401.vue'], resolve)

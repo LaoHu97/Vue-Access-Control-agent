@@ -32,12 +32,12 @@
       </el-table-column>
       <el-table-column prop="error_msg" label="返回信息" min-width="100">
       </el-table-column>
-      <el-table-column label="操作" width="150">
+      <!-- <el-table-column label="操作" width="150">
         <template slot-scope="scope">
             <el-button type="warning" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
             <el-button type="info" size="mini" @click="handleDetails(scope.$index, scope.row)">详情</el-button>
           </template>
-      </el-table-column>
+      </el-table-column> -->
     </el-table>
   </div>
   <!--工具条-->
@@ -985,7 +985,7 @@ export default {
     },
     //新增商户
     getShop: function() {
-      this.$router.push('/index/page6');
+      this.$router.push('/index2/page6');
     },
     //状态转换
     merchant_status: function(row, column) {

@@ -38,6 +38,8 @@
       </el-table-column>
       <el-table-column prop="status" label="登录状态" :formatter="formatState">
       </el-table-column>
+      <el-table-column label="创建时间" :formatter="formatCreate_time" min-width="100">
+      </el-table-column>
       <el-table-column prop="saleName" label="业务员">
       </el-table-column>
       <el-table-column label="操作" width="310">
@@ -143,10 +145,13 @@ export default {
       }
     },
     lookStore(index, row){
-      this.$router.push({ path: '/index/page7', query: { mid: row.mid } })
+      this.$router.push({ path: '/index2/page7', query: { mid: row.mid } })
     },
     lookEmp(index, row){
-      this.$router.push({ path: '/index/page8', query: { mid: row.mid } })
+      this.$router.push({ path: '/index2/page8', query: { mid: row.mid } })
+    },
+    formatCreate_time(row,column){
+      return row.create_time = util.formatDate.format( new Date(row.create_time), 'yyyy-MM-dd' )
     },
     formatState: function(row, column) {
       return row.status == 0 ? "禁止" : row.status == 1 ? "正常" : "未知"

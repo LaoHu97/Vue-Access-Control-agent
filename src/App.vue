@@ -137,7 +137,7 @@ export default {
       //注入路由
       vm.$router.addRoutes(originPath.concat([{
         path: '*',
-        redirect: '/404'
+        redirect: '/login'
       }]));
     },
     signin: function(callback) {
@@ -148,7 +148,7 @@ export default {
       });
       let vm = this;
       //获取用户信息及权限数据
-      menu().then(res=>{
+      menu({flag:sessionStorage.getItem('menu')||'false'}).then(res=>{
         loading.close();
         let userInfo = res.data;
         //取得资源权限对象
@@ -161,6 +161,8 @@ export default {
         if (!allowedRouter || !allowedRouter.length) {
           return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
         }
+        console.log(allowedRouter);
+        
         //动态注入路由
         vm.extendRoutes(allowedRouter);
         //保存数据用作他处，非必需
@@ -200,11 +202,12 @@ export default {
       instance.interceptors.request.eject(myInterceptor);
       //清除菜单权限
       this.$root.hashMenus = {};
-      //回到登录页
-      this.$router.replace({path: '/login'});
       //清除动态标签
       this.$store.dispatch('delAllViews')
-      loginOut()
+      loginOut().then(res=>{
+        //回到登录页
+        this.$router.push({path: '/login'});
+      })
     }
   },
   created: function(newPath) {

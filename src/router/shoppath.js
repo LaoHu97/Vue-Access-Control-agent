@@ -1,7 +1,7 @@
 import Abstract from '../views/common/abstract.vue';
 
 export default [{
-    path: '/index',
+    path: '/index1',
     name: '交易管理',
     meta: {
       icon: 'icon-shujutongji'
@@ -37,7 +37,7 @@ export default [{
       component: (resolve) => require(['../views/agent/nav1/Table3.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index2',
     name: '商户管理',
     meta: {
       icon: 'icon-shangjia'
@@ -80,7 +80,7 @@ export default [{
       component: (resolve) => require(['../views/agent/nav2/Page8.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index2',
     name: '业务管理',
     meta: {
       icon: 'icon-yewu'
@@ -102,7 +102,7 @@ export default [{
       component: (resolve) => require(['../views/agent/nav3/List2.vue'], resolve)
     }]
   },{
-    path: '/index',
+    path: '/index1',
     name: '返佣管理',
     meta: {
       icon: 'icon-fan'

@@ -307,7 +307,7 @@ export default {
   },
   methods: {
     lookEmp(index, row){
-      this.$router.push({ path: '/index/page8', query: { id: row.id, mid: this.$route.query.mid } })
+      this.$router.push({ path: '/index2/page8', query: { id: row.id, mid: this.$route.query.mid } })
     },
     test: function(index, row) {
       this.$confirm('此操作将修改门店状态, 确定修改?', '提示', {
