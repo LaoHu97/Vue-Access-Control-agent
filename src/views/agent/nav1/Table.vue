@@ -85,7 +85,7 @@
     </div>
     <!--工具条-->
     <el-row :span="24" class="toolbar">
-      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
   </section>
@@ -188,9 +188,13 @@
       //获取用户列表
       handleCurrentChange(val) {
         this.page = val;
-        this.getUsers();
+        this.getList();
       },
-      getUsers() {
+      getUsers(){
+        this.page = 1
+        this.getList()
+      },
+      getList() {
         if (this.filters.time1 !== "") {
           var d = new Date(this.filters.time1);
           var a1 = d.getFullYear();
