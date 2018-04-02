@@ -140,7 +140,8 @@
             sessionStorage.setItem('user', JSON.stringify(user));
             sessionStorage.setItem('name', JSON.stringify(name));
             sessionStorage.setItem('menu', JSON.stringify(1));
-            vm.$emit('login', '/index1/table');
+            this.$store.dispatch('top_nav', '2')
+            vm.$emit('login', '/index1/table2');
           } else {
             this.clickCode()
           }

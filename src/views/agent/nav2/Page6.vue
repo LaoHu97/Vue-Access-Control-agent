@@ -139,14 +139,14 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col :span="14" v-if="form.settlement_mer_type!=='XW'">
         <el-form-item label="执照证件号码：" prop="licenseno">
           <el-input v-model="form.licenseno" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col :span="14" v-if="form.settlement_mer_type!=='XW'">
         <el-form-item label="证件到期日期：" prop="licensen_expire">
           <el-date-picker
             v-model="form.licensen_expire"
@@ -160,7 +160,7 @@
       <el-col :span="14">
         <el-form-item label="结算账户类型：" prop="account_type">
           <template>
-            <el-radio-group v-model="form.account_type">
+            <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW'">
               <el-radio label="1">对公</el-radio>
               <el-radio label="2">对私</el-radio>
             </el-radio-group>
@@ -169,10 +169,10 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
-        <el-form-item label="入网证件类型：" prop="settlement_mer_type">
+      <el-col :span="14" v-if="form.settlement_mer_type!=='XW'">
+        <el-form-item label="入网证件类型：" prop="net_network_type">
           <template>
-            <el-select v-model="form.net_network_type" placeholder="请选择">
+            <el-select v-model="form.net_network_type" :disabled="form.settlement_mer_type !== 'QY' && form.account_type == '2'" placeholder="请选择">
               <el-option
                 v-for="item in net_networkOptions"
                 :key="item.value"
@@ -184,7 +184,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row v-show="form.settlement_mer_type == 'QY' && form.account_type == '2'">
+    <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
       <el-col :span="14">
         <el-form-item label="是否法人入账：">
           <template>
@@ -196,7 +196,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-    <el-row  v-show="form.is_liable_account == '2'">
+    <el-row  v-if="form.is_liable_account == '2' || form.account_type == '1'">
       <el-col :span="14">
         <el-form-item label="法人姓名：" prop="artif_nm">
           <el-input v-model="form.artif_nm" auto-complete="off"></el-input>
@@ -629,7 +629,7 @@ export default {
       }
     };
     return {
-      uploadUrl: 'http://weixin.weupay.com/pay/ag/uploadImage',
+      uploadUrl: process.env.API_ROOT + '/pay/ag/uploadImage',
       logining: false,
       imageUrl: {
         file1: '',
@@ -664,11 +664,12 @@ export default {
         business2: '',//行业类目02
         business3: '',//行业类目03
 
-        settlement_mer_type:'',//商户结算入网类型
+        settlement_mer_type:'QY',//商户结算入网类型
         licenseno:'',//执照证件号码
         licensen_expire:'',//证件到期日期
         is_liable_account:'1',//是否为法人入账
-        account_type: '',//结算账户类型
+        account_type: '1',//结算账户类型
+        net_network_type:'SZHY',//入网证件类型
         artif_nm: '',//法人姓名
         merchant_id_type: '',//结算人证件类型
         merchant_id_no: '',//结算人证件号码
@@ -954,6 +955,11 @@ export default {
           message: '请选择证件类型',
           trigger: 'change'
         }],
+        artif_nm:[{
+          required: true,
+          message: '请输入法人姓名',
+          trigger: 'blur'
+        }],
         merchant_id_expire: [{
           type: 'date',
           required: true,
@@ -1044,6 +1050,29 @@ export default {
           required: true
         }],
       },
+    }
+  },
+  computed: {
+    settlement_mer_type() {
+  　　return this.form.settlement_mer_type
+  　},
+    account_type() {
+      return this.form.account_type
+    }
+  },
+  watch: {
+    settlement_mer_type(curVal,oldVal) {
+      if(curVal !== 'QY' && this.form.account_type == '2'){
+        this.form.net_network_type = 'SZHY'
+      }
+      if(curVal == 'XW'){
+        this.form.account_type = '2'
+      }
+    },
+    account_type(curVal,oldVal) {
+      if (curVal == '2' && this.form.settlement_mer_type !== 'QY') {
+        this.form.net_network_type = 'SZHY'
+      }
     }
   },
   methods: {

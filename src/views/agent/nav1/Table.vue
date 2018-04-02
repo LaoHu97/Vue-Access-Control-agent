@@ -3,15 +3,15 @@
     <!--工具条-->
     <el-form :inline="true" :model="filters" ref="filters" size="medium">
       <el-row>
-        <el-form-item prop="state1">
-          <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
+        <el-form-item prop="mid">
+          <el-select v-model="filters.mid" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item prop="play">
-          <el-select v-model="filters.play" clearable placeholder="请选择支付场景">
+          <el-select v-model="filters.play" clearable placeholder="请选择支付方式">
             <el-option v-for="item in optionsScene" :key="item.valueScene" :label="item.labelScene" :value="item.valueScene">
             </el-option>
           </el-select>
@@ -64,7 +64,10 @@
                 <span>{{ props.row.status == 1 ? '已支付' : props.row.status == 3 ? '已支付（有退款）' : '未知' }} </span>
               </el-form-item>
               <el-form-item label="支付方式：">
-                <span>{{ props.row.payWay == 'WX' ? '微信' : props.row.payWay == 'ALI' ? '支付宝' : '未知' }}</span>
+                <span>{{ props.row.payWay == 'WX' ? '微信' : props.row.payWay == 'ALI' ? '支付宝' : props.row.payWay == 'DEBIT' ? '借记卡' : props.row.payWay == 'CREDIT' ? '贷记卡' : '未知' }}</span>
+              </el-form-item>
+              <el-form-item label="支付类型：">
+                <span>{{ props.row.payType == 'JSAPI' ? '公众号支付' : props.row.payType == 'NATIVE' ? '扫码支付' : props.row.payType == 'MICRO' ? '刷卡支付' : '未知' }}</span>
               </el-form-item>
             </el-form>
           </template>
@@ -109,6 +112,12 @@
         }, {
           valueScene: 'ALI',
           labelScene: '支付宝'
+        }, {
+          valueScene: 'DEBIT',
+          labelScene: '借记卡'
+        }, {
+          valueScene: 'CREDIT',
+          labelScene: '贷记卡'
         }],
         //支付状态
         optionsState: [{
@@ -139,7 +148,7 @@
         filters: {
           time1: Date(),
           time2: Date(),
-          state1: '',
+          mid: '',
           play: '',
           state: '',
         },
@@ -183,7 +192,7 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row, column) {
-        return row.payWay == 'WX' ? '微信' : row.payWay == 'ALI' ? '支付宝' : '未知';
+        return row.payWay == 'WX' ? '微信' : row.payWay == 'ALI' ? '支付宝' : row.payWay == 'DEBIT' ? '借记卡' : row.payWay == 'CREDIT' ? '贷记卡' : '未知';
       },
       //获取用户列表
       handleCurrentChange(val) {
@@ -195,49 +204,17 @@
         this.getList()
       },
       getList() {
-        if (this.filters.time1 !== "") {
-          var d = new Date(this.filters.time1);
-          var a1 = d.getFullYear();
-          var a2 = (d.getMonth() + 1);
-          var a3 = d.getDate();
-          if (a2 < 10 && a3 < 10) {
-            a2 = "0" + a2;
-            a3 = "0" + a3;
-          } else if (a2 < 10) {
-            a2 = "0" + a2;
-          } else if (a3 < 10) {
-            a3 = "0" + a3;
-          }
-          var starttime = a1 + "-" + a2 + "-" + a3;
-        } else {
-          this.filters.time1 = "";
-        }
-        if (this.filters.time2 !== "") {
-          var e = new Date(this.filters.time2);
-          var b1 = e.getFullYear();
-          var b2 = (e.getMonth() + 1);
-          var b3 = e.getDate();
-          if (b2 < 10 && b3 < 10) {
-            b2 = "0" + b2;
-            b3 = "0" + b3;
-          } else if (b2 < 10) {
-            b2 = "0" + b2;
-          } else if (b3 < 10) {
-            b3 = "0" + b3;
-          }
-          var endtime = b1 + "-" + b2 + "-" + b3;
-        } else {
-          this.filters.time2 = ""
-        }
+        this.listLoading = true;
         let para = {
           pageNum: this.page,
-          startTime: starttime,
-          endTime: endtime,
+          startTime: this.filters.time1,
+          endTime: this.filters.time2,
           payWay: this.filters.play,
-          mid: this.filters.state1,
+          mid: this.filters.mid,
           status: this.filters.state
         };
-        this.listLoading = true;
+        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd')); //开始时间
+        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd')); //结束时间
         queryAgentOrder(para).then((res) => {
           let {
             data,
@@ -246,13 +223,9 @@
           } = res;
           if (status == 200) {
             this.total = res.data.totalCount;
-            this.filters.time1 = res.data.returnST;
             this.users = res.data.orderList;
           }
-          setTimeout(() => {
-            this.listLoading = false;
-          }, 1500);
-
+          this.listLoading = false;
         });
       },
       resetForm(formName) {

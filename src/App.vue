@@ -161,11 +161,10 @@ export default {
         if (!allowedRouter || !allowedRouter.length) {
           return vm.$router.push({ path: '/login', query: { from: vm.$router.currentRoute.path } });
         }
-        console.log(allowedRouter);
-        
         //动态注入路由
         vm.extendRoutes(allowedRouter);
         //保存数据用作他处，非必需
+        vm.$store.dispatch('get_menu', allowedRouter)
         vm.menuData = allowedRouter;
         vm.userData = userInfo;
         //权限检验方法

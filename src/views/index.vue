@@ -186,7 +186,6 @@ export default {
     };
     return {
       user: {},
-      menus: [],
       isCollapse:false,
       sysUserName: '',
       accessPerMission:false,
@@ -244,21 +243,18 @@ export default {
     activeMenu: function(){
       return this.$route.name
     },
-    breadcrumbs: function(){
-      return (this.$route && this.$route.matched) || []
-    },
     cachedViews() {
       return this.$store.state.tagsView.cachedViews
     },
-          activeIndex() {
-        return this.$store.state.perMission.activeIndex
-      }
-    // accessPerMission() {
-    //   return this.$store.state.perMission.accessPerMission
-    // }
+    activeIndex() {
+      return this.$store.state.perMission.activeIndex
+    },
+    menus() {
+      return this.$store.state.perMission.sideMenus
+    }
   },
   watch: {
-    $route() {
+    $route(curVal,oldVal) {
       this.isTab()
     },
     isCollapse(curVal,oldVal){
@@ -298,7 +294,6 @@ export default {
             mpwd,
             mpwd2
           };
-          //console.log(modifypass);
           updateSysPwd(modifypass).then(res => {
             let {
               status,
@@ -347,48 +342,24 @@ export default {
     },
     //切换顶部导航
     handleSelect(change){
-            //清除动态标签
+      //切换头部导航
+      this.$store.dispatch('top_nav', change)
+      //清除动态标签
       this.$store.dispatch('delAllViews')
-      if (change==='1') {
-        this.$store.dispatch('top_nav', '1')
-        this.$router.push({ path: "/home" });
-      } else if(change==='2'){
-        this.$store.dispatch('top_nav', '2')
-        sessionStorage.setItem('menu', JSON.stringify(1));
-        this.$emit('login', '/index1/table');
-      } else if(change==='3'){
-        this.$store.dispatch('top_nav', '3')
-        sessionStorage.setItem('menu', JSON.stringify(2));
-        this.$emit('login', '/index2/page4');
-      }else if(change==='4'){
-        this.$store.dispatch('top_nav', '4')
-        this.$router.push({ path: "/notonline" });
-      }else if(change==='5'){
-        this.$store.dispatch('top_nav', '5')
-        this.$router.push({ path: "/notonline" });
-      }else if (change === '6'){
-          this.$store.dispatch('top_nav', '6')
-          this.$router.push({ path: "/notonline" });
-        }
-      setTimeout(() => {
-        let menus = this.$parent.menuData;
-        if (menus) {
-          this.menus = menus;
-        }
-      }, 500);
+
+      switch (parseInt(change)) {
+        case 1 : this.$router.push({ path: "/home" });
+          break;
+        case 2 : sessionStorage.setItem('menu', JSON.stringify(1));
+                 this.$emit('login', '/index1/table2');
+          break;
+        case 3 : sessionStorage.setItem('menu', JSON.stringify(2));
+                 this.$emit('login', '/index2/page4');
+          break;
+        default: this.$router.push({ path: "/notonline" });
+          break;
+      }
     },
-  },
-  created: function() {
-    let user = this.$parent.userData;
-    if (user) {
-      this.user = user;
-    } else {
-      this.$router.push({ path: "/login" });
-    }
-    let menus = this.$parent.menuData;
-    if (menus) {
-      this.menus = menus;
-    }
   },
   mounted () {
     this.isTab()

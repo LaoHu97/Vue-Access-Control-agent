@@ -2,13 +2,13 @@
   <el-container style="height:100%">
      <el-header style="background: #fff;">
         <el-row>
-          <el-col :span="6">
+          <el-col :span="5">
             <div class="top_logo">
               <img src="../../assets/images/logo4.png" /> 
               <span>万 鼎 科 技</span>
             </div>
           </el-col>
-          <el-col :span="9">
+          <el-col :span="12">
             <div class="navmenu_horizontal">
               <el-menu :default-active="activeIndex" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
                 <el-menu-item index="1">首页</el-menu-item>
@@ -20,7 +20,7 @@
               </el-menu>
             </div>
           </el-col>
-          <el-col :span="9" style="line-height: 60px;text-align: right;">
+          <el-col :span="7" style="line-height: 60px;text-align: right;">
             <span >{{sysUserName}} 您好！欢迎登录代理平台 </span>
             <el-dropdown split-button size="small" type="danger" @click="logout">
               退出登录
@@ -105,9 +105,6 @@ export default {
       }
     };
     return {
-      noticeList:[],
-      lineChartData: {},
-      lineChartSummaryData: {},
       user: {},
       sysUserName: '',
       editFormVisible: false, //修改密码弹窗是否显示
@@ -160,40 +157,14 @@ export default {
     };
   },
   computed: {
-          activeIndex() {
-        return this.$store.state.perMission.activeIndex
-      }
+    activeIndex() {
+      return this.$store.state.perMission.activeIndex
+    }
   },
   watch: {
 
   },
   methods: {
-      getUsers(){
-        let para = {
-          pageNum:'1',
-          numPerPage: '7'
-        }
-        getNotices(para).then(res=>{
-          this.noticeList = res.data.noticeList;
-        })
-      },
-      //格式化金额
-      format_amount(val){
-        return util.number_format( val, 2, ".", "," )
-      },
-      //获取首页折线图数据
-      lineCharIndex(){
-        let myDate = Date.now();
-        let para = {
-          startTime: util.dateFormat((myDate - 3600 * 1000 * 24 * 7), 'yyyy/MM/dd'),
-          endTime: util.dateFormat((myDate - 3600 * 1000 * 24 * 1), 'yyyy/MM/dd')
-        }
-        showAgentDate(para).then(res=>{
-          this.lineChartSummaryData=res.data
-          let expectedData = res.data.amtList
-          this.lineChartData = {expectedData}          
-        })
-      },
     //修改密码提交按钮
     submitForm() {
       let name = sessionStorage.getItem('name');
@@ -262,44 +233,24 @@ export default {
     },
     //切换顶部导航
     handleSelect(change){
-            //清除动态标签
+      //切换头部导航
+      this.$store.dispatch('top_nav', change)
+      //清除动态标签
       this.$store.dispatch('delAllViews')
-      if (change==='1') {
-        this.$store.dispatch('top_nav', '1')
-        this.$router.push({ path: "/home" });
-      } else if(change==='2'){
-        this.$store.dispatch('top_nav', '2')
-        sessionStorage.setItem('menu', JSON.stringify(1));
-        this.$emit('login', '/index1/table');
-      } else if(change==='3'){
-        this.$store.dispatch('top_nav', '3')
-        sessionStorage.setItem('menu', JSON.stringify(2));
-        this.$emit('login', '/index2/page4');
-      }else if(change==='4'){
-        this.$store.dispatch('top_nav', '4')
-        this.$router.push({ path: "/notonline" });
-      }else if(change==='5'){
-        this.$store.dispatch('top_nav', '5')
-        this.$router.push({ path: "/notonline" });
-      }else if (change === '6'){
-          this.$store.dispatch('top_nav', '6')
-          this.$router.push({ path: "/notonline" });
-        }
-      setTimeout(() => {
-        let menus = this.$parent.menuData;
-        if (menus) {
-          this.menus = menus;
-        }
-      }, 500);
+
+      switch (parseInt(change)) {
+        case 1 : this.$router.push({ path: "/home" });
+          break;
+        case 2 : sessionStorage.setItem('menu', JSON.stringify(1));
+                 this.$emit('login', '/index1/table2');
+          break;
+        case 3 : sessionStorage.setItem('menu', JSON.stringify(2));
+                 this.$emit('login', '/index2/page4');
+          break;
+        default: this.$router.push({ path: "/notonline" });
+          break;
+      }
     },
-  },
-  created: function() {
-    let user = this.$parent.userData;
-    if (user) {
-      this.user = user;
-    } else {
-      this.$router.push({ path: "/login" });
-    }
   },
   mounted () {
         //用户名
@@ -308,8 +259,6 @@ export default {
       user = JSON.parse(user);
       this.sysUserName = user || '';
     }
-    this.lineCharIndex()
-    this.getUsers()
   }
 };
 </script>
@@ -335,5 +284,8 @@ export default {
   .notonline_main {
     text-align: center
   }
-
+  .el_menu_horizontal {
+    border: none;
+    float: right;
+  }
 </style>

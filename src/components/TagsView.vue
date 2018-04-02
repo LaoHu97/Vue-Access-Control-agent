@@ -97,7 +97,7 @@ export default {
     },
     closeAllTags() {
       this.$store.dispatch('delAllViews')
-      this.$router.push('/index/table')
+      this.$router.push('/home')
     },
     openMenu(tag, e) {      
       this.visible = true

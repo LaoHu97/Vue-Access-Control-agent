@@ -84,18 +84,18 @@ export default {
       //时间控制
       pickerOptions1: {
         disabledDate(time) {
-          return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+          return time.getTime() > Date.now() - 3600 * 1000 * 24 * 1 || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
         }
       },
       pickerOptions2: {
         disabledDate(time) {
-          return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+          return time.getTime() > Date.now() - 3600 * 1000 * 24 * 1  || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
         }
       },
       //商户名
       filters: {
-        time1: Date(),
-        time2: Date(),
+        time1: Date.now() - 3600 * 1000 * 24 * 1,
+        time2: Date.now() - 3600 * 1000 * 24 * 1,
         state1: '',
         state2: ''
       },
