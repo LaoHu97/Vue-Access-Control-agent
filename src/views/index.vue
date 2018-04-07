@@ -128,9 +128,7 @@
             <transition name="fade" mode="out-in">
               <keep-alive :include="cachedViews">
                 <ErrorPage v-if="accessPerMission"></ErrorPage>
-                <router-view v-else id="main">
-                  
-                </router-view>
+                <router-view v-else id="main"></router-view>
               </keep-alive>
             </transition>
           </template>
