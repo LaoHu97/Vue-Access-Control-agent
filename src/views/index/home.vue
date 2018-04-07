@@ -119,7 +119,7 @@
 <template>
   <div>
     <el-container style="height:100%">
-      <el-header style="background: #fff;">
+      <el-header style="background: #fff;height:auto">
         <el-row>
           <el-col :span="5">
             <div class="top_logo">
@@ -140,7 +140,7 @@
             </div>
           </el-col>
           <el-col :span="7" style="line-height: 60px;text-align: right;">
-            <span >{{sysUserName}} 您好！欢迎登录代理平台 </span>
+            <span >{{sysUserName}} ，欢迎登录代理平台 </span>
             <el-dropdown split-button size="small" type="danger" @click="logout">
               退出登录
               <el-dropdown-menu slot="dropdown">
