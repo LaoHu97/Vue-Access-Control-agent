@@ -74,11 +74,11 @@
         </el-table-column>
         <el-table-column prop="orderId" label="订单ID" min-width="280">
         </el-table-column>
-        <el-table-column prop="mname" label="商户名称">
+        <el-table-column prop="mname" label="商户名称" min-width="160">
         </el-table-column>
         <el-table-column prop="payTime" label="付款时间" min-width="160">
         </el-table-column>
-        <el-table-column prop="goodsPrice" label="交易金额">
+        <el-table-column prop="goodsPrice" label="交易金额" min-width="120" :formatter="format_goodsPrice">
         </el-table-column>
         <el-table-column prop="status" label="交易状态" :formatter="formatPay2">
         </el-table-column>
@@ -159,6 +159,10 @@
       }
     },
     methods: {
+      //格式化金额
+      format_goodsPrice(row, column) {
+        return util.number_format(row.goodsPrice, 2, ".", ",")
+      },
       //商户远程搜索
       clickShop: function () {
         selectMersByName().then((res) => {

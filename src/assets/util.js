@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { Message } from 'element-ui'
-Vue.component(Message.name, Message)
 
 var SIGN_REGEXP = /([yMdhsm])(\1*)/g;
 var DEFAULT_PATTERN = 'yyyy-MM-dd';
@@ -160,8 +159,9 @@ export const catchError = function(error) {
     switch (error.data.status) {
       case 300:
         Vue.prototype.$message({
-          message: error.data.message || '操作失败！',
-          type: 'error'
+          message: error.data.message || '操作失败，请稍候再试',
+          type: 'error',
+          showClose: true
         });
         break;
       case 301:
@@ -192,8 +192,7 @@ export const catchError = function(error) {
     Vue.prototype.$message({
       message: '请检查网络连接，或稍后再试',
       type: 'error',
-      showClose: true,
-      duration:10000
+      showClose: true
     });
   }
   return Promise.reject(error);
