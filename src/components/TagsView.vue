@@ -114,6 +114,8 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss" scoped>
 .tags-view-container {
+  background: #fff;
+  border-top: 1px solid #EBEEF5;
   .tags-view-wrapper {
     background: #fff;
     height: 34px;

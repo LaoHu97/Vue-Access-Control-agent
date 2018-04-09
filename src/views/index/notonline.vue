@@ -22,7 +22,7 @@
         </el-col>
         <el-col :span="7" style="line-height: 60px;text-align: right;">
           <span>{{sysUserName}} ，欢迎登录代理平台 </span>
-          <el-dropdown split-button size="small" type="danger" @click="logout">
+          <el-dropdown split-button size="mini" type="danger" @click="logout">
             退出登录
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="handleEdit">修改密码</el-dropdown-item>

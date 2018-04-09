@@ -1,9 +1,9 @@
 <template lang="html">
   <section>
     <h2 style="padding-left:50px">新增商户</h2>
-  <el-form ref="form" :model="form" :rules="rules" label-width="150px" label-position="left" size="medium" style="margin-left:20%">
+    <el-form ref="form" :model="form" :rules="rules" label-width="150px" label-position="left" style="padding-left:100px">
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <span class="title_text">商户入网信息</span>
         <el-form-item label="商户名称：" prop="merchant_name">
           <el-input v-model="form.merchant_name" auto-complete="off"></el-input>
@@ -11,21 +11,21 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="商户简称：" prop="merchant_alias">
           <el-input v-model="form.merchant_alias" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="注册名称：" prop="merchant_company">
           <el-input v-model="form.merchant_company" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="所在省市：" prop="merchant_province3" style="float: left;">
           <el-select v-model="form.merchant_province3" placeholder="请选择" @change="provInce"  @visible-change="province3" style="width:160px;">
             <el-option
@@ -49,42 +49,42 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="商户地址" prop="merchant_address">
           <el-input v-model="form.merchant_address" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="商户联系人：" prop="merchant_person">
           <el-input v-model="form.merchant_person" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="联系人电话：" prop="merchant_phone">
           <el-input v-model="form.merchant_phone" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="联系人邮箱：" prop="merchant_email">
           <el-input v-model="form.merchant_email" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="客服电话：" prop="mer_service_phone">
           <el-input v-model="form.mer_service_phone" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="16">
+      <el-col>
         <el-form-item label="行业类目：" prop="business1" style="float:left">
           <el-select v-model="form.business1" placeholder="请选择" @visible-change="testSalenew1" @change="testSalenew2" style="width:100px;">
             <el-option
@@ -122,7 +122,7 @@
 
     <!-- 商户结算信息 -->
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <span class="title_text">商户结算信息</span>
         <el-form-item label="商户结算入网类型" prop="settlement_mer_type">
           <template>
@@ -139,14 +139,14 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14" v-if="form.settlement_mer_type!=='XW'">
+      <el-col v-if="form.settlement_mer_type!=='XW'">
         <el-form-item label="执照证件号码：" prop="licenseno">
           <el-input v-model="form.licenseno" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14" v-if="form.settlement_mer_type!=='XW'">
+      <el-col v-if="form.settlement_mer_type!=='XW'">
         <el-form-item label="证件到期日期：" prop="licensen_expire">
           <el-date-picker
             v-model="form.licensen_expire"
@@ -157,7 +157,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="结算账户类型：" prop="account_type">
           <template>
             <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW'">
@@ -169,7 +169,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14" v-if="form.settlement_mer_type!=='XW'">
+      <el-col v-if="form.settlement_mer_type!=='XW'">
         <el-form-item label="入网证件类型：" prop="net_network_type">
           <template>
             <el-select v-model="form.net_network_type" :disabled="form.settlement_mer_type !== 'QY' && form.account_type == '2'" placeholder="请选择">
@@ -185,7 +185,7 @@
       </el-col>
     </el-row>
     <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="是否法人入账：">
           <template>
             <el-radio-group v-model="form.is_liable_account">
@@ -197,14 +197,14 @@
       </el-col>
     </el-row>
     <el-row  v-if="form.is_liable_account == '2' || form.account_type == '1'">
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="法人姓名：" prop="artif_nm">
           <el-input v-model="form.artif_nm" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item :label="form.is_liable_account == '2' ? '法人证件类型' : '结算人证件类型' " prop="merchant_id_type">
           <template>
             <el-select v-model="form.merchant_id_type" placeholder="请选择">
@@ -220,14 +220,14 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item :label="form.is_liable_account == '2' ? '法人证件号码' : '结算人证件号码' " prop="merchant_id_no">
           <el-input v-model="form.merchant_id_no" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item :label="form.is_liable_account == '2' ? '法人证件有效期' : '结算人证件有效期' " prop="merchant_id_expire">
             <el-date-picker
               v-model="form.merchant_id_expire"
@@ -239,28 +239,28 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="结算人账户开户名：" prop="account_name">
           <el-input v-model="form.account_name" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="结算人账户开户号：" prop="account_no">
           <el-input v-model.trim="form.account_no" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="银行卡预留手机号：" prop="account_phone">
           <el-input v-model.trim="form.account_phone" auto-complete="off"></el-input>
         </el-form-item>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="16">
+      <el-col>
         <el-form-item label="结算账户开户行：" prop="bank_name" style="float:left">
             <el-select v-model="form.bank_name" placeholder="请选择银行" @visible-change="bank" :loading="logining"  style="width:150px;">
               <el-option
@@ -294,7 +294,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="结算户开户支行：" prop="branch">
           <template>
             <el-select v-model="form.branch" placeholder="请选择" @visible-change="bankBranch" :multiple="false" filterable remote :remote-method="remoteBranch" :loading="loading">
@@ -310,7 +310,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="业务员：" prop="nowrap">
           <template>
             <el-select v-model="form.nowrap" placeholder="请选择" @visible-change="nowrapsubm">
@@ -326,7 +326,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <span class="title_text">商户汇率信息</span>
         <el-form-item label="费率（千分比）：" prop="rate_code">
           <template>
@@ -343,7 +343,7 @@
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="14">
+      <el-col>
         <el-form-item label="商户类型：" prop="merchant_type">
           <template>
             <el-radio-group v-model="form.merchant_type">
@@ -1359,5 +1359,18 @@ export default {
     margin-bottom: 25px;
     line-height: 45px;
     border-bottom: 1px solid #DCDFE6;
+  }
+  .avatar{
+    width: 100px;
+    height: 100px;
+  }
+  .el-icon-plus{
+    font-size: 28px;
+    color: #8c939d;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    
   }
 </style>
