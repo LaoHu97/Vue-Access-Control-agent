@@ -1,29 +1,29 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="24">
+      <el-col>
         <div style="height: 60px;background-color: #fff;">
           <img src="../assets/images/webwxgetmsgimg.png" alt="logo" height="35px;" style="margin-top: 12px;margin-left: 20px;">
           <div class="topList">
-            <a href="http://weixin.weupay.com/pay/web/shop.html#/login">商户登录</a>
-            <a href="http://weixin.weupay.com/pay/web/store.html#/login">门店登录</a>
-            <a href="http://weixin.weupay.com/pay/web/emp.html#/login">款台登录</a>
+            <a :href="loginNav + '/pay/web/shop.html'">商户登录</a>
+            <a :href="loginNav + '/pay/web/store.html'">门店登录</a>
+            <a :href="loginNav + '/pay/web/emp.html'">款台登录</a>
           </div>
         </div>
       </el-col>
     </el-row>
     <div class="centers" @keyup.enter="show()" :style="{backgroundImage: 'url(' +bImg + ')'}">
-      <el-form :model="user" ref="user" label-position="left" label-width="0px" class="demo-ruleForm login-container">
+      <el-form :model="user" ref="user" label-position="left" label-width="0px" class="login-container">
         <h3 class="title">代理登录</h3>
         <el-form-item prop="account">
-          <el-input type="text" v-model.trim="user.account" size="medium" placeholder="请输入用户名">
+          <el-input type="text" v-model.trim="user.account" placeholder="请输入用户名">
             <template slot="prepend">
               <i class="iconfont">&#xe715;</i>
             </template>
           </el-input>
         </el-form-item>
         <el-form-item prop="checkPass">
-          <el-input type="password" v-model.trim="user.checkPass" size="medium" placeholder="请输入密码">
+          <el-input type="password" v-model.trim="user.checkPass" placeholder="请输入密码">
             <template slot="prepend">
               <i class="iconfont">&#xe709;</i>
             </template>
@@ -35,7 +35,6 @@
             <img :src="user.code" @click="clickCode" alt="验证码" style="float:right;width:75px;height:36px;">
           </el-tooltip>
         </el-form-item>
-        <!--<el-checkbox v-model="checked" class="remember">记住密码</el-checkbox>-->
         <el-button type="primary" style="width:100%;background-color:#0066cc;border-color:#0066cc" @click.native.prevent="loginSubmit"
           :loading="isBtnLoading">{{btnText}}</el-button>
         <span style="color:#ff4949;text-align:center;display: inherit;font-size:12px;">{{user.Verification}}</span>
@@ -63,8 +62,8 @@
       </el-steps>
     </div>
     <el-row>
-      <el-col :span="24">
-        <div class="grid-content bg-purple-dark">版权所有：西安万鼎网络科技有限公司 | ICP备 陕17002918号</div>
+      <el-col>
+        <div class="grid-content">版权所有：西安万鼎网络科技有限公司 | ICP备 陕17002918号</div>
       </el-col>
     </el-row>
   </div>
@@ -87,7 +86,8 @@
           passCode: '',
           code: ''
         },
-        isBtnLoading: false
+        isBtnLoading: false,
+        loginNav:process.env.API_ROOT
       };
     },
     computed: {
@@ -174,10 +174,6 @@
     color: #fff;
   }
 
-  .remember {
-    margin: 0 0 20px;
-  }
-
   .grid-content {
     border-top: 1px solid #bfcbd9;
     width: 100%;
@@ -188,11 +184,6 @@
     color: #333;
     margin-top: 120px;
   }
-
-  .grid-content img {
-    text-align: left;
-  }
-
   .centers {
     overflow: hidden;
     background: center;
@@ -246,15 +237,6 @@
   .service h2 {
     color: #333;
     padding: 50px 6%;
-  }
-
-  .service .ruzhu {
-    width: 200px;
-    position: absolute;
-    left: 50%;
-    margin-left: -100px;
-    overflow: hidden;
-    margin-top: 25px;
   }
 
   .topList {
