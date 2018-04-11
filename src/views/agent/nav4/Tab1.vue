@@ -26,7 +26,7 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row style="width: 100%;">
-        <el-table-column prop="settled_date" label="结算时间" min-width="80">
+        <el-table-column prop="settled_date" label="结算月份" min-width="80" :formatter="format_settled_date">
         </el-table-column>
         <el-table-column prop="sum_total" label="有效笔数" min-width="120">
         </el-table-column>
@@ -47,8 +47,6 @@
         </el-table-column>
       </el-table>
     </div>
-
-
     <!--工具条-->
     <el-row class="toolbar">
       <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
@@ -113,6 +111,9 @@
       };
     },
     methods: {
+      format_settled_date(row, column){
+        return row.settled_date = util.formatDate.format(new Date(row.settled_date), 'yyyy-MM')
+      },
       //格式化金额
       format_sum_amt(row, column) {
         return util.number_format(row.sum_amt, 2, ".", ",")
