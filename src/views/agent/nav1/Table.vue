@@ -64,7 +64,7 @@
                 <span>{{ props.row.status == 1 ? '已支付' : props.row.status == 3 ? '已支付（有退款）' : '未知' }} </span>
               </el-form-item>
               <el-form-item label="支付方式：">
-                <span>{{ props.row.payWay == 'WX' ? '微信' : props.row.payWay == 'ALI' ? '支付宝' : props.row.payWay == 'DEBIT' ? '借记卡' : props.row.payWay == 'CREDIT' ? '贷记卡' : '未知' }}</span>
+                <span>{{ props.row.payWay == 'WX' ? '微信' : props.row.payWay == 'ALI' ? '支付宝' : props.row.payWay == 'DEBIT' ? '借记卡' : props.row.payWay == 'CREDIT' ? '贷记卡' : props.row.payWay ? '翼支付' : '未知' }}</span>
               </el-form-item>
               <el-form-item label="支付类型：">
                 <span>{{ props.row.payType == 'JSAPI' ? '公众号支付' : props.row.payType == 'NATIVE' ? '扫码支付' : props.row.payType == 'MICRO' ? '刷卡支付' : '未知' }}</span>
@@ -118,6 +118,9 @@
         }, {
           valueScene: 'CREDIT',
           labelScene: '贷记卡'
+        }, {
+          valueScene: 'BEST',
+          labelScene: '翼支付'
         }],
         //支付状态
         optionsState: [{
@@ -196,7 +199,7 @@
         return row.status == 1 ? '已支付' : row.status == 3 ? '已支付（有退款）' : '未知';
       },
       formatPay1: function (row, column) {
-        return row.payWay == 'WX' ? '微信' : row.payWay == 'ALI' ? '支付宝' : row.payWay == 'DEBIT' ? '借记卡' : row.payWay == 'CREDIT' ? '贷记卡' : '未知';
+        return row.payWay == 'WX' ? '微信' : row.payWay == 'ALI' ? '支付宝' : row.payWay == 'DEBIT' ? '借记卡' : row.payWay == 'CREDIT' ? '贷记卡' : row.payWay == 'BEST' ? '翼支付' : '未知';
       },
       //获取用户列表
       handleCurrentChange(val) {

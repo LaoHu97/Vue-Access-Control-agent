@@ -36,7 +36,7 @@
         </el-table-column>
         <el-table-column prop="refund_amt" label="退款金额" min-width="100" :formatter="format_refund_amt">
         </el-table-column>
-        <el-table-column prop="pay_type" label="支付方式" min-width="100">
+        <el-table-column prop="pay_type" label="支付方式" min-width="100" :formatter="format_pay_type">
         </el-table-column>
         <el-table-column prop="factorage" label="手续费" min-width="100" :formatter="format_factorage">
         </el-table-column>
@@ -80,6 +80,9 @@
         }, {
           valueState: 'CREDIT',
           labelState: '贷记卡'
+        }, {
+          valueState: 'BEST',
+          labelState: '翼支付'
         }],
         //时间控制
         pickerOptions1: {
@@ -107,6 +110,9 @@
       }
     },
     methods: {
+      format_pay_type(row,column){
+        return row.pay_type === 'WX' ? '微信' : row.pay_type === 'ALI' ? '支付宝' : row.pay_type === 'DEBIT' ? '借记卡' : row.pay_type === 'CREDIT' ? '贷记卡' : row.pay_type === 'BEST' ? '翼支付' : '未知';
+      },
       //格式化金额
       format_trans_amt(row, column) {
         return util.number_format(row.trans_amt, 2, ".", ",")

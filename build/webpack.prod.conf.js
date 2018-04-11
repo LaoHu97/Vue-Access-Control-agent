@@ -9,8 +9,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const chalk = require('chalk')
 
 const env = require('../config/prod.env')
+
+console.log(chalk.blue('>>>正在打包环境为：' + chalk.yellowBright(env.API_ROOT) + '.\n'))
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
