@@ -110,3 +110,5 @@ export const deleteEmployee = params => { return instance.post(`${preUrlPath}/pa
 export const updateEmployeeStatus = params => { return instance.post(`${preUrlPath}/pay/ag/updateEmployeeStatus`,params).then(res => res.data); };
 //门店模糊查询
 export const selectStoreList = params => { return instance.post(`${preUrlPath}/pay/ag/selectStoreList`,params).then(res => res.data); };
+
+export const querySalesmanRebate = params => { return instance.post(`${preUrlPath}/pay/ag/querySalesmanRebate`,params).then(res => res.data); };

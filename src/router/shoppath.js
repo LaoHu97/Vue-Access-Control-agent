@@ -122,5 +122,12 @@ export default [{
         title: '结算详情', icon: 'table', noCache: true, code:'', hidden:true
       },
       component: (resolve) => require(['../views/agent/nav4/Tab2.vue'], resolve)
+    },{
+      path: 'tab3',
+      name: '业务员返佣查询',
+      meta: {
+        title: '业务员返佣查询', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/agent/nav4/Tab3.vue'], resolve)
     }]
   } ]
