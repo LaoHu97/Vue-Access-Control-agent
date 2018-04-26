@@ -59,6 +59,15 @@
       <el-form-item label="住址" prop="address">
         <el-input v-model="editForm.address"></el-input>
       </el-form-item>
+      <el-form-item label="底价费率(‰)" prop="salesmanRate">
+        <el-input v-model.number="editForm.salesmanRate" placeholder="请输入底价费率"></el-input>
+      </el-form-item>
+      <el-form-item label="分成比例" prop="commossion">
+        <el-input v-model.number="editForm.commossion" placeholder="请输入分成比例( 0 到 1 )"></el-input>
+      </el-form-item>
+      <el-form-item label="零费率商户提成费率(‰)" prop="zeroRate">
+        <el-input v-model.number="editForm.zeroRate" placeholder="请输入零费率商户提成费率"></el-input>
+      </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="editFormVisible = false">取消</el-button>
@@ -76,7 +85,16 @@
         <el-input type="phone" v-model="addForm.phone" placeholder="请输入业务员手机号" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="住址" prop="address">
-        <el-input v-model="addForm.address" placeholder="请输入业务员详细住址" auto-complete="off" value="number"></el-input>
+        <el-input v-model="addForm.address" placeholder="请输入业务员详细住址"></el-input>
+      </el-form-item>
+      <el-form-item label="底价费率(‰)" prop="salesmanRate">
+        <el-input v-model.number="addForm.salesmanRate" placeholder="请输入底价费率"></el-input>
+      </el-form-item>
+      <el-form-item label="分成比例" prop="commossion">
+        <el-input v-model.number="addForm.commossion" placeholder="请输入分成比例( 0 到 1 )"></el-input>
+      </el-form-item>
+      <el-form-item label="零费率商户提成费率(‰)" prop="zeroRate">
+        <el-input v-model.number="addForm.zeroRate" placeholder="请输入零费率商户提成费率"></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -159,6 +177,18 @@ export default {
             message: "请输入正确的业务员详细地址",
             trigger: "blur"
           }
+        ],
+        salesmanRate: [
+          { required: true, message: '请输入底价费率'},
+          { type: 'number', max: 10, message: '底价费率必须为数字值且小于10'}
+        ],
+        commossion: [
+          { required: true, message: '请输入成比例'},
+          { type: 'number', max: 1, message: '分成比例必须为数字值且小于1'}
+        ],
+        zeroRate: [
+          { required: true, message: '请输入零费率商户提成费率'},
+          { type: 'number', max: 10, message: '零费率商户提成费率必须为数字值且小于10'}
         ]
       },
       stateForm: {},
@@ -166,7 +196,10 @@ export default {
       editForm: {
         storeName: "",
         address: "",
-        telephone: ""
+        telephone: "",
+        salesmanRate:'',
+        commossion:'',
+        zeroRate:''
       },
 
       addFormVisible: false, //新增界面是否显示
@@ -204,13 +237,28 @@ export default {
             message: "请输入正确的业务员详细地址",
             trigger: "blur"
           }
+        ],
+        salesmanRate: [
+          { required: true, message: '请输入底价费率'},
+          { type: 'number', max: 10, message: '底价费率必须为数字值且小于10'}
+        ],
+        commossion: [
+          { required: true, message: '请输入成比例'},
+          { type: 'number', max: 1, message: '分成比例必须为数字值且小于1'}
+        ],
+        zeroRate: [
+          { required: true, message: '请输入零费率商户提成费率'},
+          { type: 'number', max: 10, message: '零费率商户提成费率必须为数字值且小于10'}
         ]
       },
       //新增界面数据
       addForm: {
         name: "",
         phone: "",
-        address: ""
+        address: "",
+        salesmanRate:'',
+        commossion:'',
+        zeroRate:''
       }
     };
   },
@@ -364,7 +412,10 @@ export default {
       this.addForm = {
         name: "",
         phone: "",
-        address: ""
+        address: "",
+        salesmanRate:'',
+        commossion:'',
+        zeroRate:''
       };
     },
     //编辑
@@ -377,7 +428,10 @@ export default {
               id: this.editForm.id,
               name: this.editForm.name,
               address: this.editForm.address,
-              phone: this.editForm.phone
+              phone: this.editForm.phone,
+              salesmanRate: this.editForm.salesmanRate,
+              commossion: this.editForm.commossion,
+              zeroRate: this.editForm.zeroRate
             };
             //para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
             updateAgSalesman(para).then(res => {
@@ -413,7 +467,10 @@ export default {
             let para = {
               name: this.addForm.name,
               phone: this.addForm.phone,
-              address: this.addForm.address
+              address: this.addForm.address,
+              salesmanRate: this.addForm.salesmanRate,
+              commossion: this.addForm.commossion,
+              zeroRate: this.addForm.zeroRate
             };
             addSalesman(para).then(res => {
               this.addLoading = false;
