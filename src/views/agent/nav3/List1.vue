@@ -194,7 +194,7 @@ export default {
       stateForm: {},
       //编辑界面数据
       editForm: {
-        storeName: "",
+        name: "",
         address: "",
         telephone: "",
         salesmanRate:'',
@@ -405,6 +405,9 @@ export default {
     handleEdit: function(index, row) {
       this.editFormVisible = true;
       this.editForm = Object.assign({}, row);
+      this.editForm.zeroRate = row.zero_rate
+      this.editForm.salesmanRate = Number(row.reserve1) || ''
+      this.editForm.commossion = Number(row.reserve2) || ''
     },
     //显示新增界面
     handleAdd: function() {
@@ -433,7 +436,6 @@ export default {
               commossion: this.editForm.commossion,
               zeroRate: this.editForm.zeroRate
             };
-            //para.birth = (!para.birth || para.birth == '') ? '' : util.formatDate.format(new Date(para.birth), 'yyyy-MM-dd');
             updateAgSalesman(para).then(res => {
               this.editLoading = false;
               let { status, message } = res;
