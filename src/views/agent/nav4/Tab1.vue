@@ -209,8 +209,3 @@
   };
 
 </script>
-
-<style scoped>
-
-
-</style>
