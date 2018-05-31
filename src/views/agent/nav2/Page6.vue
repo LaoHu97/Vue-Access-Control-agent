@@ -597,7 +597,8 @@ import {
   queryCity,
   selectbranch,
   getTokenList,
-  selectSaleByName
+  selectSaleByName,
+  uploadImage
 } from '../../../api/agent';
 export default {
   data() {
@@ -629,7 +630,7 @@ export default {
       }
     };
     return {
-      uploadUrl: process.env.API_ROOT + '/pay/ag/uploadImage',
+      uploadUrl: uploadImage,
       logining: false,
       imageUrl: {
         file1: '',

@@ -279,7 +279,7 @@
       <el-row>
         <el-col :span="5">
           <el-form-item label="身份证正面：" prop="img_idcard_a" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess1" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess1" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_idcard_a" :src="imageUrl.img_idcard_a" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -287,7 +287,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="身份证反面：" prop="img_idcard_b" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess2" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess2" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_idcard_b" :src="imageUrl.img_idcard_b" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -295,7 +295,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="商户门头照片：" prop="img_logo" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess4" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess4" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_logo" :src="imageUrl.img_logo" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -303,7 +303,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="银行卡正面：" prop="img_indoor" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess5" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess5" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_indoor" :src="imageUrl.img_indoor" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -311,7 +311,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item label="负责人手持身份证：" prop="img_bankcard_a" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess3" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess3" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_bankcard_a" :src="imageUrl.img_bankcard_a" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -321,7 +321,7 @@
       <el-row>
         <el-col :span="5">
           <el-form-item label="银行卡反面：" prop="img_contract" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess6" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess6" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_contract" :src="imageUrl.img_contract" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -329,7 +329,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="内部前台照片：" prop="img_license" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess7" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess7" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_license" :src="imageUrl.img_license" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -337,7 +337,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="营业执照：" prop="img_bankcard_b" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess8" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess8" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_bankcard_b" :src="imageUrl.img_bankcard_b" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -345,7 +345,7 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="其他证明材料：" prop="img_other" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess9" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess9" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_other" :src="imageUrl.img_other" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -353,7 +353,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item label="持证合影：" prop="img_idcard_holding" label-width="160px">
-            <el-upload class="avatar-uploader" action="http://weixin.weupay.com/pay/ag/uploadImage" :show-file-list="false" :on-success="handleAvatarScucess10" :before-upload="beforeAvatarUpload">
+            <el-upload class="avatar-uploader" :action="uploadImage" :show-file-list="false" :on-success="handleAvatarScucess10" :before-upload="beforeAvatarUpload">
               <img v-if="imageUrl.img_idcard_holding" :src="imageUrl.img_idcard_holding" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -525,7 +525,8 @@ import {
   selectbranch,
   updateAgentMer,
   updateAgentMerView,
-  queryAgentLc
+  queryAgentLc,
+  uploadImage
 } from '../../../api/agent';
 
 export default {
@@ -558,6 +559,7 @@ export default {
       }
     };
     return {
+      uploadImage: uploadImage,
       whole: {
         sum: ''
       },

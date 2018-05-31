@@ -15,6 +15,13 @@ export default [{
       },
       component: (resolve) => require(['../views/agent/nav1/Table2.vue'], resolve)
     },{
+      path: 'table4',
+      name: '商户月交易汇总',
+      meta: {
+        title: '商户月交易汇总', icon: 'table', noCache: true, code:''
+      },
+      component: (resolve) => require(['../views/agent/nav1/Table4.vue'], resolve)
+    },{
       path: 'table1',
       name: '商户日汇总明细',
       meta: {

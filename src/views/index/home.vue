@@ -417,24 +417,18 @@
                 message
               } = res;
               if (status == 200) {
-                this.$notify({
-                  title: '成功',
+                this.$message({
                   message: message,
                   type: 'success'
                 });
-                _this.$emit("logout");
-              } else if (status == 301) {
-                this.$notify({
-                  title: '警告',
-                  message: message,
-                  type: 'warning'
+                //清除菜单权限
+                this.$root.hashMenus = {};
+                //回到登录页
+                this.$router.replace({
+                  path: '/login'
                 });
-                _this.$emit("logout");
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
+                //清除动态标签
+                this.$store.dispatch('delAllViews')
               }
             });
           } else {
