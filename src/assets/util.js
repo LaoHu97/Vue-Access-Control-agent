@@ -156,9 +156,6 @@ export const catchError = function(error) {
         Vue.prototype.$message({
           message: error.data.message || '尚未登陆！请重新登录',
           type: 'warning',
-          onClose: function(){
-            location.reload();
-          }
         });
         break;
       default:

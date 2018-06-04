@@ -39,7 +39,7 @@
         </el-table-column>
         <el-table-column prop="amount" label="月交易金额(元)" min-width="120" :formatter="formatter_amount">
         </el-table-column>
-        <el-table-column label="排行榜">
+        <el-table-column prop="rowno" label="排行榜">
         </el-table-column>
       </el-table>
     </div>

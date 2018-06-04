@@ -2,6 +2,13 @@
   <section>
     <el-form :inline="true" :model="filters" ref="filters" size="medium">
       <el-row>
+        <el-form-item prop="mid">
+          <el-select v-model="filters.mid" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
+            :loading="mersLoading" clearable @visible-change="clickShop">
+            <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item prop="state">
           <el-select v-model="filters.state" clearable placeholder="请选择支付方式">
             <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
@@ -102,11 +109,14 @@
           time1: Date.now() - 3600 * 1000 * 24 * 1,
           time2: Date.now() - 3600 * 1000 * 24 * 1,
           state: '',
+          mid: ''
         },
         total: 0,
         page: 1,
         users: [],
+        optionsMers: [],
         listLoading: false,
+        mersLoading: false
       }
     },
     methods: {
@@ -129,6 +139,37 @@
       format_surplus(row, column) {
         return util.number_format(row.surplus, 2, ".", ",")
       },
+      //商户远程搜索
+      clickShop: function () {
+        this.mersLoading = true;
+        selectMersByName().then((res) => {
+          let {
+            status,
+            data
+          } = res
+          this.mersLoading = false;
+          this.optionsMers = data.merchantList
+        })
+      },
+      remoteShop(query) {
+        if (query !== '') {
+          this.mersLoading = true;
+          setTimeout(() => {
+            this.mersLoading = false;
+            selectMersByName({
+              mname: query
+            }).then((res) => {
+              let {
+                status,
+                data
+              } = res
+              this.optionsMers = data.merchantList
+            })
+          }, 200);
+        } else {
+          this.optionsMers = [];
+        }
+      },
       //获取用户列表
       handleCurrentChange(val) {
         this.page = val;
@@ -143,7 +184,8 @@
           pageNum: String(this.page),
           startTime: this.filters.time1,
           endTime: this.filters.time2,
-          payType: this.filters.state
+          payType: this.filters.state,
+          mid: this.filters.mid 
         };
         para.startTime = (!para.startTime || para.startTime == '') ? '' : String(util.formatDate.format(new Date(para.startTime),
           'yyyy/MM/dd')); //开始时间
