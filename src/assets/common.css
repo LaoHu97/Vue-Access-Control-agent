@@ -56,4 +56,11 @@ a{
     border-radius: 6px;
     cursor: pointer;
     position: relative;
-    overflow: hidden;}
+    overflow: hidden;
+}
+.fixed_search_input{
+    max-width: 125px;
+}
+.fixed_search_input_datetime{
+    max-width: 195px;
+}

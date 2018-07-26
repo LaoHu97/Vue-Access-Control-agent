@@ -3,46 +3,49 @@
     <!--工具条-->
     <el-form :inline="true" :model="filters" ref="filters" size="medium">
       <el-row>
-        <el-form-item prop="mid">
-          <el-select v-model="filters.mid" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
+        <el-form-item prop="startTime">
+          <el-date-picker v-model="filters.startTime"  class="fixed_search_input_datetime" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item prop="endTime">
+          <el-date-picker v-model="filters.endTime" class="fixed_search_input_datetime" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item style="float: right;">
+          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+        </el-form-item>
+      </el-row>
+      <el-row>
+        <el-form-item prop="mid" class="fixed_search_input">
+          <el-select v-model="filters.mid" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="play">
-          <el-select v-model="filters.play" clearable placeholder="请选择支付方式">
+        <el-form-item prop="play" class="fixed_search_input">
+          <el-select v-model="filters.play" clearable placeholder="支付方式">
             <el-option v-for="item in optionsScene" :key="item.valueScene" :label="item.labelScene" :value="item.valueScene">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="state">
-          <el-select v-model="filters.state" clearable placeholder="请选择支付状态">
+        <el-form-item prop="state" class="fixed_search_input">
+          <el-select v-model="filters.state" clearable placeholder="支付状态">
             <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
             </el-option>
           </el-select>
         </el-form-item>
       </el-row>
       <el-row>
-        <el-form-item prop="time1">
-          <el-date-picker v-model="filters.time1" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item prop="time2">
-          <el-date-picker v-model="filters.time2" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
-          </el-date-picker>
-        </el-form-item>
-        <el-tag type="gray">可查询最近三个月的信息</el-tag>
-        <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
-        </el-form-item>
+        <el-alert title="可查询最近3个月的交易" type="warning" center close-text="知道了" show-icon>
+        </el-alert>
       </el-row>
     </el-form>
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row>
-        <el-table-column type="expand">
+        <el-table-column type="expand" label="展开" width="80">
           <template slot-scope="props">
             <el-form label-position="left" inline class="table-expand">
               <el-form-item label="商户名称：">
@@ -95,7 +98,7 @@
 </template>
 
 <script>
-  import * as util from '../../../assets/util.js'
+  import * as util from '../../../util/util.js'
   import {
     queryAgentOrder,
     selectMersByName,
@@ -139,18 +142,23 @@
         //时间控制
         pickerOptions1: {
           disabledDate(time) {
+            let date = new Date();
             return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
           }
         },
         pickerOptions2: {
-          disabledDate(time) {
-            return time.getTime() > Date.now() || time.getTime() < Date.now() - 3600 * 1000 * 24 * 90;
+          disabledDate: (time) => {
+            let startTimeOne = Date.parse(new Date(util.formatDate.format(new Date(this.filters.startTime),
+              'yyyy-MM-dd')));
+            if (time.getTime() < startTimeOne - 3600 * 1000 * 24 || time.getTime() > Date.now()) {
+              return true;
+            }
           }
         },
         //商户名
         filters: {
-          time1: Date(),
-          time2: Date(),
+          startTime: Date(),
+          endTime: Date(),
           mid: '',
           play: '',
           state: '',
@@ -214,8 +222,8 @@
         this.listLoading = true;
         let para = {
           pageNum: this.page,
-          startTime: this.filters.time1,
-          endTime: this.filters.time2,
+          startTime: this.filters.startTime,
+          endTime: this.filters.endTime,
           payWay: this.filters.play,
           mid: this.filters.mid,
           status: this.filters.state
