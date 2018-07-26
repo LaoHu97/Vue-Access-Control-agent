@@ -73,7 +73,7 @@
   import * as login from '../api/agent';
   import instance from '../api';
   import CryptoJS from "crypto-js";
-  import * as util from '../assets/util.js';
+  import * as util from '../util/util.js';
 
 
   export default {

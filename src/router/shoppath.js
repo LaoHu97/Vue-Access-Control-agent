@@ -8,6 +8,13 @@ export default [{
     },
     component: Abstract,
     children: [{
+      path: 'table',
+      name: '实时交易查询',
+      meta: {
+        title: '实时交易查询', icon: 'table1', noCache: false, code:'',
+      },
+      component: (resolve) => require(['../views/agent/nav1/Table.vue'], resolve)
+    },{
       path: 'table2',
       name: '商户日交易汇总',
       meta: {
@@ -35,13 +42,6 @@ export default [{
         title: '商户月排行榜', icon: 'table', noCache: true, code:''
       },
       component: (resolve) => require(['../views/agent/nav1/Table3.vue'], resolve)
-    },{
-      path: 'table',
-      name: '实时交易查询',
-      meta: {
-        title: '实时交易查询', icon: 'table1', noCache: false, code:'',
-      },
-      component: (resolve) => require(['../views/agent/nav1/Table.vue'], resolve)
     }]
   },{
     path: '/index2',
