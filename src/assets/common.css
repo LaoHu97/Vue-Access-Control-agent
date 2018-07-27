@@ -64,3 +64,6 @@ a{
 .fixed_search_input_datetime{
     max-width: 195px;
 }
+.el-picker-panel__link-btn:nth-child(1){
+    display: none;
+  }
