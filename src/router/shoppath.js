@@ -137,4 +137,11 @@ export default [{
       },
       component: (resolve) => require(['../views/agent/nav4/Tab3.vue'], resolve)
     }]
+  },{
+    path: '/bill1',
+    name: '对账单下载',
+    meta: {
+      title: '对账单下载', icon: 'icon-icon--', noCache: true, code:''
+    },
+    component: (resolve) => require(['../views/agent/nav5/bill1.vue'], resolve)
   } ]

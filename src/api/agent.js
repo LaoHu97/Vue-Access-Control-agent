@@ -1,4 +1,5 @@
 import instance from './index';
+let downloadPath = process.env.API_DOWNLOAD || '';
 const preUrlPath = '';
 //获取菜单权限
 export const menu = params => { return instance.get(`${preUrlPath}/admin/wp/ag/menu`,{ params: params }); };
@@ -116,3 +117,11 @@ export const querySalesmanRebate = params => { return instance.post(`${preUrlPat
 export const queryMerMonthDetail = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryMerMonthDetail`,params).then(res => res.data); };
 
 export const uploadImage = `${preUrlPath}/admin/ag/uploadImage`;
+
+export const downloadQueryAgentOrder = params => { return instance.post(`${downloadPath}/download/ag/queryAgentOrder`,params).then(res => res.data); };
+
+export const selectEmpsBySid = params => { return instance.post(`${preUrlPath}/admin/wp/comm/selectEmpsBySid`,params).then(res => res.data); };
+
+export const checkDataExcel = params => { return instance.get(`${downloadPath}/download/mer/checkDataExcel`,{ params: params }); };
+
+export const selectStoreListByPhone = params => { return instance.post(`${preUrlPath}/admin/wp/comm/selectStoreListByPhone`,params).then(res => res.data); };

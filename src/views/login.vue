@@ -139,6 +139,7 @@
             var user = res.data.userName;
             sessionStorage.setItem('user', JSON.stringify(user));
             sessionStorage.setItem('name', JSON.stringify(name));
+            sessionStorage.setItem('agentId', JSON.stringify(res.data.userLogin.id));
             sessionStorage.setItem('menu', JSON.stringify(1));
             this.$store.dispatch('top_nav', '2')
             vm.$emit('login', '/index1/table2');
