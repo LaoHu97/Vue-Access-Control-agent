@@ -6,14 +6,14 @@
       <el-tag type="primary" style="margin:0 10px 20px 0;">商户总数：{{whole.sum}}</el-tag>
     </el-row>
   </el-form>
-  <el-form :inline="true" :model="filters" ref="filters" size="medium">
+  <el-form :inline="true" :model="filters" ref="filters">
     <el-row>
-      <el-form-item>
-        <el-input v-model="filters.mname" placeholder="商户名称" style="width: 220px;"></el-input>
+      <el-form-item label="商户名称">
+        <el-input v-model="filters.mname" class="fixed_search_input" placeholder="商户名称"></el-input>
       </el-form-item>
       <el-form-item style="float: right;">
-        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-        <el-button type="primary" @click="getShop" size="medium" round>新增商户</el-button>
+        <el-button type="primary" @click="getUsers" round>查询</el-button>
+        <el-button type="primary" @click="getShop" round>新增商户</el-button>
       </el-form-item>
     </el-row>
   </el-form>

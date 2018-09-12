@@ -3,7 +3,7 @@
     <el-row>
       <el-col>
         <div style="height: 60px;background-color: #fff;">
-          <img src="../assets/images/webwxgetmsgimg.png" alt="logo" height="35px;" style="margin-top: 12px;margin-left: 20px;">
+          <img src="../assets/images/webwxgetmsgimg.png" alt="logo" width="227px" height="35px;" style="margin-top: 12px;margin-left: 20px;">
           <div class="topList">
             <a :href="loginNav + '/pay/web/shop.html'">商户登录</a>
             <a :href="loginNav + '/pay/web/store.html'">门店登录</a>

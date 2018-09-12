@@ -2,17 +2,17 @@
   <section>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-form-item prop="startTime">
-          <el-date-picker v-model="filters.startTime" type="month" :clearable="false" placeholder="选择月" :editable='false'>
+        <el-form-item label="日期时间">
+          <el-date-picker v-model="filters.startTime" class="fixed_search_input_date" type="month" :clearable="false" placeholder="选择月" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="endTime">
-          <el-date-picker v-model="filters.endTime" type="month" :clearable="false" placeholder="选择月" :editable='false'>
+        <el-form-item>
+          <el-date-picker v-model="filters.endTime" class="fixed_search_input_date" type="month" :clearable="false" placeholder="选择月" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="salesmanId">
+        <el-form-item label="业务员">
           <template>
-            <el-select v-model="filters.salesmanId" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale"
+            <el-select v-model="filters.salesmanId" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale"
               :loading="saleLoading" clearable @visible-change="clickSale">
               <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
               </el-option>

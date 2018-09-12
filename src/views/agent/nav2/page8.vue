@@ -3,23 +3,23 @@
   <!--工具条-->
   <el-row>
     <el-form :inline="true" :model="filters">
-      <el-form-item>
+      <el-form-item label="门店名称">
         <template>
-          <el-select v-model="filters.value" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.value" class="fixed_search_input" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
         </template>
       </el-form-item>
-      <el-form-item>
-        <el-input v-model="filters.username" placeholder="请输入款台名称"></el-input>
+      <el-form-item label="款台名称">
+        <el-input v-model="filters.username" class="fixed_search_input" placeholder="款台名称"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-input v-model="filters.account" placeholder="请输入款台帐号"></el-input>
+      <el-form-item label="款台帐号">
+        <el-input v-model="filters.account" class="fixed_search_input" placeholder="款台帐号"></el-input>
       </el-form-item>
       <el-form-item style="float: right;">
-        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-        <el-button type="primary" @click="handleAdd" size="medium" round>新增</el-button>
+        <el-button type="primary" @click="getUsers" round>查询</el-button>
+        <el-button type="primary" @click="handleAdd" round>新增</el-button>
       </el-form-item>
     </el-form>
   </el-row>

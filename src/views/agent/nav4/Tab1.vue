@@ -2,24 +2,24 @@
   <section>
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-form-item prop="startTime">
-          <el-date-picker v-model="filters.startTime" type="month" :clearable="false" placeholder="选择月" :editable='false'>
+        <el-form-item label="日期时间">
+          <el-date-picker v-model="filters.startTime" class="fixed_search_input_date" type="month" :clearable="false" placeholder="选择月" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="endTime">
-          <el-date-picker v-model="filters.endTime" type="month" :clearable="false" placeholder="选择月" :editable='false'>
+        <el-form-item>
+          <el-date-picker v-model="filters.endTime" class="fixed_search_input_date" type="month" :clearable="false" placeholder="选择月" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="status">
+        <el-form-item label="结算状态">
           <template>
-            <el-select v-model="filters.status" placeholder="请选择结算状态" clearable>
+            <el-select v-model="filters.status" class="fixed_search_input" placeholder="结算状态" clearable>
               <el-option v-for="item in options" :label="item.label" :value="item.value" :key="item.value">
               </el-option>
             </el-select>
           </template>
         </el-form-item>
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+          <el-button type="primary" @click="getUsers" round>查询</el-button>
         </el-form-item>
       </el-row>
     </el-form>

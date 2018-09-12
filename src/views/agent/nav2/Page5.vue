@@ -7,21 +7,21 @@
     </el-form>
   </el-row>
   <el-row>
-    <el-form :inline="true" :model="filters" ref="filters" size="medium">
-      <el-form-item>
-        <el-input v-model="filters.mname" placeholder="商户名称"></el-input>
+    <el-form :inline="true" :model="filters" ref="filters">
+      <el-form-item label="商户名称">
+        <el-input v-model="filters.mname" class="fixed_search_input" placeholder="商户名称"></el-input>
       </el-form-item>
-      <el-form-item>
-        <el-input v-model="filters.maccount" placeholder="商户帐号"></el-input>
+      <el-form-item label="商户帐号">
+        <el-input v-model="filters.maccount" class="fixed_search_input" placeholder="商户帐号"></el-input>
       </el-form-item>
-      <el-form-item prop="parag">
-        <el-select v-model="filters.parag" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale">
+      <el-form-item label="业务员">
+        <el-select v-model="filters.parag" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale">
           <el-option v-for="item in options" :value="item.id" :label="item.value" :key="item.id">
           </el-option>
         </el-select>
       </el-form-item>
       <el-form-item style="float: right;">
-        <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
+        <el-button type="primary" @click="getUsers" round>查询</el-button>
       </el-form-item>
     </el-form>
   </el-row>
