@@ -268,8 +268,8 @@
         };
         let myDate = new Date()
         let dateN = Date.parse(new Date(myDate.getFullYear(), myDate.getMonth(), myDate.getDate()))
-        para.startTime = (!para.startTime || para.startTime == '') ? '' : Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy-MM-dd hh:ss:mm')).toString(); //开始时间
-        para.endTime = (!para.endTime || para.endTime == '') ? '' : Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy-MM-dd hh:ss:mm')).toString(); //结束时间
+        para.startTime = (!para.startTime || para.startTime == '') ? '' : Date.parse(util.formatDate.format(new Date(para.startTime), 'yyyy/MM/dd hh:ss:mm')).toString(); //开始时间
+        para.endTime = (!para.endTime || para.endTime == '') ? '' : Date.parse(util.formatDate.format(new Date(para.endTime), 'yyyy/MM/dd hh:ss:mm')).toString(); //结束时间
 
         if (Date.parse(this.filters.startTime) < dateN) {
           downloadQueryAgentOrder(para).then((res) => {

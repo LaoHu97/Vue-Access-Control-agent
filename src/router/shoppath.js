@@ -54,7 +54,7 @@ export default [{
       path: 'page4',
       name: '商户入驻',
       meta: {
-        title: '商户入驻', icon: 'table1', noCache: false, code:'',
+        title: '商户入驻', icon: 'table1', noCache: true, code:'',
       },
       component: (resolve) => require(['../views/agent/nav2/Page4.vue'], resolve)
     },{
@@ -68,7 +68,7 @@ export default [{
       path: 'page6',
       name: '新增商户',
       meta: {
-        title: '新增商户', icon: 'table', noCache: true, code:'', hidden:true
+        title: '新增商户', icon: 'table', noCache: false, code:'', hidden:true
       },
       component: (resolve) => require(['../views/agent/nav2/Page6.vue'], resolve)
     },{
@@ -85,6 +85,27 @@ export default [{
         title: '款台管理', icon: 'table', noCache: true, code:'', hidden:true
       },
       component: (resolve) => require(['../views/agent/nav2/Page8.vue'], resolve)
+    },{
+      path: 'page9',
+      name: '新增商户',
+      meta: {
+        title: '新增商户', icon: 'table', noCache: false, code:'', hidden:true
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page9.vue'], resolve)
+    },{
+      path: 'page10',
+      name: '新增商户',
+      meta: {
+        title: '新增商户', icon: 'table', noCache: false, code:'', hidden:true
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page10.vue'], resolve)
+    },{
+      path: 'page11',
+      name: '审核记录',
+      meta: {
+        title: '审核记录', icon: 'table', noCache: true, code:'', hidden:false
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page11.vue'], resolve)
     }]
   },{
     path: '/index2',

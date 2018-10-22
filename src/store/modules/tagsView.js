@@ -53,7 +53,9 @@ const tagsView = {
   },
   actions: {
     addVisitedViews({ commit }, view) {
-      commit('ADD_VISITED_VIEWS', view)
+      if (view.meta.noCache) {
+        commit('ADD_VISITED_VIEWS', view) 
+      }
     },
     delVisitedViews({ commit, state }, view) {
       return new Promise((resolve) => {
