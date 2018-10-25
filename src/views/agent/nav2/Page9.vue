@@ -540,12 +540,6 @@ export default {
       if(curVal == 'XW'){
         this.form.account_type = '2'
       }
-    },
-    account_type(curVal,oldVal) {
-      this.$refs.form.clearValidate()
-      if (curVal == '2' && this.form.settlement_mer_type !== 'QY') {
-        this.form.document_type = 'SZHY'
-      }
     }
   },
   mounted () {
@@ -681,7 +675,7 @@ export default {
             if (res.status === 200) {
               this.$router.push({
                 path: '/index2/page10',
-                query: {id: res.id, shop_id: res.shop_id, salesman_id: res.salesman_id, account_type: this.form.account_type, is_liable_account: this.form.is_liable_account}
+                query: {id: res.id, shop_id: res.shop_id, salesman_id: res.salesman_id, account_type: this.form.account_type, is_liable_account: this.form.is_liable_account, settlement_mer_type: this.form.settlement_mer_type, document_type: this.form.document_type}
               }); 
             }
           })
