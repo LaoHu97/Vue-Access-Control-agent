@@ -104,7 +104,7 @@
           <el-col v-if="form.settlement_mer_type!=='XW'">
             <el-form-item label="入网证件类型：" prop="document_type">
               <template>
-                <el-select v-model="form.document_type" :disabled="form.settlement_mer_type !== 'QY' && form.account_type == '2'" placeholder="请选择">
+                <el-select v-model="form.document_type" :disabled="form.settlement_mer_type === 'GT'" placeholder="请选择">
                   <el-option
                     v-for="item in net_networkOptions"
                     :key="item.value"
@@ -358,9 +358,6 @@ export default {
       }, {
         value: 'GT',
         label: '个体工商户'
-      }, {
-        value: 'XW',
-        label: '小微商户'
       }],
       net_networkOptions: [{
         value: 'SZHY',
@@ -534,11 +531,8 @@ export default {
   watch: {
     settlement_mer_type(curVal,oldVal) {
       this.$refs.form.clearValidate()
-      if(curVal !== 'QY' && this.form.account_type == '2'){
+      if(curVal !== 'QY'){
         this.form.document_type = 'SZHY'
-      }
-      if(curVal == 'XW'){
-        this.form.account_type = '2'
       }
     }
   },

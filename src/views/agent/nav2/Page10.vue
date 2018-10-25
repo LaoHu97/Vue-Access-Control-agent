@@ -71,7 +71,7 @@
       </el-col>
     </el-row>
     <div class="form_main">
-      <el-form ref="imageUrl" :disabled="formDisabled" :model="imageUrl" :rules="rules" label-width="150px" label-position="top" class="form_contron">
+      <el-form ref="imageUrl" :inline="true" :disabled="formDisabled" :model="imageUrl" :rules="rules" label-width="150px" label-position="top" class="form_contron">
         <el-row>
           <el-col :span="6">
             <el-form-item label="微信费率（‰）" label-width="100px">
@@ -89,12 +89,10 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="借记卡费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.debit_rate" :precision="1" :step="0.1" :min="4.2" :max="500"></el-input-number>
-            </el-form-item>
+            <el-checkbox v-model="showRate" style="margin-top:40px;">银行卡</el-checkbox>
           </el-col>
         </el-row>
-        <el-row>
+        <el-row v-show="showRate">
           <el-col :span="6">
             <el-form-item label="贷记卡费率（‰）" label-width="100px">
               <el-input-number v-model="imageUrl.crebit_rate" :precision="1" :step="0.1" :min="5.4" :max="500"></el-input-number>
@@ -105,10 +103,18 @@
               <el-input-number v-model="imageUrl.unionpay_rate" :precision="1" :step="0.1" :min="3.8" :max="6"></el-input-number>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="借记卡费率（‰）" label-width="100px">
+              <el-input-number v-model="imageUrl.debit_rate" :precision="1" :step="0.1" :min="4.2" :max="500"></el-input-number>
+            </el-form-item>
+            <el-form-item label="借记卡封顶值（元）" label-width="100px">
+              <el-input-number v-model="imageUrl.reserve1" :precision="0" size="mini" :step="1" :min="18" :max="25"></el-input-number>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="5" v-if="img_business_license">
-            <el-form-item label="营业执照照片" prop="img_business_license" >
+            <el-form-item label="营业执照照片" prop="thum_img_business_license" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -122,7 +128,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_idcard_a">
-            <el-form-item label="法人身份证正面" prop="img_idcard_a" >
+            <el-form-item label="法人身份证正面" prop="thum_img_idcard_a" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -136,7 +142,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_idcard_b">
-            <el-form-item label="法人身份证反面" prop="img_idcard_b" >
+            <el-form-item label="法人身份证反面" prop="thum_img_idcard_b" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -150,7 +156,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_bankcard_a">
-            <el-form-item label="银行卡正面照片" prop="img_bankcard_a">
+            <el-form-item label="银行卡正面照片" prop="thum_img_bankcard_a">
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -164,7 +170,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" v-if="img_bankcard_b">
-            <el-form-item label="银行卡反面照片" prop="img_bankcard_b" >
+            <el-form-item label="银行卡反面照片" prop="thum_img_bankcard_b" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -182,7 +188,7 @@
 
         <el-row>
           <el-col :span="5" v-if="img_logo">
-            <el-form-item label="商户门头照片" prop="img_logo" >
+            <el-form-item label="商户门头照片" prop="thum_img_logo" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -196,7 +202,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_indoor">
-            <el-form-item label="内部前台照片" prop="img_indoor" >
+            <el-form-item label="内部前台照片" prop="thum_img_indoor" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -210,7 +216,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_open_permits">
-            <el-form-item label="开户许可证照片" prop="img_open_permits" >
+            <el-form-item label="开户许可证照片" prop="thum_img_open_permits" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -224,7 +230,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_relation">
-            <el-form-item label="商户关系证明" prop="img_relation" >
+            <el-form-item label="商户关系证明" prop="thum_img_relation" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -238,7 +244,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" v-if="img_private_idcard_a">
-            <el-form-item label="结算人身份证正面" prop="img_private_idcard_a" >
+            <el-form-item label="结算人身份证正面" prop="thum_img_private_idcard_a" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -254,7 +260,7 @@
         </el-row>
         <el-row>
           <el-col :span="5" v-if="img_private_idcard_b">
-            <el-form-item label="结算人身份证反面" prop="img_private_idcard_b" >
+            <el-form-item label="结算人身份证反面" prop="thum_img_private_idcard_b" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -268,7 +274,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_mer_relation">
-            <el-form-item label="商户总分店关系证明" prop="img_mer_relation" >
+            <el-form-item label="商户总分店关系证明" prop="thum_img_mer_relation" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -282,7 +288,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5" v-if="img_mer_increment">
-            <el-form-item label="商户增值协议" prop="img_mer_increment" >
+            <el-form-item label="商户增值协议" prop="thum_img_mer_increment" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -296,7 +302,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="4" v-if="img_org_code">
-            <el-form-item label="组织机构代码证照片" prop="img_org_code" >
+            <el-form-item label="组织机构代码证照片" prop="thum_img_org_code" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -312,13 +318,13 @@
         </el-row>
         <el-row>
           <el-col :span="5" v-if="img_tax_reg">
-            <el-form-item label="税务登记证照片" prop="img_tax_reg" >
+            <el-form-item label="税务登记证照片" prop="thum_img_tax_reg" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
                 :action="uploadUrl"
                 :show-file-list="false"
-                :on-success="handleAvatarScucess14"
+                :on-success="handleAvatarScucess15"
                 :before-upload="beforeAvatarUpload">
                 <img v-if="imageUrl.thum_img_tax_reg" :src="imageUrl.thum_img_tax_reg" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -357,6 +363,7 @@ export default {
   data() {
     return {
       uploadUrl: uploadImage,
+      showRate: false,
       imageUrl: {
         id: this.$route.query.id,
         wx_rate: 6.0,
@@ -365,6 +372,7 @@ export default {
         debit_rate: 5.0,
         crebit_rate: 6.0,
         unionpay_rate: 3.8,
+        reserve1: 18,
 
 
         img_business_license: '',
@@ -402,55 +410,55 @@ export default {
       addLoading: false,
       loading: false,
       rules: {
-        img_business_license: [{
+        thum_img_business_license: [{
           required: true,
           message: '请上传营业执照照片'
         }],
-        img_idcard_a: [{
+        thum_img_idcard_a: [{
           required: true,
           message: '请上传法人身份证正面'
         }],
-        img_idcard_b: [{
+        thum_img_idcard_b: [{
           required: true,
           message: '请上传法人身份证反面'
         }],
-        img_bankcard_a: [{
+        thum_img_bankcard_a: [{
           required: true,
           message: '请上传银行卡正面照片'
         }],
-        img_bankcard_b: [{
+        thum_img_bankcard_b: [{
           required: true,
           message: '请上传银行卡反面照片'
         }],
-        img_logo: [{
+        thum_img_logo: [{
           required: true,
           message: '请上传商户门头照片'
         }],
-        img_indoor: [{
+        thum_img_indoor: [{
           required: true,
           message: '请上传内部前台照片'
         }],
-        img_open_permits: [{
+        thum_img_open_permits: [{
           required: true,
           message: '请上传开户许可证照片'
         }],
-        img_relation: [{
+        thum_img_relation: [{
           required: true,
           message: '请上传商户关系证明'
         }],
-        img_private_idcard_a: [{
+        thum_img_private_idcard_a: [{
           required: true,
           message: '请上传结算人身份证正面'
         }],
-        img_private_idcard_b: [{
+        thum_img_private_idcard_b: [{
           required: true,
           message: '请上传结算人身份证反面'
         }],
-        img_org_code: [{
+        thum_img_org_code: [{
           required: true,
           message: '组织机构代码证照片'
         }],
-        img_tax_reg: [{
+        thum_img_tax_reg: [{
           required: true,
           message: '税务登记证照片'
         }]
@@ -474,12 +482,8 @@ export default {
     }
   },
   mounted () {
-    // this.account_type = this.$route.query.account_type 
-    // this.is_liable_account = this.$route.query.is_liable_account
-    // this.document_type = this.$route.query.document_type
-    // this.settlement_mer_type = this.$route.query.settlement_mer_type
     let queryType = this.$route.query
-    if (queryType.settlement_mer_type === 'QY' && queryType.account_type === '1' && queryType.document_type === 'SZHY' && queryType.is_liable_account === '1') {
+    if (queryType.settlement_mer_type === 'QY' && queryType.account_type === '1' && queryType.document_type === 'SZHY') {
       this.img_business_license = true
       this.img_idcard_a = true
       this.img_idcard_b = true
@@ -488,7 +492,7 @@ export default {
       this.img_open_permits = true
       this.img_mer_relation = true
       this.img_mer_increment = true
-    } else if (queryType.settlement_mer_type === 'QY' && queryType.account_type === '1' && queryType.document_type === 'YYZZ' && queryType.is_liable_account === '1') {
+    } else if (queryType.settlement_mer_type === 'QY' && queryType.account_type === '1' && queryType.document_type === 'YYZZ') {
       this.img_business_license = true
       this.img_idcard_a = true
       this.img_idcard_b = true
@@ -512,8 +516,8 @@ export default {
       this.img_private_idcard_b = true
     } else if (queryType.settlement_mer_type === 'QY' && queryType.account_type === '2' && queryType.document_type === 'YYZZ' && queryType.is_liable_account === '1') {
       this.img_business_license = true
-      this.img_idcard_a = true
-      this.img_idcard_b = true
+      this.img_bankcard_a = true
+      this.img_bankcard_b = true
       this.img_logo = true
       this.img_indoor = true
       this.img_open_permits = true
@@ -553,7 +557,7 @@ export default {
       this.img_bankcard_a = true
       this.img_bankcard_b = true
       this.img_relation = true
-    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '1' && queryType.document_type === 'SZHY' && queryType.is_liable_account === '1') {
+    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '1' && queryType.document_type === 'SZHY') {
       this.img_business_license = true
       this.img_idcard_a = true
       this.img_idcard_b = true
@@ -562,7 +566,7 @@ export default {
       this.img_open_permits = true
       this.img_mer_relation = true
       this.img_mer_increment = true
-    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '1' && queryType.document_type === 'YYZZ' && queryType.is_liable_account === '1') {
+    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '1' && queryType.document_type === 'YYZZ') {
       this.img_business_license = true
       this.img_idcard_a = true
       this.img_idcard_b = true
@@ -575,8 +579,8 @@ export default {
       this.img_tax_reg = true
     } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '2' && queryType.document_type === 'SZHY' && queryType.is_liable_account === '1') {
       this.img_business_license = true
-      this.img_idcard_a = true
-      this.img_idcard_b = true
+      this.img_bankcard_a = true
+      this.img_bankcard_b = true
       this.img_logo = true
       this.img_indoor = true
       this.img_mer_relation = true
@@ -585,15 +589,30 @@ export default {
       this.img_private_idcard_b = true
     } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '2' && queryType.document_type === 'YYZZ' && queryType.is_liable_account === '1') {
       this.img_business_license = true
+      this.img_bankcard_a = true
+      this.img_bankcard_b = true
+      this.img_logo = true
+      this.img_indoor = true
+      this.img_org_code  = true
+      this.img_tax_reg = true
+      this.img_private_idcard_a = true
+      this.img_private_idcard_b = true
+      this.img_mer_relation = true
+      this.img_mer_increment = true
+    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '2' && queryType.document_type === 'SZHY' && queryType.is_liable_account === '2') {
+      this.img_business_license = true
       this.img_idcard_a = true
       this.img_idcard_b = true
       this.img_logo = true
       this.img_indoor = true
-      this.img_mer_relation = true
+      this.img_bankcard_a = true
+      this.img_bankcard_b = true
       this.img_mer_increment = true
+      this.img_relation = true
+      this.img_mer_relation = true
       this.img_private_idcard_a = true
       this.img_private_idcard_b = true
-    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '2' && queryType.document_type === 'SZHY' && queryType.is_liable_account === '2') {
+    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '2' && queryType.document_type === 'YYZZ' && queryType.is_liable_account === '2') {
       this.img_business_license = true
       this.img_bankcard_a = true
       this.img_bankcard_b = true
@@ -603,18 +622,7 @@ export default {
       this.img_mer_increment = true
       this.img_private_idcard_a = true
       this.img_private_idcard_b = true
-    } else if (queryType.settlement_mer_type === 'GT' && queryType.account_type === '2' && queryType.document_type === 'YYZZ' && queryType.is_liable_account === '2') {
-      this.img_business_license = true
-      this.img_idcard_a = true
-      this.img_idcard_b = true
-      this.img_logo = true
-      this.img_indoor = true
-      this.img_mer_relation = true
-      this.img_mer_increment = true
-      this.img_private_idcard_a = true
-      this.img_private_idcard_b = true
-      this.img_org_code = true
-      this.img_tax_reg = true
+      this.img_relation = true
     }
     if (this.$route.query.id) {
       this.getPageDetails() 
@@ -631,7 +639,47 @@ export default {
       }
       agentShopPage(para).then(res => {
         if (res.status === 200 && res.data.isEmpty === '1') {
-          this.imageUrl = res.data.agentMap
+          let imageUrl = util.deepcopy(res.data.agentMap)
+          this.imageUrl.id = imageUrl.id || ''
+          this.imageUrl.wx_rate = imageUrl.wx_rate || ''
+          this.imageUrl.ali_rate = imageUrl.ali_rate || ''
+          this.imageUrl.best_rate = imageUrl.best_rate || ''
+          this.imageUrl.debit_rate = imageUrl.debit_rate || ''
+          this.imageUrl.crebit_rate = imageUrl.crebit_rate || ''
+          this.imageUrl.unionpay_rate = imageUrl.unionpay_rate || ''
+          this.imageUrl.reserve1 = imageUrl.reserve1 || ''
+
+          this.imageUrl.img_business_license = imageUrl.img_business_license || ''
+          this.imageUrl.img_idcard_a = imageUrl.img_idcard_a || ''
+          this.imageUrl.img_idcard_b = imageUrl.img_idcard_b || ''
+          this.imageUrl.img_bankcard_a = imageUrl.img_bankcard_a || ''
+          this.imageUrl.img_bankcard_b = imageUrl.img_bankcard_b || ''
+          this.imageUrl.img_logo = imageUrl.img_logo || ''
+          this.imageUrl.img_indoor = imageUrl.img_indoor || ''
+          this.imageUrl.img_open_permits = imageUrl.img_open_permits || ''
+          this.imageUrl.img_relation = imageUrl.img_relation || ''
+          this.imageUrl.img_private_idcard_a = imageUrl.img_private_idcard_a || ''
+          this.imageUrl.img_private_idcard_b = imageUrl.img_private_idcard_b || ''
+          this.imageUrl.img_mer_relation = imageUrl.img_mer_relation || ''
+          this.imageUrl.img_mer_increment = imageUrl.img_mer_increment || ''
+          this.imageUrl.img_org_code = imageUrl.img_org_code || ''
+          this.imageUrl.img_tax_reg = imageUrl.img_tax_reg || ''
+
+          this.imageUrl.thum_img_business_license = imageUrl.thum_img_business_license || ''
+          this.imageUrl.thum_img_idcard_a = imageUrl.thum_img_idcard_a || ''
+          this.imageUrl.thum_img_idcard_b = imageUrl.thum_img_idcard_b || ''
+          this.imageUrl.thum_img_bankcard_a = imageUrl.thum_img_bankcard_a || ''
+          this.imageUrl.thum_img_bankcard_b = imageUrl.thum_img_bankcard_b || ''
+          this.imageUrl.thum_img_logo = imageUrl.thum_img_logo || ''
+          this.imageUrl.thum_img_indoor = imageUrl.thum_img_indoor || ''
+          this.imageUrl.thum_img_open_permits = imageUrl.thum_img_open_permits || ''
+          this.imageUrl.thum_img_relation = imageUrl.thum_img_relation || ''
+          this.imageUrl.thum_img_private_idcard_a = imageUrl.thum_img_private_idcard_a || ''
+          this.imageUrl.thum_img_private_idcard_b = imageUrl.thum_img_private_idcard_b || ''
+          this.imageUrl.thum_img_mer_relation = imageUrl.thum_img_mer_relation || ''
+          this.imageUrl.thum_img_mer_increment = imageUrl.thum_img_mer_increment || ''
+          this.imageUrl.thum_img_org_code = imageUrl.thum_img_org_code || ''
+          this.imageUrl.thum_img_tax_re = imageUrl.thum_img_tax_re || ''
           if (res.data.timely_sign && res.data.timely_sign === '1') {
             this.formDisabled = true
           }else{
@@ -668,6 +716,8 @@ export default {
     handleAvatarScucess4(res, file) {
       this.imageUrl.img_bankcard_a = res.data.locationPath
       this.imageUrl.thum_img_bankcard_a = res.data.thumbnailImage
+      console.log(this.imageUrl.thum_img_bankcard_a);
+      
     },
     handleAvatarScucess5(res, file) {
       this.imageUrl.img_bankcard_b = res.data.locationPath
@@ -704,6 +754,16 @@ export default {
     handleAvatarScucess13(res, file) {
       this.imageUrl.img_mer_increment = res.data.locationPath
       this.imageUrl.thum_img_mer_increment = res.data.thumbnailImage
+    },
+    handleAvatarScucess14(res, file) {
+      this.imageUrl.img_org_code = res.data.locationPath
+      this.imageUrl.thum_img_org_code = res.data.thumbnailImage
+    },
+    handleAvatarScucess15(res, file) {
+      this.imageUrl.img_tax_reg = res.data.locationPath
+      this.imageUrl.thum_img_tax_reg = res.data.thumbnailImage
+      console.log(this.imageUrl.thum_img_tax_reg);
+      
     },
     addSubmit: function() {
       this.$refs.imageUrl.validate((valid) => {

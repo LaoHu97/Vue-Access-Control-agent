@@ -75,7 +75,7 @@
       </el-table>
     </div>
     <el-dialog title="商户详情" :visible.sync="dialogDetailVisible">
-      <el-form :model="formDetail" label-width="150px" label-position="left">
+      <el-form :model="formDetail" :inline="true" label-width="150px" label-position="left">
         <el-alert  class="box-alert" :closable="false" v-if="formDetail.merchant_status === '2'" title="审核驳回原因：" :description="formDetail.error_msg || '暂无驳回原因，请联系运营人员'" type="error" show-icon>
         </el-alert>
         <h2 style="text-align: center;">商户名称：{{formDetail.merchant_name}}</h2>
@@ -266,7 +266,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="借记卡费率">
-              <span>{{formDetail.debit_rate}}</span>
+              <span>{{formDetail.debit_rate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;<el-tag>费率峰值：{{formDetail.reserve1}}元</el-tag>
             </el-form-item>
           </el-col>
         </el-row><el-row>
@@ -387,6 +387,22 @@
             <el-form-item label="商户增值协议">
               <a :href="formDetail.img_mer_increment" v-if="formDetail.img_mer_increment" target='_blank'>
                 <img class="box_card_img" :src="formDetail.thum_img_mer_increment" alt="证件照片">
+              </a>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="组织机构代码证照片">
+              <a :href="formDetail.img_org_code" v-if="formDetail.img_org_code" target='_blank'>
+                <img class="box_card_img" :src="formDetail.thum_img_org_code" alt="证件照片">
+              </a>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="税务登记证照片">
+              <a :href="formDetail.img_tax_reg" v-if="formDetail.img_tax_reg" target='_blank'>
+                <img class="box_card_img" :src="formDetail.thum_img_tax_reg" alt="证件照片">
               </a>
             </el-form-item>
           </el-col>
