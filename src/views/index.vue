@@ -10,7 +10,15 @@
   }
 
   .container_elMenu {
+    float: left\9;
+    height: 100%\9;
     background-color: rgb(65, 79, 97);
+  }
+  .ie9_elcontainer{
+    height: 100%\9;
+  }
+  .ie9_elmain{
+    display: block\9;
   }
 
   .el_menu_vertical {
@@ -34,7 +42,8 @@
   }
 
   .top_logo img {
-    width: 30%;
+    width: 54px;
+    height: 25px;
     margin-top: 19px;
     float: left;
   }
@@ -122,7 +131,7 @@
           </el-form-item>
         </el-form>
       </el-dialog>
-      <el-container>
+      <el-container class="ie9_elcontainer">
         <div class="container_elMenu">
           <el-menu :default-active="activeMenu" class="el_menu_vertical" unique-opened :collapse="isCollapse" router background-color="#414F61"
             text-color="#fff" active-text-color="#409EFF">
@@ -147,7 +156,7 @@
             </template>
           </el-menu>
         </div>
-        <el-main>
+        <el-main class="ie9_elmain">
           <template>
             <transition name="fade" mode="out-in">
               <keep-alive :include="cachedViews">

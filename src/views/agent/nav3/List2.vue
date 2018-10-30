@@ -2,14 +2,14 @@
 <section>
   <el-row>
     <el-form :inline="true" :model="sale" ref="sale">
-      <el-form-item prop="old">
-        <el-select v-model="sale.old" placeholder="请选择旧业务员" clearable filterable @visible-change="testSaleold">
+      <el-form-item label="请选择旧业务员">
+        <el-select v-model="sale.old" class="fixed_search_input" placeholder="请选择旧业务员" clearable filterable @visible-change="testSaleold">
           <el-option v-for="item in optionsOld" :value="item.id" :label="item.value" :key="item.id">
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item prop="new">
-        <el-select v-model="sale.new" placeholder="请选择新业务员" clearable filterable @visible-change="testSalenew">
+      <el-form-item label="请选择新业务员">
+        <el-select v-model="sale.new" class="fixed_search_input" placeholder="请选择新业务员" clearable filterable @visible-change="testSalenew">
           <el-option v-for="item in optionsNew" :value="item.id" :label="item.value" :key="item.id">
           </el-option>
         </el-select>
@@ -68,8 +68,7 @@ export default {
                 message
               } = res;
               if (status == 200) {
-                this.$notify({
-                  title: '成功',
+                this.$message({
                   message: message,
                   type: 'success'
                 });

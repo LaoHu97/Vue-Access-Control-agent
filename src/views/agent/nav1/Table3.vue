@@ -1,28 +1,28 @@
 <template>
   <section>
-    <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-form-item prop="state1">
-          <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
+        <el-form-item label="商户名称">
+          <el-select v-model="filters.state1" class="fixed_search_input" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
             :loading="inputLoading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="state2">
-          <el-select v-model="filters.state2" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale"
+        <el-form-item label="业务员">
+          <el-select v-model="filters.state2" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale"
             :loading="inputLoading" clearable @visible-change="clickSale">
             <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="time1">
-          <el-date-picker v-model="filters.time1" placeholder="选择开始日期" type="month" :clearable="false" :editable='false'>
+        <el-form-item label="日期时间">
+          <el-date-picker v-model="filters.time1" class="fixed_search_input_date" type="month" :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+          <el-button type="primary" @click="getUsers" round>查询</el-button>
+          <el-button @click="resetForm('filters')" round>重置</el-button>
         </el-form-item>
       </el-row>
     </el-form>

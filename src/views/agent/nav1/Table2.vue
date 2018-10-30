@@ -6,35 +6,37 @@
         <el-tag type="primary" style="">交易总笔数（笔）：{{whole.countRow}}笔</el-tag>
       </el-form>
     </el-row>
-    <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-form-item prop="state1">
-          <el-select v-model="filters.state1" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="loading" clearable @visible-change="clickShop">
+        <el-form-item label="商户名称">
+          <el-select v-model="filters.state1" class="fixed_search_input" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="state2">
-          <el-select v-model="filters.state2" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale"
-            :loading="loading" clearable @visible-change="clickSale">
+        <el-form-item label="业务员">
+          <el-select v-model="filters.state2" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale">
             <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="time1">
-          <el-date-picker v-model="filters.time1" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
+        <el-form-item label="日期时间">
+          <el-date-picker v-model="filters.time1" class="fixed_search_input_date" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="time2">
-          <el-date-picker v-model="filters.time2" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
+        <el-form-item>至</el-form-item>
+        <el-form-item>
+          <el-date-picker v-model="filters.time2" class="fixed_search_input_date" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-tag type="gray">可查询最近三个月的信息</el-tag>
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+          <el-button type="primary" @click="getUsers" round>查询</el-button>
+          <el-button @click="resetForm('filters')" round>重置</el-button>
         </el-form-item>
+      </el-row>
+      <el-row>
+        <el-alert title="可查询最近三个月的信息" type="warning" show-icon center close-text="知道了">
+        </el-alert>
       </el-row>
     </el-form>
     <!--列表-->
@@ -58,8 +60,7 @@
     </div>
     <!--工具条-->
     <el-row class="toolbar">
-      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
-        background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
   </section>
@@ -245,6 +246,4 @@
 </script>
 
 <style scoped>
-
-
 </style>

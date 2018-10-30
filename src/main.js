@@ -6,7 +6,7 @@ import App from './App.vue';
 import router from './router';
 import store from '@/store/index';
 
-Vue.use(ElementUI, { size: 'medium' });
+Vue.use(ElementUI, { size: 'small' });
 //权限指令
 // Vue.directive('has', {
 //   bind: function(el, binding) {

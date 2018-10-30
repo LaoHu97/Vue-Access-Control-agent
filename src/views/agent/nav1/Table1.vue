@@ -1,33 +1,35 @@
 <template>
   <section>
-    <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
-        <el-form-item prop="mid">
-          <el-select v-model="filters.mid" placeholder="请选择商户名称" :multiple="false" filterable remote :remote-method="remoteShop"
-            :loading="mersLoading" clearable @visible-change="clickShop">
+        <el-form-item label="商户名称">
+          <el-select v-model="filters.mid" class="fixed_search_input" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="mersLoading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="state">
-          <el-select v-model="filters.state" clearable placeholder="请选择支付方式">
+        <el-form-item label="支付方式">
+          <el-select v-model="filters.state" class="fixed_search_input" clearable placeholder="支付方式">
             <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="time1">
-          <el-date-picker v-model="filters.time1" placeholder="选择开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
+        <el-form-item label="日期时间">
+          <el-date-picker v-model="filters.time1" class="fixed_search_input_date" placeholder="开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-form-item prop="time2">
-          <el-date-picker v-model="filters.time2" placeholder="选择结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
+        <el-form-item>
+          <el-date-picker v-model="filters.time2" class="fixed_search_input_date" placeholder="结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
           </el-date-picker>
         </el-form-item>
-        <el-tag type="gray">可查询最近三个月的信息</el-tag>
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-          <el-button @click="resetForm('filters')" size="medium" round>重置</el-button>
+          <el-button type="primary" @click="getUsers" round>查询</el-button>
+          <el-button @click="resetForm('filters')" round>重置</el-button>
         </el-form-item>
+      </el-row>
+      <el-row>
+        <el-alert title="可查询最近三个月的信息" type="warning" show-icon center close-text="知道了">
+        </el-alert>
       </el-row>
     </el-form>
     <!--列表-->
@@ -52,11 +54,9 @@
       </el-table>
     </div>
 
-
     <!--工具条-->
     <el-row class="toolbar">
-      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total"
-        background style="text-align:center;background:#fff;padding:15px;">
+      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
       </el-pagination>
     </el-row>
   </section>
@@ -217,6 +217,4 @@
 </script>
 
 <style scoped>
-
-
 </style>
