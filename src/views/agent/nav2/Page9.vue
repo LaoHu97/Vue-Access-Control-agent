@@ -515,7 +515,7 @@ export default {
         salesman_id: [{
           required: true,
           message: '请选择业务员'
-        }],
+        }]
       },
       formDisabled: false
     }
