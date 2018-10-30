@@ -28,19 +28,15 @@
   <!--列表-->
   <div v-loading="listLoading">
     <el-table :data="users" border highlight-current-row style="width: 100%;">
-      <el-table-column prop="mid" label="商户号">
-      </el-table-column>
       <el-table-column prop="mname" label="商户名称" min-width="240">
       </el-table-column>
-      <el-table-column prop="maccount" label="商户帐号">
+      <el-table-column prop="maccount" label="商户帐号" min-width="120">
       </el-table-column>
-      <el-table-column prop="rate" label="商户费率（千分比）" min-width="150">
+      <el-table-column prop="status" label="登录状态"  min-width="120" :formatter="formatState">
       </el-table-column>
-      <el-table-column prop="status" label="登录状态" :formatter="formatState">
+      <el-table-column label="创建时间" :formatter="formatCreate_time" min-width="160">
       </el-table-column>
-      <el-table-column label="创建时间" :formatter="formatCreate_time" min-width="100">
-      </el-table-column>
-      <el-table-column prop="saleName" label="业务员">
+      <el-table-column prop="saleName" label="业务员" min-width="120">
       </el-table-column>
       <el-table-column label="操作" width="310">
         <template slot-scope="scope">
@@ -151,7 +147,7 @@ export default {
       this.$router.push({ path: '/index2/page8', query: { mid: row.mid } })
     },
     formatCreate_time(row,column){
-      return row.create_time = util.formatDate.format( new Date(row.create_time), 'yyyy-MM-dd' )
+      return row.create_time = util.formatDate.format( new Date(row.create_time), 'yyyy/MM/dd hh:MM:ss' )
     },
     formatState: function(row, column) {
       return row.status == 0 ? "禁止" : row.status == 1 ? "正常" : "未知"
