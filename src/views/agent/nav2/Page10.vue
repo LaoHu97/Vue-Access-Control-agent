@@ -691,11 +691,6 @@ export default {
     },
     //图片上传
     beforeAvatarUpload(file) {
-      this.loading = Loading.service({
-        text: '正在上传...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.8)'
-      });
       const isJPG = file.type === 'image/jpeg';
       const isLt3M = file.size / 1024 / 1024 < 3;
       if (!isJPG) {
@@ -709,77 +704,62 @@ export default {
     handleAvatarScucess1(res, file) {
       this.imageUrl.img_business_license = res.data.locationPath
       this.imageUrl.thum_img_business_license = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess2(res, file) {
       this.imageUrl.img_idcard_a = res.data.locationPath
       this.imageUrl.thum_img_idcard_a = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess3(res, file) {
       this.imageUrl.img_idcard_b = res.data.locationPath
       this.imageUrl.thum_img_idcard_b = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess4(res, file) {
       this.imageUrl.img_bankcard_a = res.data.locationPath
       this.imageUrl.thum_img_bankcard_a = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess5(res, file) {
       this.imageUrl.img_bankcard_b = res.data.locationPath
       this.imageUrl.thum_img_bankcard_b = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess6(res, file) {
       this.imageUrl.img_logo = res.data.locationPath
       this.imageUrl.thum_img_logo = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess7(res, file) {
       this.imageUrl.img_indoor = res.data.locationPath
       this.imageUrl.thum_img_indoor = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess8(res, file) {
       this.imageUrl.img_open_permits = res.data.locationPath
       this.imageUrl.thum_img_open_permits = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess9(res, file) {
       this.imageUrl.img_relation = res.data.locationPath
       this.imageUrl.thum_img_relation = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess10(res, file) {
       this.imageUrl.img_private_idcard_a = res.data.locationPath
       this.imageUrl.thum_img_private_idcard_a = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess11(res, file) {
       this.imageUrl.img_private_idcard_b = res.data.locationPath
       this.imageUrl.thum_img_private_idcard_b = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess12(res, file) {
       this.imageUrl.img_mer_relation = res.data.locationPath
       this.imageUrl.thum_img_mer_relation = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess13(res, file) {
       this.imageUrl.img_mer_increment = res.data.locationPath
       this.imageUrl.thum_img_mer_increment = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess14(res, file) {
       this.imageUrl.img_org_code = res.data.locationPath
       this.imageUrl.thum_img_org_code = res.data.thumbnailImage
-      this.loading.close();
     },
     handleAvatarScucess15(res, file) {
       this.imageUrl.img_tax_reg = res.data.locationPath
       this.imageUrl.thum_img_tax_reg = res.data.thumbnailImage
-      this.loading.close();
     },
     addSubmit: function() {
       this.$refs.imageUrl.validate((valid) => {
