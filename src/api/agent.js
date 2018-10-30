@@ -38,7 +38,8 @@ export const updateAgentSalesman = params => { return instance.post(`${preUrlPat
 //一键分配业务员
 export const updateAgentAllSalesman = params => { return instance.post(`${preUrlPath}/admin/wp/ag/updateAgentAllSalesman`,params).then(res => res.data); };
 //新增商户
-export const addAgentMer = params => { return instance.post(`${preUrlPath}/admin/wp/ag/addAgentMer`,params).then(res => res.data); };
+export const addAgentMerone = params => { return instance.post(`${preUrlPath}/admin/wp/ag/addAgentMerone`,params).then(res => res.data); };
+export const addAgentMertwo = params => { return instance.post(`${preUrlPath}/admin/wp/ag/addAgentMertwo`,params).then(res => res.data); };
 //行业类目
 export const addLcShopView = params => { return instance.post(`${preUrlPath}/admin/wp/comm/addLcShopView`,params).then(res => res.data); };
 export const showBusinessType = params => { return instance.post(`${preUrlPath}/admin/wp/comm/showBusinessType`,params).then(res => res.data); };
@@ -47,6 +48,8 @@ export const selectBank = params => { return instance.post(`${preUrlPath}/admin/
 //开户银行省
 export const getProvince = params => { return instance.post(`${preUrlPath}/admin/wp/comm/getProvince`,params).then(res => res.data); };
 //开户银行市
+export const queryCityCounty = params => { return instance.post(`${preUrlPath}/admin/wp/comm/queryCityCounty`,params).then(res => res.data); };
+
 export const queryCity = params => { return instance.post(`${preUrlPath}/admin/wp/comm/queryCity`,params).then(res => res.data); };
 //开户银行支行
 export const selectbranch = params => { return instance.post(`${preUrlPath}/admin/wp/comm/selectbranch`,params).then(res => res.data); };
@@ -116,7 +119,7 @@ export const querySalesmanRebate = params => { return instance.post(`${preUrlPat
 //商户月交易汇总
 export const queryMerMonthDetail = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryMerMonthDetail`,params).then(res => res.data); };
 
-export const uploadImage = `${preUrlPath}/admin/ag/uploadImage`;
+export const uploadImage = `${preUrlPath}/admin/wp/ag/uploadAgentImage`;
 
 export const downloadQueryAgentOrder = params => { return instance.post(`${downloadPath}/download/ag/queryAgentOrder`,params).then(res => res.data); };
 
@@ -125,3 +128,11 @@ export const selectEmpsBySid = params => { return instance.post(`${preUrlPath}/a
 export const checkDataExcel = params => { return instance.get(`${downloadPath}/download/mer/checkDataExcel`,{ params: params }); };
 
 export const selectStoreListByPhone = params => { return instance.post(`${preUrlPath}/admin/wp/comm/selectStoreListByPhone`,params).then(res => res.data); };
+
+export const agentShopPage = params => { return instance.post(`${preUrlPath}/admin/wp/ag/agentShopPage`,params).then(res => res.data); };
+
+export const addAgentMerthree = params => { return instance.post(`${preUrlPath}/admin/wp/ag/addAgentMerthree`,params).then(res => res.data); };
+
+export const changeAgentMerEnter = params => { return instance.post(`${preUrlPath}/admin/wp/ag/changeAgentMerEnter`, params).then(res => res.data) }
+
+export const ChangeAgentShop = params => { return instance.post(`${preUrlPath}/admin/wp/ag/ChangeAgentShop`, params).then(res => res.data) }

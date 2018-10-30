@@ -92,8 +92,8 @@
             <div class="navmenu_horizontal">
               <el-menu :default-active="activeIndex" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
                 <el-menu-item index="1">首页</el-menu-item>
-                <el-menu-item index="2">交易中心</el-menu-item>
-                <el-menu-item index="3">服务商功能</el-menu-item>
+                <el-menu-item index="2">数据中心</el-menu-item>
+                <el-menu-item index="3">管理中心</el-menu-item>
                 <el-menu-item index="4">产品中心</el-menu-item>
                 <el-menu-item index="5">营销中心</el-menu-item>
                 <el-menu-item index="6">帮助中心</el-menu-item>
@@ -376,6 +376,8 @@
           return
         }
         sessionStorage.setItem('activeIndex', JSON.stringify(change));
+        //清空当前路由
+        this.$store.dispatch('del_menu')
         //切换头部导航
         this.$store.dispatch('top_nav', change)
         //清除动态标签

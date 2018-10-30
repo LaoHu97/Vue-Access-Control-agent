@@ -66,12 +66,11 @@ a{
     margin-bottom: 0;
     width: 50%;
 }
-.avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+.fixed_search_input{
+    max-width: 125px;
+}
+.fixed_search_input_datetime{
+    max-width: 195px;
 }
 .el-picker-panel__link-btn:nth-child(1){
     display: none;
