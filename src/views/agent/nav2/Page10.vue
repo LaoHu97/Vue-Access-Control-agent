@@ -680,7 +680,7 @@ export default {
           this.imageUrl.thum_img_mer_relation = imageUrl.thum_img_mer_relation || ''
           this.imageUrl.thum_img_mer_increment = imageUrl.thum_img_mer_increment || ''
           this.imageUrl.thum_img_org_code = imageUrl.thum_img_org_code || ''
-          this.imageUrl.thum_img_tax_re = imageUrl.thum_img_tax_re || ''
+          this.imageUrl.thum_img_tax_reg = imageUrl.thum_img_tax_reg || ''
           if (res.data.timely_sign && res.data.timely_sign === '1') {
             this.formDisabled = true
           }else{
