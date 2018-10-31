@@ -260,14 +260,18 @@
           <el-col>
             <el-form-item label="业务员：" prop="salesman_id">
               <template>
-                <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请选择" @visible-change="nowrapsubm">
+                <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
+                  <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
+                  </el-option>
+                </el-select>
+                <!-- <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请选择" @visible-change="nowrapsubm">
                   <el-option
                     v-for="item in nowrapList"
                     :label="item.value"
                     :value="item.id"
                     :key="item.id">
                   </el-option>
-                </el-select>
+                </el-select> -->
               </template>
             </el-form-item>
           </el-col>
@@ -347,11 +351,12 @@ export default {
       editDisabled: false,
       addLoading: false,
       loading: false,
+      saleLoading: false,
       bankNameList: [],//结算账户开户行列表
       branchNameList: [],//结算户开户支行列表
       optionsprovince1: [],
       optionsprovince2: [],
-      nowrapList: [],
+      optionsSale: [],
       settlementOptions: [{
         value: 'QY',
         label: '企业'
@@ -515,7 +520,7 @@ export default {
         salesman_id: [{
           required: true,
           message: '请选择业务员'
-        }],
+        }]
       },
       formDisabled: false
     }
@@ -542,6 +547,35 @@ export default {
     }
   },
   methods: {
+      //业务员远程搜索
+      clickSale: function () {
+        selectSaleByName().then((res) => {
+          let {
+            status,
+            data
+          } = res
+          this.optionsSale = data.salesmanList
+        })
+      },
+      remoteSale(query) {
+        if (query !== '') {
+          this.saleLoading = true;
+          setTimeout(() => {
+            this.saleLoading = false;
+            selectSaleByName({
+              name: query
+            }).then((res) => {
+              let {
+                status,
+                data
+              } = res
+              this.optionsSale = data.salesmanList
+            })
+          }, 200);
+        } else {
+          this.optionsSale = [];
+        }
+      },
     bankChange01 () {
       this.form.bank_addres_pro_no = ''
       this.form.bank_addres_city_no = ''
@@ -587,19 +621,25 @@ export default {
             this.editDisabled = false
             this.formDisabled = false
           }
+          this.optionsSale = [{
+            id: res.data.agentMap.salesman_id, 
+            value: res.data.agentMap.salesman_name
+          }]
           this.bank()
           this.province1()
           this.province2()
-          this.nowrapsubm()
           this.remoteBranch()
         }
-      }).then(res => {
-
       })
     },
-    nowrapsubm: function() {
-      selectSaleByName().then((res) => {
-        this.nowrapList = res.data.salesmanList
+    //开户银行支行
+    bankBranch: function() {
+      let para = {
+        bank_city_code: this.form.bank_addres_city_no,
+        id: this.form.bank_zname_no,
+      }
+      selectbranch(para).then((res) => {
+        this.branchNameList = res.data.bankList
       })
     },
     //支行远程搜索
@@ -611,7 +651,7 @@ export default {
           let para = {
             bank_city_code: this.form.bank_addres_city_no,
             id: this.form.bank_zname_no,
-            bank_zname_no: query
+            bank_name: query
           }
           selectbranch(para).then((res) => {
             this.branchNameList = res.data.bankList
@@ -642,16 +682,6 @@ export default {
       selectBank().then((res) => {
         this.logining = false,
           this.bankNameList = res.data.bankList
-      })
-    },
-    //开户银行支行
-    bankBranch: function() {
-      let para = {
-        bank_city_code: this.form.bank_addres_city_no,
-        id: this.form.bank_zname_no,
-      }
-      selectbranch(para).then((res) => {
-        this.branchNameList = res.data.bankList
       })
     },
     retstSubmit() {
