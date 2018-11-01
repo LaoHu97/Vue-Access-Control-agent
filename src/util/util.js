@@ -9,7 +9,7 @@ function padding(s, len) {
   return s;
 };
 //金额格式化
-export const number_format = function(number, decimals, dec_point, thousands_sep) {
+export const number_format = function (number, decimals, dec_point, thousands_sep) {
   /*
   * 参数说明：
   * number：要格式化的数字
@@ -20,21 +20,21 @@ export const number_format = function(number, decimals, dec_point, thousands_sep
   return number
 }
 //sessionStorage
-export const session = function(key, value){
-  if (value === void(0)) {
+export const session = function (key, value) {
+  if (value === void (0)) {
     var lsVal = sessionStorage.getItem(key);
-    if(lsVal && lsVal.indexOf('autostringify-') === 0 ){
+    if (lsVal && lsVal.indexOf('autostringify-') === 0) {
       return JSON.parse(lsVal.split('autostringify-')[1]);
-    }else{
+    } else {
       return lsVal;
     }
-  }else {
-    if (typeof(value)==="object" || Array.isArray(value)) {
+  } else {
+    if (typeof (value) === "object" || Array.isArray(value)) {
       value = 'autostringify-' + JSON.stringify(value);
     };
     return sessionStorage.setItem(key, value);
   }
-} 
+}
 
 //生成随机数
 export const getUUID = function (len) {
@@ -63,19 +63,19 @@ export const deepcopy = function (source) {
 //菜单数据组织
 export const buildMenu = function (array, ckey) {
   let menuData = [];
-  let indexKeys = Array.isArray(array) ? array.map((e) => {return e.id}) : [];
+  let indexKeys = Array.isArray(array) ? array.map((e) => { return e.id }) : [];
   ckey = ckey || 'parent_id';
   array.forEach(function (e, i) {
     //一级菜单
-    if (!e[ckey] || (e[ckey]===e.id)) {
+    if (!e[ckey] || (e[ckey] === e.id)) {
       delete e[ckey];
       menuData.push(deepcopy(e)); //深拷贝
-    }else if(Array.isArray(indexKeys)){
+    } else if (Array.isArray(indexKeys)) {
       //检测ckey有效性
-      let parentIndex = indexKeys.findIndex(function(id){
+      let parentIndex = indexKeys.findIndex(function (id) {
         return id == e[ckey];
       });
-      if(parentIndex===-1){
+      if (parentIndex === -1) {
         menuData.push(e);
       }
     }
@@ -98,8 +98,8 @@ export const buildMenu = function (array, ckey) {
       });
     }
   };
-  findChildren(menuData);  
-  
+  findChildren(menuData);
+
   return menuData;
 }
 //日期格式化
@@ -107,7 +107,7 @@ export const dateFormat = function (source, ignore_minute) {
   var myDate;
   var separate = '/';
   var minute = '';
-  if (source === void(0)) {
+  if (source === void (0)) {
     source = new Date();
   }
   if (source) {
@@ -133,8 +133,8 @@ export const dateFormat = function (source, ignore_minute) {
   }
 };
 //ajax错误处理
-export const catchError = function(error) {    
-  if (error.data) {
+export const catchError = function (error) {
+  if (error.data.status) {
     switch (error.data.status) {
       case 300:
         Vue.prototype.$message({
@@ -147,7 +147,7 @@ export const catchError = function(error) {
         Vue.prototype.$message({
           message: error.data.message || '登录超时！请重新登录',
           type: 'warning',
-          onClose: function(){
+          onClose: function () {
             location.reload();
           }
         });
@@ -164,7 +164,12 @@ export const catchError = function(error) {
           type: 'error'
         });
     }
-  }else{
+  } else if (error.data.code) {
+    Vue.prototype.$message({
+      message: error.data.msg || '服务器错误，请稍候再试',
+      type: 'warning',
+    });
+  } else {
     Vue.prototype.$message({
       message: '请检查网络连接，或稍后再试',
       type: 'error',
@@ -174,46 +179,46 @@ export const catchError = function(error) {
   return Promise.reject(error);
 };
 export const formatDate = {
-      format: function (date, pattern) {
-          pattern = pattern || DEFAULT_PATTERN;
-          return pattern.replace(SIGN_REGEXP, function ($0) {
-              switch ($0.charAt(0)) {
-                  case 'y': return padding(date.getFullYear(), $0.length);
-                  case 'M': return padding(date.getMonth() + 1, $0.length);
-                  case 'd': return padding(date.getDate(), $0.length);
-                  case 'w': return date.getDay() + 1;
-                  case 'h': return padding(date.getHours(), $0.length);
-                  case 'm': return padding(date.getMinutes(), $0.length);
-                  case 's': return padding(date.getSeconds(), $0.length);
-              }
-          });
-      },
-      parse: function (dateString, pattern) {
-          var matchs1 = pattern.match(SIGN_REGEXP);
-          var matchs2 = dateString.match(/(\d)+/g);
-          if (matchs1.length == matchs2.length) {
-              var _date = new Date(1970, 0, 1);
-              for (var i = 0; i < matchs1.length; i++) {
-                  var _int = parseInt(matchs2[i]);
-                  var sign = matchs1[i];
-                  switch (sign.charAt(0)) {
-                      case 'y': _date.setFullYear(_int); break;
-                      case 'M': _date.setMonth(_int - 1); break;
-                      case 'd': _date.setDate(_int); break;
-                      case 'h': _date.setHours(_int); break;
-                      case 'm': _date.setMinutes(_int); break;
-                      case 's': _date.setSeconds(_int); break;
-                  }
-              }
-              return _date;
-          }
-          return null;
+  format: function (date, pattern) {
+    pattern = pattern || DEFAULT_PATTERN;
+    return pattern.replace(SIGN_REGEXP, function ($0) {
+      switch ($0.charAt(0)) {
+        case 'y': return padding(date.getFullYear(), $0.length);
+        case 'M': return padding(date.getMonth() + 1, $0.length);
+        case 'd': return padding(date.getDate(), $0.length);
+        case 'w': return date.getDay() + 1;
+        case 'h': return padding(date.getHours(), $0.length);
+        case 'm': return padding(date.getMinutes(), $0.length);
+        case 's': return padding(date.getSeconds(), $0.length);
       }
+    });
+  },
+  parse: function (dateString, pattern) {
+    var matchs1 = pattern.match(SIGN_REGEXP);
+    var matchs2 = dateString.match(/(\d)+/g);
+    if (matchs1.length == matchs2.length) {
+      var _date = new Date(1970, 0, 1);
+      for (var i = 0; i < matchs1.length; i++) {
+        var _int = parseInt(matchs2[i]);
+        var sign = matchs1[i];
+        switch (sign.charAt(0)) {
+          case 'y': _date.setFullYear(_int); break;
+          case 'M': _date.setMonth(_int - 1); break;
+          case 'd': _date.setDate(_int); break;
+          case 'h': _date.setHours(_int); break;
+          case 'm': _date.setMinutes(_int); break;
+          case 's': _date.setSeconds(_int); break;
+        }
+      }
+      return _date;
+    }
+    return null;
+  }
 };
-export const debounce = function(func, wait, immediate) {
+export const debounce = function (func, wait, immediate) {
   let timeout, args, context, timestamp, result
 
-  const later = function() {
+  const later = function () {
     // 据上一次触发时间间隔
     const last = +new Date() - timestamp
 
@@ -230,7 +235,7 @@ export const debounce = function(func, wait, immediate) {
     }
   }
 
-  return function(...args) {
+  return function (...args) {
     context = this
     timestamp = +new Date()
     const callNow = immediate && !timeout
@@ -266,7 +271,7 @@ export const formatPayStatus = function (data, val) {
         payStatus = '未知'
         break;
     }
-  }else if(val === '1') {
+  } else if (val === '1') {
     switch (data) {
       case '1':
         payStatus = '退款成功'

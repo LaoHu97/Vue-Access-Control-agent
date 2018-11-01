@@ -136,3 +136,21 @@ export const addAgentMerthree = params => { return instance.post(`${preUrlPath}/
 export const changeAgentMerEnter = params => { return instance.post(`${preUrlPath}/admin/wp/ag/changeAgentMerEnter`, params).then(res => res.data) }
 
 export const ChangeAgentShop = params => { return instance.post(`${preUrlPath}/admin/wp/ag/ChangeAgentShop`, params).then(res => res.data) }
+
+export const queryAgentShopMer = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryAgentShopMer`, params).then(res => res.data) }
+
+export const resetMerMpwd = params => { return instance.post(`${preUrlPath}/admin/wp/ag/resetMerMpwd`, params).then(res => res.data) }
+
+//打印列表
+export const queryPrintcfg = params => { return instance.post(`${preUrlPath}/admin/wp/agent/device/queryPrintcfg`,params).then(res => res.data); };
+//删除列表
+export const deletePrintNew = params => { return instance.post(`${preUrlPath}/admin/wp/mer/deletePrintNew`,params).then(res => res.data); };
+//添加打印配置
+export const addPrintcfg = params => { return instance.post(`${preUrlPath}/admin/wp/agent/device/addPrintcfg`,params).then(res => res.data); };
+//打印状态修改
+export const updatePStatus = params => { return instance.post(`${preUrlPath}/admin/wp/agent/device/updatePStatus`,params).then(res => res.data); };
+//打印状态修改
+export const updatePStatusNew = params => { return instance.post(`${preUrlPath}/admin/wp/mer/updatePStatusNew`,params).then(res => res.data); };
+//修改打印配置
+export const updatePrintcfg = params => { return instance.post(`${preUrlPath}/admin/wp/agent/device/updatePrintcfg`,params).then(res => res.data); };
+
