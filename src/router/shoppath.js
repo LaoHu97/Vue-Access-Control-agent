@@ -128,6 +128,13 @@ export default [{
       title: '云打印配置', icon: 'table', noCache: true, code: '', hidden: true
     },
     component: (resolve) => require(['../views/agent/nav2/Page13.vue'], resolve)
+  }, {
+    path: 'page14',
+    name: '终端管理',
+    meta: {
+      title: '终端管理', icon: 'table', noCache: true, code: '', hidden: true
+    },
+    component: (resolve) => require(['../views/agent/nav2/Page14.vue'], resolve)
   }
   ]
 }, {

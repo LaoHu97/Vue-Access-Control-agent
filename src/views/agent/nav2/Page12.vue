@@ -261,9 +261,11 @@
           </el-col>
           <el-col :span="8">
             <svg class="box-card-pay-icon" aria-hidden="true">
-              <use xlink:href="#icon-bangongdianhuayewu"></use>
+              <use xlink:href="#icon-zhongduan"></use>
             </svg>
-            <el-button type="text" size="medium" @click="allotSale">分配业务员</el-button>
+            <router-link :to="{path: '/index2/page14', query: { mid: $route.query.mid }}">
+              <el-button type="text" size="medium">查看终端</el-button>
+            </router-link>
           </el-col>
         </el-row>
       </div>

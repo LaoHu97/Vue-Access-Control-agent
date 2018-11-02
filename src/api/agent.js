@@ -153,4 +153,10 @@ export const updatePStatus = params => { return instance.post(`${preUrlPath}/adm
 export const updatePStatusNew = params => { return instance.post(`${preUrlPath}/admin/wp/mer/updatePStatusNew`,params).then(res => res.data); };
 //修改打印配置
 export const updatePrintcfg = params => { return instance.post(`${preUrlPath}/admin/wp/agent/device/updatePrintcfg`,params).then(res => res.data); };
+//终端列表
+export const queryTerminals = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryTerminals`,params).then(res => res.data); };
+//添加终端
+export const addTerminal = params => { return instance.post(`${preUrlPath}/admin/wp/ag/addTerminal`,params).then(res => res.data); };
+//查询终端详情
+export const queryTerminal = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryTerminal`,params).then(res => res.data); };
 
