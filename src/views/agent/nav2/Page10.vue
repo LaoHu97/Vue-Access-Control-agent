@@ -506,8 +506,8 @@ export default {
       this.img_tax_reg = true
     } else if (queryType.settlement_mer_type === 'QY' && queryType.account_type === '2' && queryType.document_type === 'SZHY' && queryType.is_liable_account === '1') {
       this.img_business_license = true
-      this.img_idcard_a = true
-      this.img_idcard_b = true
+      this.img_bankcard_a = true
+      this.img_bankcard_b = true
       this.img_logo = true
       this.img_indoor = true
       this.img_open_permits = true

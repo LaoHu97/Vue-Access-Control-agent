@@ -1,4 +1,5 @@
 import instance from './index';
+import Axios from './axios'
 let downloadPath = process.env.API_DOWNLOAD || '';
 const preUrlPath = '';
 //获取菜单权限
@@ -154,9 +155,11 @@ export const updatePStatusNew = params => { return instance.post(`${preUrlPath}/
 //修改打印配置
 export const updatePrintcfg = params => { return instance.post(`${preUrlPath}/admin/wp/agent/device/updatePrintcfg`,params).then(res => res.data); };
 //终端列表
-export const queryTerminals = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryTerminals`,params).then(res => res.data); };
+export const queryTerminals = params => { return Axios.post(`${preUrlPath}/admin/wp/ag/queryTerminals`,params).then(res => res.data); };
 //添加终端
-export const addTerminal = params => { return instance.post(`${preUrlPath}/admin/wp/ag/addTerminal`,params).then(res => res.data); };
+export const addTerminal = params => { return Axios.post(`${preUrlPath}/admin/wp/ag/addTerminal`,params).then(res => res.data); };
 //查询终端详情
-export const queryTerminal = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryTerminal`,params).then(res => res.data); };
+export const queryTerminal = params => { return Axios.post(`${preUrlPath}/admin/wp/ag/queryTerminal`,params).then(res => res.data); };
+
+export const updateTerminal = params => { return Axios.post(`${preUrlPath}/admin/wp/ag/updateTerminal`,params).then(res => res.data); };
 

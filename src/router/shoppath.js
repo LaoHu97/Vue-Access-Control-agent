@@ -83,7 +83,7 @@ export default [{
     path: 'page7',
     name: '门店管理',
     meta: {
-      title: '门店管理', icon: 'table1', noCache: false, code: '', hidden: true
+      title: '门店管理', icon: 'table1', noCache: true, code: '', hidden: true
     },
     component: (resolve) => require(['../views/agent/nav2/Page7.vue'], resolve)
   }, {

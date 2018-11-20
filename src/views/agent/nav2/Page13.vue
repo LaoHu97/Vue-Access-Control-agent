@@ -270,7 +270,7 @@ export default {
             .then(res => {
               this.$message({
                 type: "success",
-                message: res.msg
+                message: res.subMsg
               });
             })
             .catch(() => {
@@ -344,6 +344,10 @@ export default {
               this.editLoading = false;
               this.editFormVisible = false;
               this.getUsers();
+              this.$message({
+                type: "success",
+                message: res.subMsg
+              });
             });
           });
         }

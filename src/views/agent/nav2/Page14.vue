@@ -1,235 +1,277 @@
 <template>
-	<section>
-		<!--工具条-->
-		<el-row>
-			<el-form :inline="true" :model="filters" label-position="left" label-width="100px">
-				<el-row>
-					<el-col :span="6">
-						<el-form-item label="所属门店">
-							<el-select
-								v-model="filters.sid"
-								class="fixed_search_input"
-								placeholder="门店名称"
-								:multiple="false"
-								filterable
-								remote
-								:remote-method="remoteStore"
-								:loading="storeLoading"
-								clearable
-								@focus="clickStore"
-							>
-								<el-option v-for="item in optionsStore" :key="item.id" :value="item.id" :label="item.value"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="所属款台">
-							<el-select
-								v-model="filters.eid"
-								class="fixed_search_input"
-								placeholder="款台名称"
-								:multiple="false"
-								filterable
-								remote
-								:remote-method="remoteEmp"
-								:loading="empLoading"
-								clearable
-								@focus="clickEmp"
-							>
-								<el-option v-for="item in optionsEmp" :key="item.eid" :value="item.eid" :label="item.value"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="终端类型">
-							<el-select v-model="filters.terminal_type" class="fixed_search_input" placeholder="请选择">
-								<el-option
-									v-for="item in terminalTypeOptions"
-									:key="item.value"
-									:label="item.label"
-									:value="item.value"
-								></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item label="申请类型">
-							<el-select v-model="filters.apply_type" class="fixed_search_input" placeholder="请选择">
-								<el-option
-									v-for="item in applyTypeOptions"
-									:key="item.value"
-									:label="item.label"
-									:value="item.value"
-								></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="18">
-						<el-form-item label="日期时间">
-							<el-date-picker
-								v-model="filters.queryDateTime"
-								type="datetimerange"
-								start-placeholder="开始日期"
-								end-placeholder="结束日期"
-								value-format="timestamp"
-							></el-date-picker>
-						</el-form-item>
-					</el-col>
-					<el-col :span="6">
-						<el-form-item>
-							<el-button type="primary" @click="getUsers" round>查询</el-button>
-							<el-button type="primary" @click="printAdd" round>新增</el-button>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
-		</el-row>
-		<!--列表-->
-		<div v-loading="listLoading">
-			<el-table :data="users" border="" style="width: 100%;">
-				<el-table-column prop="id" label="终端ID" min-width="80"></el-table-column>
-				<el-table-column
-					prop="terminal_type"
-					label="终端类型"
-					min-width="120"
-					:formatter="formatterTerminalType"
-				></el-table-column>
-				<el-table-column prop="terminal_version" label="终端型号" min-width="120"></el-table-column>
-				<el-table-column prop="gmt_create" label="创建时间" min-width="120" :formatter="formatterGmtCreate"></el-table-column>
-				<el-table-column align="center" label="申请类型" min-width="120">
-					<template slot-scope="scope">
-						<el-tag
-							:type="scope.row.apply_type === '1' ? 'warning' : scope.row.apply_type === '2' ? 'info': scope.row.merchant_status === '3' ? 'success' : 'danger'"
-							disable-transitions
-						>{{formatterApplyType(scope.row, scope.$index)}}</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column align="center" label="操作" width="160">
-					<template slot-scope="scope">
-						<!-- <el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button> -->
-						<el-button type="info" size="mini" @click="handleDet(scope.$index, scope.row)">详情</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-		</div>
-		<!--工具条-->
-		<el-row>
-			<el-pagination
-				layout="prev, pager, next"
-				@current-change="handleCurrentChange"
-				:page-size="20"
-				:total="total"
-				style="text-align:center;background:#fff;padding:15px;"
-			></el-pagination>
-		</el-row>
-		<!--详情界面-->
-		<el-dialog title="终端配置详情" :visible.sync="detFormVisible" width="30%">
-			<el-form :model="detForm" label-width="120px" label-position="left">
-				<el-form-item label="所属门店：">
-					<span>{{detForm.store_name}}</span>
-				</el-form-item>
-				<el-form-item label="所属款台：">
-					<span>{{detForm.emp_name}}</span>
-				</el-form-item>
-				<el-form-item label="申请类型：">
-					<span>{{formatterApplyType(detForm)}}</span>
-				</el-form-item>
-				<el-form-item label="终端类型：">
-					<span>{{formatterTerminalType(detForm)}}</span>
-				</el-form-item>
-				<el-form-item label="编号：">
-					<span>{{detForm.SN}}</span>
-				</el-form-item>
-				<el-form-item label="型号：">
-					<span>{{detForm.terminal_version}}</span>
-				</el-form-item>
-				<el-form-item label="激活码：">
-					<el-tag :type="detForm.active_code ? 'success' : 'danger'">{{detForm.active_code || '暂未审核或审核驳回'}}</el-tag>
-				</el-form-item>
-				<el-form-item label="创建时间：">
-					<span>{{formatterGmtCreate(detForm)}}</span>
-				</el-form-item>
-			</el-form>
-			<div slot="footer">
-				<el-button type="primary" @click.native="detFormVisible = false">关 闭</el-button>
-			</div>
-		</el-dialog>
-		<!--编辑界面-->
-		<el-dialog title="新增终端配置" :visible.sync="editFormVisible" width="35%">
-			<el-form
-				:model="editForm"
-				:rules="editFormRules"
-				ref="editForm"
-				label-width="120px"
-				label-position="left"
-			>
-				<el-form-item label="终端类型" prop="terminal_type">
-					<el-select v-model="editForm.terminal_type" placeholder="请选择">
-						<el-option
-							v-for="item in terminalTypeOptions"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-						></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="设备编号" prop="SN">
-					<el-input v-model="editForm.SN" placeholder="请输入设备编号"></el-input>
-				</el-form-item>
-				<el-form-item label="设备型号" prop="terminal_version">
-					<el-select v-model="editForm.terminal_version" placeholder="请选择">
-						<el-option
-							v-for="item in terminalVersionOptions"
-							:key="item.value"
-							:label="item.label"
-							:value="item.value"
-							:disabled="item.disabled"
-						></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="选择门店" prop="sid">
-					<template>
-						<el-select
-							v-model="editForm.sid"
-							placeholder="门店名称"
-							:multiple="false"
-							filterable
-							remote
-							:remote-method="remoteStore"
-							:loading="storeLoading"
-							clearable
-							@focus="clickStore"
-						>
-							<el-option v-for="item in optionsStore" :key="item.id" :value="item.id" :label="item.value"></el-option>
-						</el-select>
-					</template>
-				</el-form-item>
-				<el-form-item label="选择款台" prop="eid">
-					<template>
-						<el-select
-							v-model="editForm.eid"
-							placeholder="款台名称"
-							:multiple="false"
-							filterable
-							remote
-							:remote-method="remoteEmp"
-							:loading="empLoading"
-							clearable
-							@focus="clickEmp"
-						>
-							<el-option v-for="item in optionsEmp" :key="item.eid" :value="item.eid" :label="item.value"></el-option>
-						</el-select>
-					</template>
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click.native="editFormVisible = false">取消</el-button>
-				<el-button type="primary" @click.native="addSubmit" :loading="editLoading">添加</el-button>
-			</div>
-		</el-dialog>
-	</section>
+  <section>
+    <!--工具条-->
+    <el-row>
+      <el-form :inline="true" :model="filters" label-position="left" label-width="100px">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="所属门店">
+              <el-select
+                v-model="filters.sid"
+                class="fixed_search_input"
+                placeholder="门店名称"
+                :multiple="false"
+                filterable
+                remote
+                :remote-method="remoteStore"
+                :loading="storeLoading"
+                clearable
+                @focus="clickStore"
+              >
+                <el-option
+                  v-for="item in optionsStore"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="所属款台">
+              <el-select
+                v-model="filters.eid"
+                class="fixed_search_input"
+                placeholder="款台名称"
+                :multiple="false"
+                filterable
+                remote
+                :remote-method="remoteEmp"
+                :loading="empLoading"
+                clearable
+                @focus="clickEmp"
+              >
+                <el-option
+                  v-for="item in optionsEmp"
+                  :key="item.eid"
+                  :value="item.eid"
+                  :label="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="终端类型">
+              <el-select
+                v-model="filters.terminal_type"
+                class="fixed_search_input"
+                placeholder="请选择"
+                clearable
+              >
+                <el-option
+                  v-for="item in terminalTypeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="审核状态">
+              <el-select
+                v-model="filters.apply_type"
+                class="fixed_search_input"
+                clearable
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in applyTypeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="18">
+            <el-form-item label="日期时间">
+              <el-date-picker
+                v-model="filters.queryDateTime"
+                type="datetimerange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                value-format="timestamp"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+              <el-button type="primary" @click="getUsers" round>查 询</el-button>
+              <el-button type="primary" @click="printAdd" round>申 请</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-row>
+    <!--列表-->
+    <div v-loading="listLoading">
+      <el-table :data="users" border="" style="width: 100%;">
+        <el-table-column prop="store_name" label="门店名称" min-width="120"></el-table-column>
+        <el-table-column prop="emp_name" label="款台名称" min-width="120"></el-table-column>
+        <el-table-column
+          prop="terminal_type"
+          label="终端类型"
+          min-width="120"
+          :formatter="formatterTerminalType"
+        ></el-table-column>
+        <el-table-column prop="terminal_version" label="终端型号" min-width="120"></el-table-column>
+        <el-table-column
+          prop="gmt_create"
+          label="创建时间"
+          min-width="120"
+          :formatter="formatterGmtCreate"
+        ></el-table-column>
+        <el-table-column align="center" label="审核状态" min-width="120">
+          <template slot-scope="scope">
+            <el-tag
+              :type="scope.row.apply_type === '1' ? 'warning' : scope.row.apply_type === '2' ? 'info': scope.row.apply_type === '3' ? 'success' : 'danger'"
+              disable-transitions
+            >{{formatterApplyType(scope.row, scope.$index)}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="操作" width="160">
+          <template slot-scope="scope">
+            <!-- <el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修 改</el-button> -->
+            <el-button type="info" size="mini" @click="handleDet(scope.$index, scope.row)">详 情</el-button>
+            <el-button
+              type="warning"
+              size="mini"
+              :disabled="scope.row.apply_type !== '3'"
+              @click="unBind(scope.$index, scope.row)"
+            >解 绑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--工具条-->
+    <el-row>
+      <el-pagination
+        layout="prev, pager, next"
+        @current-change="handleCurrentChange"
+        :page-size="20"
+        :total="total"
+        style="text-align:center;background:#fff;padding:15px;"
+      ></el-pagination>
+    </el-row>
+    <!--详情界面-->
+    <el-dialog title="终端配置详情" :visible.sync="detFormVisible" width="30%">
+      <el-form :model="detForm" label-width="120px" label-position="left">
+        <el-form-item label="所属门店：">
+          <span>{{detForm.store_name}}</span>
+        </el-form-item>
+        <el-form-item label="所属款台：">
+          <span>{{detForm.emp_name}}</span>
+        </el-form-item>
+        <el-form-item label="审核状态：">
+          <span>{{formatterApplyType(detForm)}}</span>
+        </el-form-item>
+        <el-form-item label="终端类型：">
+          <span>{{formatterTerminalType(detForm)}}</span>
+        </el-form-item>
+        <el-form-item label="SN设备编号：">
+          <span>{{detForm.SN}}</span>
+        </el-form-item>
+        <el-form-item label="型号：">
+          <span>{{detForm.terminal_version}}</span>
+        </el-form-item>
+        <el-form-item label="设备激活码：" v-if="detForm.active_code">
+          <span>{{detForm.active_code}}</span>
+        </el-form-item>
+        <el-form-item label="创建时间：">
+          <span>{{formatterGmtCreate(detForm)}}</span>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button type="primary" @click.native="detFormVisible = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+    <!--编辑界面-->
+    <el-dialog title="新增终端配置" :visible.sync="editFormVisible" width="35%">
+      <el-form
+        :model="editForm"
+        :rules="editFormRules"
+        ref="editForm"
+        label-width="120px"
+        label-position="left"
+      >
+        <el-form-item label="终端类型" prop="terminal_type">
+          <el-select v-model="editForm.terminal_type" placeholder="请选择">
+            <el-option
+              v-for="item in terminalTypeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="SN设备编号" prop="SN">
+          <el-input v-model="editForm.SN" placeholder="请输入SN设备编号"></el-input>
+        </el-form-item>
+        <el-form-item label="设备型号" prop="terminal_version">
+          <el-select v-model="editForm.terminal_version" placeholder="请选择">
+            <el-option
+              v-for="item in terminalVersionOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+              :disabled="item.disabled"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="选择门店" prop="sid">
+          <template>
+            <el-select
+              v-model="editForm.sid"
+              placeholder="门店名称"
+              :multiple="false"
+              filterable
+              remote
+              :remote-method="remoteStore"
+              :loading="storeLoading"
+              clearable
+              @focus="clickStore"
+            >
+              <el-option
+                v-for="item in optionsStore"
+                :key="item.id"
+                :value="item.id"
+                :label="item.value"
+              ></el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+        <el-form-item label="选择款台" prop="eid">
+          <template>
+            <el-select
+              v-model="editForm.eid"
+              placeholder="款台名称"
+              :multiple="false"
+              filterable
+              remote
+              :remote-method="remoteEmp"
+              :loading="empLoading"
+              clearable
+              @focus="clickEmp"
+            >
+              <el-option
+                v-for="item in optionsEmp"
+                :key="item.eid"
+                :value="item.eid"
+                :label="item.value"
+              ></el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="editFormVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="addSubmit">添加</el-button>
+      </div>
+    </el-dialog>
+  </section>
 </template>
 
 <script>
@@ -243,7 +285,8 @@ import {
   updatePStatus,
   selectEmpsBySid,
   selectStoreList,
-  queryTerminal
+  queryTerminal,
+  updateTerminal
 } from "../../../api/agent";
 export default {
   data() {
@@ -268,7 +311,6 @@ export default {
       listLoading: false,
       detFormVisible: false,
       editFormVisible: false, //编辑界面是否显示
-      editLoading: false,
       terminalTypeOptions: [
         {
           value: "11",
@@ -280,7 +322,7 @@ export default {
         },
         {
           value: "13",
-          label: "插件"
+          label: "微收银"
         }
       ],
       terminalVersionOptions: [
@@ -330,10 +372,8 @@ export default {
       editFormRules: {
         terminal_type: [
           { required: true, message: "请选择终端类型", trigger: "change" }
-				],
-				SN: [
-					{ required: false, message: "请选择设备编号", trigger: "change" }
-				],
+        ],
+        SN: [{ required: false, message: "请选择设备编号", trigger: "change" }],
         terminal_version: [
           { required: true, message: "请选择设备型号", trigger: "change" }
         ],
@@ -349,38 +389,38 @@ export default {
   },
   watch: {
     terminal_type(newVal, oldVal) {
-      if (newVal == '11') {
-				this.editForm.terminal_version = 'A8'
-				this.editFormRules.SN[0].required = true
-				this.terminalVersionOptions = [
-					{
-						value: "A8",
-						label: "A8"
-					},
-					{
-						value: "波普",
-						label: "波普"
-					}
-				]
-			} else if (newVal == '12') {
-				this.editForm.terminal_version = 'N910'
-				this.editFormRules.SN[0].required = false
-				this.terminalVersionOptions = [
-					{
-						value: "N910",
-						label: "N910"
-					}
-				]
-			} else if (newVal == '13') {
-				this.editForm.terminal_version = 'WSY'
-				this.editFormRules.SN[0].required = false
-				this.terminalVersionOptions = [
-					{
-						value: "WSY",
-						label: "WSY"
-					}
-				]
-			}
+      if (newVal == "11") {
+        this.editForm.terminal_version = "A8";
+        this.editFormRules.SN[0].required = true;
+        this.terminalVersionOptions = [
+          {
+            value: "A8",
+            label: "A8"
+          },
+          {
+            value: "波普",
+            label: "波普"
+          }
+        ];
+      } else if (newVal == "12") {
+        this.editForm.terminal_version = "N910";
+        this.editFormRules.SN[0].required = true;
+        this.terminalVersionOptions = [
+          {
+            value: "N910",
+            label: "N910"
+          }
+        ];
+      } else if (newVal == "13") {
+        this.editForm.terminal_version = "WSY";
+        this.editFormRules.SN[0].required = false;
+        this.terminalVersionOptions = [
+          {
+            value: "WSY",
+            label: "WSY"
+          }
+        ];
+      }
     }
   },
   methods: {
@@ -391,7 +431,9 @@ export default {
           ? "已解绑"
           : row.apply_type === "3"
             ? "已绑定"
-            : "未知";
+            : row.apply_type === "4"
+              ? "撤销"
+              : "未知";
     },
     formatterTerminalType(row, column) {
       return row.terminal_type === "11"
@@ -399,7 +441,7 @@ export default {
         : row.terminal_type === "12"
           ? "新大陆POS"
           : row.terminal_type === "13"
-            ? "插件"
+            ? "微收银"
             : "未知";
     },
     formatterGmtCreate(row, column) {
@@ -407,6 +449,33 @@ export default {
         new Date(row.gmt_create),
         "yyyy/MM/dd hh:mm:ss"
       ));
+    },
+    // 解绑
+    unBind(index, row) {
+      this.$confirm("此操作将解除终端绑定, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          updateTerminal({
+            id: row.id,
+            apply_type: "2",
+            terminal_type: row.terminal_type
+          }).then(res => {
+            this.$message({
+              type: "success",
+              message: res.subMsg
+            });
+            this.getUsers();
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
+          });
+        });
     },
     //款台远程搜索
     clickEmp: function() {
@@ -484,7 +553,7 @@ export default {
             .then(res => {
               this.$message({
                 type: "success",
-                message: res.msg
+                message: res.subMsg
               });
             })
             .catch(() => {
@@ -510,11 +579,12 @@ export default {
     },
     //获取用户列表
     getList() {
-			this.listLoading = true;
-			let para = util.deepcopy(this.filters);
+      this.listLoading = true;
+      let para = util.deepcopy(this.filters);
       para.pageNum = this.page;
-      para.start_time = para.queryDateTime ? para.queryDateTime[0] : '';
-      para.end_time = para.queryDateTime ? para.queryDateTime[1] : '';
+      para.mid = this.$route.query.mid;
+      para.start_time = para.queryDateTime ? para.queryDateTime[0] : "";
+      para.end_time = para.queryDateTime ? para.queryDateTime[1] : "";
       queryTerminals(para).then(res => {
         this.listLoading = false;
         if (res.code === "000000") {
@@ -553,12 +623,15 @@ export default {
       this.$refs.editForm.validate(valid => {
         if (valid) {
           this.$confirm("确认提交吗？", "提示").then(() => {
-            this.editLoading = true;
             let para = util.deepcopy(this.editForm);
+            para.mid = this.$route.query.mid;
             addTerminal(para).then(res => {
-              this.editLoading = false;
               this.editFormVisible = false;
               this.getUsers();
+              this.$message({
+                type: "success",
+                message: res.subMsg
+              });
             });
           });
         }

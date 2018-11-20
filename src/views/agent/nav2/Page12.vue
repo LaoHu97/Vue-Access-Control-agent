@@ -540,6 +540,7 @@ export default {
               message: res.message,
               type: "success"
             });
+            this.getMerDetails();
           } else {
             this.$message.error(res.message);
           }
