@@ -83,7 +83,7 @@ export default [{
     path: 'page7',
     name: '门店管理',
     meta: {
-      title: '门店管理', icon: 'table1', noCache: false, code: '', hidden: true
+      title: '门店管理', icon: 'table1', noCache: true, code: '', hidden: true
     },
     component: (resolve) => require(['../views/agent/nav2/Page7.vue'], resolve)
   }, {
@@ -114,16 +114,29 @@ export default [{
       title: '审核记录', icon: 'table', noCache: true, code: '', hidden: false
     },
     component: (resolve) => require(['../views/agent/nav2/Page11.vue'], resolve)
+  }, {
+    path: 'page12',
+    name: '商户查看',
+    meta: {
+      title: '商户查看', icon: 'table', noCache: true, code: '', hidden: true
+    },
+    component: (resolve) => require(['../views/agent/nav2/Page12.vue'], resolve)
+  }, {
+    path: 'page13',
+    name: '云打印配置',
+    meta: {
+      title: '云打印配置', icon: 'table', noCache: true, code: '', hidden: true
+    },
+    component: (resolve) => require(['../views/agent/nav2/Page13.vue'], resolve)
+  }, {
+    path: 'page14',
+    name: '终端管理',
+    meta: {
+      title: '终端管理', icon: 'table', noCache: true, code: '', hidden: true
+    },
+    component: (resolve) => require(['../views/agent/nav2/Page14.vue'], resolve)
   }
-  // , {
-  //   path: 'page12',
-  //   name: '商户查看',
-  //   meta: {
-  //     title: '商户查看', icon: 'table', noCache: true, code: '', hidden: false
-  //   },
-  //   component: (resolve) => require(['../views/agent/nav2/Page12.vue'], resolve)
-  // }
-]
+  ]
 }, {
   path: '/index2',
   name: '业务管理',

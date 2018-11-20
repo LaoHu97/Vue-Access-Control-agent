@@ -3,7 +3,7 @@
   <!--工具条-->
   <el-row>
     <el-form :inline="true" :model="filters">
-      <el-form-item label="门店名称">
+      <el-form-item label="门店名称" v-if="!$route.query.id">
         <template>
           <el-select v-model="filters.value" class="fixed_search_input" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
@@ -52,7 +52,7 @@
           <el-button type="success" size="mini" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
         </template>
     </el-table-column>
-    <el-table-column label="操作" width="250">
+    <el-table-column label="操作" width="260">
       <template slot-scope="scope">
           <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
           <el-button type="warning" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
@@ -275,7 +275,7 @@ export default {
         value: [{
           required: true,
           type: 'number',
-          message: '请选择款台',
+          message: '请选择门店',
           trigger: 'change'
         }],
 
@@ -310,7 +310,7 @@ export default {
         ],
         value: [{
           required: true,
-          message: '请选择款台'
+          message: '请选择门店'
         }],
       },
       stateForm: {},

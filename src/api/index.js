@@ -15,12 +15,12 @@ instance.interceptors.request.use(config => {
 });
 
 instance.interceptors.response.use(response => {
-  if (response.data.status===200) {
+  if (response.data.status === 200 || response.data.code === '000000') {
     return response
   } else {
     util.catchError(response)
   }
-  return response
+  // return response
 }, error => {
  util.catchError(error)
 });

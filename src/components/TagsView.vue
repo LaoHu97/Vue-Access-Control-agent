@@ -81,7 +81,7 @@ export default {
         if (this.isActive(view)) {
           const latestView = views.slice(-1)[0]
           if (latestView) {
-            this.$router.push(latestView.path)
+            this.$router.push({path: latestView.path, query: latestView.query})
           } else {
             this.$router.push('/home')
             this.$store.dispatch('top_nav', '1')
