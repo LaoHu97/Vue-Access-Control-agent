@@ -15,7 +15,7 @@
         <el-input v-model="filters.maccount" class="fixed_search_input" placeholder="商户帐号"></el-input>
       </el-form-item>
       <el-form-item label="业务员">
-        <el-select v-model="filters.parag" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
+        <el-select v-model="filters.parag" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
           <el-option v-for="item in saleOptions" :value="item.id" :label="item.value" :key="item.id">
           </el-option>
         </el-select>

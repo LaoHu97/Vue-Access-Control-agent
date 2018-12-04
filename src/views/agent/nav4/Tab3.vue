@@ -12,7 +12,7 @@
         </el-form-item>
         <el-form-item label="业务员">
           <template>
-            <el-select v-model="filters.salesmanId" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale"
+            <el-select v-model="filters.salesmanId" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteSale"
               :loading="saleLoading" clearable @visible-change="clickSale">
               <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
               </el-option>

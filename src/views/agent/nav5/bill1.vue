@@ -28,7 +28,7 @@
       <el-row>
         <el-col :span="8">
           <el-form-item label="商户名称" prop="mid">
-            <el-select v-model="excelForm.mid" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="shopLoading"
+            <el-select v-model="excelForm.mid" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="shopLoading"
               clearable @focus="clickShop" @change="selectShopChange">
               <el-option v-for="item in optionsShop" :key="item.mid" :value="item.mid" :label="item.value">
               </el-option>
@@ -37,7 +37,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="门店名称">
-            <el-select v-model="excelForm.storeName" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteStore"
+            <el-select v-model="excelForm.storeName" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteStore"
               :loading="storeLoading" clearable @focus="clickStore" @change="selectStoreChange">
               <el-option v-for="item in optionsStore" :key="item.key" :value="item.key" :label="item.value">
               </el-option>
@@ -46,7 +46,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="款台名称">
-            <el-select v-model="excelForm.empName" placeholder="款台名称" :disabled="excelForm.excel_type!=='od'" :multiple="false" filterable
+            <el-select v-model="excelForm.empName" placeholder="请输入关键字查询" :disabled="excelForm.excel_type!=='od'" :multiple="false" filterable
               remote :remote-method="remoteEmp" :loading="empLoading" clearable @focus="clickEmp">
               <el-option v-for="item in optionsEmp" :key="item.eid" :value="item.eid" :label="item.value">
               </el-option>

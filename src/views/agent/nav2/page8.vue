@@ -5,7 +5,7 @@
     <el-form :inline="true" :model="filters">
       <el-form-item label="门店名称" v-if="!$route.query.id">
         <template>
-          <el-select v-model="filters.value" class="fixed_search_input" placeholder="门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.value" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
@@ -89,7 +89,7 @@
       </el-form-item>
       <el-form-item label="选择门店">
         <template>
-            <el-select v-model="modForm.value" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+            <el-select v-model="modForm.value" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
               <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
               </el-option>
             </el-select>
@@ -168,7 +168,7 @@
       </el-form-item>
       <el-form-item label="选择门店" prop="value">
         <template>
-          <el-select v-model="addForm.value" placeholder="请选择门店名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+          <el-select v-model="addForm.value" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in options" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>

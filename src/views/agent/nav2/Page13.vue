@@ -96,7 +96,7 @@
 					<template>
 						<el-select
 							v-model="editForm.eid"
-							placeholder="款台名称"
+							placeholder="请输入关键字查询"
 							:multiple="false"
 							filterable
 							remote

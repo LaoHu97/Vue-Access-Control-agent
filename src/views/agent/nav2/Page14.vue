@@ -9,12 +9,13 @@
               <el-select
                 v-model="filters.sid"
                 class="fixed_search_input"
-                placeholder="门店名称"
+                placeholder="请输入关键字查询"
                 :multiple="false"
                 filterable
                 remote
                 :remote-method="remoteStore"
                 :loading="storeLoading"
+                @change="changeStore"
                 clearable
                 @focus="clickStore"
               >
@@ -32,7 +33,7 @@
               <el-select
                 v-model="filters.eid"
                 class="fixed_search_input"
-                placeholder="款台名称"
+                placeholder="请输入关键字查询"
                 :multiple="false"
                 filterable
                 remote
@@ -94,6 +95,8 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 value-format="timestamp"
+                :picker-options="pickerOptions"
+                :default-time="['00:00:00', '23:59:59']"
               ></el-date-picker>
             </el-form-item>
           </el-col>
@@ -225,7 +228,7 @@
           <template>
             <el-select
               v-model="editForm.sid"
-              placeholder="门店名称"
+              placeholder="请输入关键字查询"
               :multiple="false"
               filterable
               remote
@@ -247,7 +250,7 @@
           <template>
             <el-select
               v-model="editForm.eid"
-              placeholder="款台名称"
+              placeholder="请输入关键字查询"
               :multiple="false"
               filterable
               remote
@@ -379,6 +382,11 @@ export default {
         ],
         sid: [{ required: true, message: "请选择门店", trigger: "change" }],
         eid: [{ required: true, message: "请选择款台", trigger: "change" }]
+      },
+      pickerOptions: {
+        disabledDate (time) {
+          return time.getTime() > new Date(new Date(new Date().toLocaleDateString()).getTime()+24*60*60*1000-1)
+        }
       }
     };
   },
@@ -449,6 +457,9 @@ export default {
         new Date(row.gmt_create),
         "yyyy/MM/dd hh:mm:ss"
       ));
+    },
+    changeStore() {
+      this.filters.eid = ''
     },
     // 解绑
     unBind(index, row) {

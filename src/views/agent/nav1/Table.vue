@@ -5,7 +5,7 @@
       <el-row>
         <el-col :span="6">
           <el-form-item label="商户名称">
-            <el-select v-model="filters.mid" placeholder="商户名称" class="fixed_search_input" :multiple="false" filterable remote :remote-method="remoteShop" :loading="midLoading"
+            <el-select v-model="filters.mid" placeholder="请输入关键字查询" class="fixed_search_input" :multiple="false" filterable remote :remote-method="remoteShop" :loading="midLoading"
               clearable @visible-change="clickShop">
               <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
               </el-option>

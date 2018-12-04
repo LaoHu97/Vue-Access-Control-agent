@@ -3,7 +3,7 @@
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
         <el-form-item label="商户名称">
-          <el-select v-model="filters.mid" class="fixed_search_input" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="mersLoading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.mid" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="mersLoading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>

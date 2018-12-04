@@ -8,10 +8,10 @@
     </el-form>
     <el-form :inline="true" :model="filters" ref="filters" size="medium">
       <el-row>
-        <el-form-item>
+        <el-form-item label="商户名称">
           <el-input v-model="filters.mname" placeholder="请输入商户名称关键字" style="width: 220px;"></el-input>
         </el-form-item>
-        <el-form-item>
+        <el-form-item label="商户状态">
           <el-select v-model="filters.status" clearable placeholder="请选择状态">
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
