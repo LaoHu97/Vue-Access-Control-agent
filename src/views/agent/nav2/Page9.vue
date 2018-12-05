@@ -244,7 +244,7 @@
           <el-col>
             <el-form-item label="结算户开户支行：" prop="bank_no">
               <template>
-                <el-select v-model="form.bank_no" placeholder="请选择" @visible-change="bankBranch" :multiple="false" filterable remote :remote-method="remoteBranch" :loading="loading">
+                <el-select v-model="form.bank_no" placeholder="请输入关键字查询" @visible-change="bankBranch" :multiple="false" filterable remote :remote-method="remoteBranch" :loading="loading">
                   <el-option
                     v-for="item in branchNameList"
                     :key="item.bank_no"
@@ -260,7 +260,7 @@
           <el-col>
             <el-form-item label="业务员：" prop="salesman_id">
               <template>
-                <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
+                <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
                   <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
                   </el-option>
                 </el-select>

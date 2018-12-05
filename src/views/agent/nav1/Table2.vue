@@ -9,13 +9,13 @@
     <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
         <el-form-item label="商户名称">
-          <el-select v-model="filters.state1" class="fixed_search_input" placeholder="商户名称" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
+          <el-select v-model="filters.state1" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
             <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="业务员">
-          <el-select v-model="filters.state2" class="fixed_search_input" placeholder="业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale">
+          <el-select v-model="filters.state2" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteSale" :loading="loading" clearable @visible-change="clickSale">
             <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
             </el-option>
           </el-select>
