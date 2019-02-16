@@ -72,38 +72,69 @@
     </el-row>
     <div class="form_main">
       <el-form ref="imageUrl" :inline="true" :disabled="formDisabled" :model="imageUrl" :rules="rules" label-width="150px" label-position="top" class="form_contron">
+
         <el-row>
           <el-col :span="6">
+            <el-checkbox v-model="imageUrl.wx_open" true-label="Y" false-label="N" style="margin:40px 0;"><h3>微信</h3></el-checkbox>
+          </el-col>
+        </el-row>
+        <el-row v-if="imageUrl.wx_open === 'Y'" >
+          <el-col :span="6">
             <el-form-item label="微信费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.wx_rate" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
+              <el-input-number v-model="imageUrl.wx_rate" :disabled="editDisabled" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
             </el-form-item>
           </el-col>
+          <el-col :span="6">
+            <el-form-item label="联系人微信账号" prop="wx_contid" label-width="100px">
+              <el-input v-model="imageUrl.wx_contid" placeholder="请输入内容"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="6">
+            <el-checkbox v-model="imageUrl.ali_open" true-label="Y" false-label="N" style="margin:40px 0;"><h3>支付宝</h3></el-checkbox>
+          </el-col>
+        </el-row>
+        <el-row v-if="imageUrl.ali_open === 'Y'">
           <el-col :span="6">
             <el-form-item label="支付宝费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.ali_rate" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
+              <el-input-number v-model="imageUrl.ali_rate" :disabled="editDisabled" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="6">
+            <el-form-item label="合作伙伴在支付宝的PID" prop="ali_source" label-width="100px">
+              <el-input v-model="imageUrl.ali_source" placeholder="请输入内容"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="经营类目" prop="ali_ctgyid" label-width="100px">
+              <el-cascader
+                v-model="imageUrl.ali_ctgyid"
+                :options="optionsAliBusiness"
+                @active-item-change="businessItemAliChange"
+                :props="businessAliProps"
+              ></el-cascader>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <h3>费率设置</h3>
+        <el-row>
+          <el-col :span="5">
             <el-form-item label="翼支付费率（‰）" label-width="100px">
               <el-input-number v-model="imageUrl.best_rate" :precision="1" :step="0.1" :min="3"  :max="50"></el-input-number>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
-            <el-checkbox v-model="showRate" style="margin-top:40px;">银行卡</el-checkbox>
-          </el-col>
-        </el-row>
-        <el-row v-show="showRate">
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="贷记卡费率（‰）" label-width="100px">
               <el-input-number v-model="imageUrl.crebit_rate" :precision="1" :step="0.1" :min="5.4" :max="500"></el-input-number>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <el-form-item label="银联费率（‰）" label-width="100px">
               <el-input-number v-model="imageUrl.unionpay_rate" :precision="1" :step="0.1" :min="3.8" :max="6"></el-input-number>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+          <el-col :span="9">
             <el-form-item label="借记卡费率（‰）" label-width="100px">
               <el-input-number v-model="imageUrl.debit_rate" :precision="1" :step="0.1" :min="4.2" :max="500"></el-input-number>
             </el-form-item>
@@ -112,6 +143,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <h3>上传照片</h3>
         <el-row>
           <el-col :span="5" v-if="img_business_license">
             <el-form-item label="营业执照照片" prop="thum_img_business_license" >
@@ -331,6 +363,49 @@
               </el-upload>
             </el-form-item>
           </el-col>
+          <el-col :span="5">
+            <el-form-item label="联系人身份证正面" prop="img_person_a" >
+              <el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess16"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl.thum_img_person_a	" :src="imageUrl.thum_img_person_a	" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="联系人身份证反面" prop="img_person_b" >
+              <el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess17"
+                :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl.thum_img_person_b" :src="imageUrl.thum_img_person_b" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="附件" prop="img_other" >
+              <el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadZIP"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess18"
+                :before-upload="beforeAvatarUploadOther">
+                <i v-if="imageUrl.img_other" class="el-icon-document avatar" style="font-size:28px;line-height:78px;"></i>
+                <!-- <img v-if="imageUrl.img_other" :src="imageUrl.img_other" class="avatar"> -->
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="form_footer">
@@ -358,11 +433,13 @@ import {
   uploadImage,
   addAgentMertwo,
   agentShopPage,
-  addAgentMerthree
+  addAgentMerthree,
+  uploadZIP
 } from '../../../api/agent';
 export default {
   data() {
     return {
+      uploadZIP: uploadZIP,
       uploadUrl: uploadImage,
       showRate: false,
       imageUrl: {
@@ -375,6 +452,14 @@ export default {
         unionpay_rate: 3.8,
         reserve1: 18,
 
+        wx_open: "Y",
+        wx_mchrmk: "",
+        wx_conttp: "type_wechatid",
+        wx_contid: "",
+
+        ali_open: "Y",
+        ali_source: "",
+        ali_ctgyid: [],
 
         img_business_license: '',
         img_idcard_a: '',
@@ -391,6 +476,8 @@ export default {
         img_mer_increment: '',
         img_org_code: '',
         img_tax_reg: '',
+        img_person_a: '',
+        img_person_b: '',
 
         thum_img_business_license: '',
         thum_img_idcard_a: '',
@@ -406,11 +493,58 @@ export default {
         thum_img_mer_relation: '',
         thum_img_mer_increment: '',
         thum_img_org_code: '',
-        thum_img_tax_reg: ''
+        thum_img_tax_reg: '',
+        thum_img_person_a: '',
+        thum_img_person_b: '',
+        img_other: ''
       },
       addLoading: false,
       loading: false,
       rules: {
+        wx_busins: [
+         {
+            type: "array",
+            required: true,
+            message: "请选择经营类目",
+            trigger: "change"
+          }
+        ],
+        wx_conttp: [
+          {
+            required: true,
+            message: "请输入联系人微信账号类型",
+            trigger: "blur"
+          }
+        ],
+        wx_contid: [
+          {
+            required: true,
+            message: "请输入联系人微信账号",
+            trigger: "blur"
+          }
+        ],
+        ali_source: [
+          {
+            required: true,
+            message: "请输入合作伙伴在支付宝的PID",
+            trigger: "blur"
+          }
+        ],
+        ali_orgpid: [
+          {
+            required: true,
+            message: "请输入收单机构在支付宝的PID",
+            trigger: "blur"
+          }
+        ],
+        ali_ctgyid: [
+         {
+            type: "array",
+            required: true,
+            message: "请选择经营类目",
+            trigger: "change"
+          }
+        ],
         thum_img_business_license: [{
           required: true,
           message: '请上传营业执照照片'
@@ -479,7 +613,20 @@ export default {
       img_mer_increment: false, //商户增值协议
       img_org_code: false, //组织机构代码证照片
       img_tax_reg: false, //税务登记证照片
-      formDisabled: false
+      formDisabled: false,
+      editDisabled: false,
+      optionsBusiness: [],
+      businessProps: {
+        value: "id",
+        label: "name",
+        children: "cities"
+      },
+      optionsAliBusiness: [],
+      businessAliProps: {
+        value: "id",
+        label: "name",
+        children: "cities"
+      }
     }
   },
   mounted () {
@@ -628,10 +775,43 @@ export default {
     if (this.$route.query.id) {
       this.getPageDetails() 
     }
+    showBusinessType({ id: "0", type: "ALI" }).then(res => {
+      let list = [];
+      for (let i = 0; i < res.data.BusinessList.length; i++) {
+        let e = res.data.BusinessList[i];
+        e.cities = [];
+        list.push(e);
+      }
+      this.optionsAliBusiness = list;
+    });
   },
   methods: {
     retstSubmit() {
       this.$router.go(-1)
+    },
+    businessItemAliChange(val) {
+      showBusinessType({ id: val[0], type: "ALI" }).then(res => {
+        this.optionsAliBusiness.findIndex(function(obj) {
+          if (val[0] == obj.id) {
+            let list = [];
+            for (let i = 0; i < res.data.BusinessList.length; i++) {
+              let e = res.data.BusinessList[i];
+              e.cities = [];
+              list.push(e);
+            }
+            obj.cities = res.data.BusinessList;
+            if (val[1]) {
+              showBusinessType({ id: val[1], type: "ALI" }).then(res => {
+                obj.cities.findIndex(function(params) {
+                  if (val[1] == params.id) {
+                    params.cities = res.data.BusinessList;
+                  }
+                });
+              });
+            }
+          }
+        });
+      });
     },
     getPageDetails() {
       let para = {
@@ -640,7 +820,16 @@ export default {
       }
       agentShopPage(para).then(res => {
         if (res.status === 200 && res.data.isEmpty === '1') {
-          let imageUrl = util.deepcopy(res.data.agentMap)
+          let imageUrl = util.deepcopy(
+            Object.assign(res.data.bsbPay, res.data.agentMap)
+          );
+          console.log(imageUrl);
+          this.imageUrl.ali_open = imageUrl.ali_open
+          this.imageUrl.wx_open = imageUrl.wx_open
+          this.imageUrl.wx_contid = imageUrl.wx_contid;
+
+          this.imageUrl.ali_source = imageUrl.ali_source;
+          this.imageUrl.ali_mcccod = imageUrl.ali_mcccod;
           this.imageUrl.id = imageUrl.id || ''
           this.imageUrl.wx_rate = imageUrl.wx_rate || ''
           this.imageUrl.ali_rate = imageUrl.ali_rate || ''
@@ -665,6 +854,8 @@ export default {
           this.imageUrl.img_mer_increment = imageUrl.img_mer_increment || ''
           this.imageUrl.img_org_code = imageUrl.img_org_code || ''
           this.imageUrl.img_tax_reg = imageUrl.img_tax_reg || ''
+          this.imageUrl.img_person_a = imageUrl.img_person_a || ''
+          this.imageUrl.img_person_b = imageUrl.img_person_b || ''
 
           this.imageUrl.thum_img_business_license = imageUrl.thum_img_business_license || ''
           this.imageUrl.thum_img_idcard_a = imageUrl.thum_img_idcard_a || ''
@@ -681,10 +872,19 @@ export default {
           this.imageUrl.thum_img_mer_increment = imageUrl.thum_img_mer_increment || ''
           this.imageUrl.thum_img_org_code = imageUrl.thum_img_org_code || ''
           this.imageUrl.thum_img_tax_reg = imageUrl.thum_img_tax_reg || ''
+          this.imageUrl.thum_img_person_a = imageUrl.thum_img_person_a || ''
+          this.imageUrl.thum_img_person_b = imageUrl.thum_img_person_b || ''
+          
           if (res.data.timely_sign && res.data.timely_sign === '1') {
             this.formDisabled = true
+            this.editDisabled = true
           }else{
             this.formDisabled = false
+            this.formDisabled = false
+          }
+          if (imageUrl.ali_ctgyid.length) {
+            this.imageUrl.ali_ctgyid = JSON.parse(imageUrl.ali_ctgyid);
+            this.businessItemAliChange(this.imageUrl.ali_ctgyid); 
           }
         }
       })
@@ -700,6 +900,19 @@ export default {
         this.$message.error('上传图片大小不能超过 3MB!');
       }
       return isJPG && isLt3M;
+    },
+    beforeAvatarUploadOther(file) {
+      console.log(file.type);
+      // const isJPG = file.type === 'application/x-zip-compressed';
+      const isLt3M = file.size / 1024 / 1024 < 20;
+      // if (!isJPG) {
+      //   this.$message.error('上传附件只能是 ZIP 格式!');
+      // }
+      if (!isLt3M) {
+        this.$message.error('上传附件大小不能超过 20MB!');
+      }
+      // return isJPG && isLt3M;
+      return isLt3M;
     },
     handleAvatarScucess1(res, file) {
       this.imageUrl.img_business_license = res.data.locationPath
@@ -761,10 +974,22 @@ export default {
       this.imageUrl.img_tax_reg = res.data.locationPath
       this.imageUrl.thum_img_tax_reg = res.data.thumbnailImage
     },
+    handleAvatarScucess16(res, file) {
+      this.imageUrl.img_person_a = res.data.locationPath
+      this.imageUrl.thum_img_person_a = res.data.thumbnailImage
+    },
+    handleAvatarScucess17(res, file) {
+      this.imageUrl.img_person_b = res.data.locationPath
+      this.imageUrl.thum_img_person_b = res.data.thumbnailImage
+    },
+    handleAvatarScucess18(res, file) {
+      this.imageUrl.img_other = res.data.locationPath
+    },
+
     addSubmit: function() {
       this.$refs.imageUrl.validate((valid) => {
         if (valid) {
-          let para = this.imageUrl
+          let para = util.deepcopy(this.imageUrl)
           para.shop_id = this.$route.query.shop_id,
           para.salesman_id = this.$route.query.salesman_id
           addAgentMerthree(para).then(res => {

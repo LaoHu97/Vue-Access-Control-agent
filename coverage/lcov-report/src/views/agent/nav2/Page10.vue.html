@@ -1,0 +1,2885 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/views/agent/nav2/Page10.vue</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="..\..\..\..\prettify.css" />
+    <link rel="stylesheet" href="..\..\..\..\base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(..\..\..\..\sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="..\..\..\..\index.html">All files</a> / <a href="index.html">src/views/agent/nav2</a> Page10.vue
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/276</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/178</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/30</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/276</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834
+835
+836
+837
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857
+858
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870
+871
+872
+873
+874
+875
+876
+877
+878
+879
+880
+881
+882
+883
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900
+901
+902
+903
+904
+905
+906
+907
+908
+909
+910
+911
+912
+913
+914
+915
+916
+917
+918
+919
+920
+921
+922
+923
+924
+925
+926
+927
+928
+929
+930
+931
+932
+933
+934
+935
+936
+937
+938
+939
+940
+941</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&lt;style scoped&gt;
+.form_header {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+}
+.form_main {
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 8px;
+}
+.form_contron {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+.form_footer {
+  text-align: center;
+  padding-bottom: 20px;
+}
+.avatar-uploader {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+    width: 78px;
+  height: 78px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 78px;
+  height: 78px;
+  line-height: 78px;
+  text-align: center;
+}
+.avatar {
+  width: 78px;
+  height: 78px;
+  display: block;
+}
+.box-alert{
+  margin-top: 20px;
+}
+.editBtn{
+  float: right;
+  margin-top: 10px;
+}
+&lt;/style&gt;
+&nbsp;
+&lt;template lang="html"&gt;
+  &lt;section&gt;
+    &lt;el-steps class="form_header" align-center :active="2" finish-status="success"&gt;
+      &lt;el-step title="填写商户基本资料"&gt;&lt;/el-step&gt;
+      &lt;el-step title="填写商户结算信息"&gt;&lt;/el-step&gt;
+      &lt;el-step title="上传商户资质和费率"&gt;&lt;/el-step&gt;
+    &lt;/el-steps&gt;
+    &lt;el-row  class="box-alert"&gt;
+      &lt;el-col :span="20"&gt;
+        &lt;div&gt;
+          &lt;el-alert :closable="false" title="审核驳回原因：" v-if="imageUrl.merchant_status === '2'" :description="imageUrl.error_msg || '暂无驳回原因，请联系运营人员'" type="error" show-icon&gt;
+          &lt;/el-alert&gt;
+        &lt;/div&gt;
+      &lt;/el-col&gt;
+      &lt;el-col :span="imageUrl.merchant_status === '2' ? 4 : 24"&gt;
+        &lt;el-button type="primary" class="editBtn" v-if="formDisabled" round @click="formDisabled = !formDisabled"&gt;修改&lt;/el-button&gt;
+      &lt;/el-col&gt;
+    &lt;/el-row&gt;
+    &lt;div class="form_main"&gt;
+      &lt;el-form ref="imageUrl" :inline="true" :disabled="formDisabled" :model="imageUrl" :rules="rules" label-width="150px" label-position="top" class="form_contron"&gt;
+        &lt;el-row&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="微信费率（‰）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.wx_rate" :precision="1" :step="0.1" :min="3" :max="50"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="支付宝费率（‰）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.ali_rate" :precision="1" :step="0.1" :min="3" :max="50"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="翼支付费率（‰）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.best_rate" :precision="1" :step="0.1" :min="3"  :max="50"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-checkbox v-model="showRate" style="margin-top:40px;"&gt;银行卡&lt;/el-checkbox&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row v-show="showRate"&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="贷记卡费率（‰）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.crebit_rate" :precision="1" :step="0.1" :min="5.4" :max="500"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="银联费率（‰）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.unionpay_rate" :precision="1" :step="0.1" :min="3.8" :max="6"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="12"&gt;
+            &lt;el-form-item label="借记卡费率（‰）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.debit_rate" :precision="1" :step="0.1" :min="4.2" :max="500"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+            &lt;el-form-item label="借记卡封顶值（元）" label-width="100px"&gt;
+              &lt;el-input-number v-model="imageUrl.reserve1" :precision="0" size="mini" :step="1" :min="18" :max="25"&gt;&lt;/el-input-number&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-checkbox v-model="imageUrl.wx_open" style="margin:40px 0;"&gt;微信&lt;/el-checkbox&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row v-if="imageUrl.wx_open"&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="渠道商商户号" prop="wx_chnlid" label-width="100px"&gt;
+              &lt;el-input v-model="imageUrl.wx_chnlid" placeholder="请输入内容"&gt;&lt;/el-input&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="联系人微信账号" prop="wx_contid" label-width="100px"&gt;
+              &lt;el-input v-model="imageUrl.wx_contid" placeholder="请输入内容"&gt;&lt;/el-input&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-checkbox v-model="imageUrl.ali_open" style="margin:40px 0;"&gt;支付宝&lt;/el-checkbox&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row v-if="imageUrl.ali_open"&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="合作伙伴在支付宝的PID" prop="ali_source" label-width="100px"&gt;
+              &lt;el-input v-model="imageUrl.ali_source" placeholder="请输入内容"&gt;&lt;/el-input&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="6"&gt;
+            &lt;el-form-item label="经营类目" prop="ali_ctgyid" label-width="100px"&gt;
+              &lt;el-cascader
+                v-model="imageUrl.ali_ctgyid"
+                :options="optionsAliBusiness"
+                @active-item-change="businessItemAliChange"
+                :props="businessAliProps"
+              &gt;&lt;/el-cascader&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row&gt;
+          &lt;el-col :span="5" v-if="img_business_license"&gt;
+            &lt;el-form-item label="营业执照照片" prop="thum_img_business_license" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess1"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_business_license" :src="imageUrl.thum_img_business_license" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_idcard_a"&gt;
+            &lt;el-form-item label="法人身份证正面" prop="thum_img_idcard_a" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess2"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_idcard_a" :src="imageUrl.thum_img_idcard_a" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_idcard_b"&gt;
+            &lt;el-form-item label="法人身份证反面" prop="thum_img_idcard_b" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess3"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_idcard_b" :src="imageUrl.thum_img_idcard_b" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_bankcard_a"&gt;
+            &lt;el-form-item label="银行卡正面照片" prop="thum_img_bankcard_a"&gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess4"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_bankcard_a" :src="imageUrl.thum_img_bankcard_a" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="4" v-if="img_bankcard_b"&gt;
+            &lt;el-form-item label="银行卡反面照片" prop="thum_img_bankcard_b" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess5"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_bankcard_b" :src="imageUrl.thum_img_bankcard_b" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+&nbsp;
+&nbsp;
+        &lt;el-row&gt;
+          &lt;el-col :span="5" v-if="img_logo"&gt;
+            &lt;el-form-item label="商户门头照片" prop="thum_img_logo" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess6"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_logo" :src="imageUrl.thum_img_logo" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_indoor"&gt;
+            &lt;el-form-item label="内部前台照片" prop="thum_img_indoor" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess7"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_indoor" :src="imageUrl.thum_img_indoor" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_open_permits"&gt;
+            &lt;el-form-item label="开户许可证照片" prop="thum_img_open_permits" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess8"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_open_permits" :src="imageUrl.thum_img_open_permits" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_relation"&gt;
+            &lt;el-form-item label="商户关系证明" prop="thum_img_relation" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess9"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_relation" :src="imageUrl.thum_img_relation" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="4" v-if="img_private_idcard_a"&gt;
+            &lt;el-form-item label="结算人身份证正面" prop="thum_img_private_idcard_a" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess10"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_private_idcard_a" :src="imageUrl.thum_img_private_idcard_a" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row&gt;
+          &lt;el-col :span="5" v-if="img_private_idcard_b"&gt;
+            &lt;el-form-item label="结算人身份证反面" prop="thum_img_private_idcard_b" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess11"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_private_idcard_b" :src="imageUrl.thum_img_private_idcard_b" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_mer_relation"&gt;
+            &lt;el-form-item label="商户总分店关系证明" prop="thum_img_mer_relation" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess12"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_mer_relation" :src="imageUrl.thum_img_mer_relation" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="5" v-if="img_mer_increment"&gt;
+            &lt;el-form-item label="商户增值协议" prop="thum_img_mer_increment" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess13"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_mer_increment" :src="imageUrl.thum_img_mer_increment" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+          &lt;el-col :span="4" v-if="img_org_code"&gt;
+            &lt;el-form-item label="组织机构代码证照片" prop="thum_img_org_code" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess14"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_org_code" :src="imageUrl.thum_img_org_code" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+        &lt;el-row&gt;
+          &lt;el-col :span="5" v-if="img_tax_reg"&gt;
+            &lt;el-form-item label="税务登记证照片" prop="thum_img_tax_reg" &gt;
+              &lt;el-upload
+                class="avatar-uploader"
+                :data="{id:imageUrl.id}"
+                :action="uploadUrl"
+                :show-file-list="false"
+                :on-success="handleAvatarScucess15"
+                :before-upload="beforeAvatarUpload"&gt;
+                &lt;img v-if="imageUrl.thum_img_tax_reg" :src="imageUrl.thum_img_tax_reg" class="avatar"&gt;
+                &lt;i v-else class="el-icon-plus avatar-uploader-icon"&gt;&lt;/i&gt;
+              &lt;/el-upload&gt;
+            &lt;/el-form-item&gt;
+          &lt;/el-col&gt;
+        &lt;/el-row&gt;
+      &lt;/el-form&gt;
+      &lt;div slot="footer" class="form_footer"&gt;
+        &lt;el-button size="large" @click.native="retstSubmit"&gt;返 回&lt;/el-button&gt;
+        &lt;el-button type="primary" size="large" @click.native="addSubmit" :loading="addLoading"&gt;提 交&lt;/el-button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+&nbsp;
+&lt;script&gt;
+<span class="cstat-no" title="statement not covered" >import * as util from '../../../util/util.js'</span>
+<span class="cstat-no" title="statement not covered" >import * as data from '../../../util/data.js'</span>
+<span class="cstat-no" title="statement not covered" >import { Loading } from 'element-ui'</span>
+<span class="cstat-no" title="statement not covered" >import {</span>
+  addAgentMerone,
+  selectBank,
+  addLcShopView,
+  showBusinessType,
+  getProvince,
+  queryCity,
+  selectbranch,
+  getTokenList,
+  selectSaleByName,
+  uploadImage,
+  addAgentMertwo,
+  agentShopPage,
+  addAgentMerthree
+} from '../../../api/agent';
+export default {
+<span class="fstat-no" title="function not covered" >  data() {</span>
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      uploadUrl: uploadImage,
+      showRate: false,
+      imageUrl: {
+        id: this.$route.query.id,
+        wx_rate: 6.0,
+        ali_rate: 6.0,
+        best_rate: 3.0,
+        debit_rate: 5.0,
+        crebit_rate: 6.0,
+        unionpay_rate: 3.8,
+        reserve1: 18,
+&nbsp;
+        wx_open: "",
+        wx_chnlid: "",
+        wx_mchrmk: "",
+        wx_conttp: "type_wechatid",
+        wx_contid: "",
+&nbsp;
+        ali_open: "",
+        ali_source: "",
+        ali_ctgyid: [],
+&nbsp;
+        img_business_license: '',
+        img_idcard_a: '',
+        img_idcard_b: '',
+        img_bankcard_a: '',
+        img_bankcard_b: '',
+        img_logo: '',
+        img_indoor: '',
+        img_open_permits: '',
+        img_relation: '',
+        img_private_idcard_a: '',
+        img_private_idcard_b: '',
+        img_mer_relation: '',
+        img_mer_increment: '',
+        img_org_code: '',
+        img_tax_reg: '',
+&nbsp;
+        thum_img_business_license: '',
+        thum_img_idcard_a: '',
+        thum_img_idcard_b: '',
+        thum_img_bankcard_a: '',
+        thum_img_bankcard_b: '',
+        thum_img_logo: '',
+        thum_img_indoor: '',
+        thum_img_open_permits: '',
+        thum_img_relation: '',
+        thum_img_private_idcard_a: '',
+        thum_img_private_idcard_b: '',
+        thum_img_mer_relation: '',
+        thum_img_mer_increment: '',
+        thum_img_org_code: '',
+        thum_img_tax_reg: ''
+      },
+      addLoading: false,
+      loading: false,
+      rules: {
+        wx_busins: [
+         {
+            type: "array",
+            required: true,
+            message: "请选择经营类目",
+            trigger: "change"
+          }
+        ],
+        wx_conttp: [
+          {
+            required: true,
+            message: "请输入联系人微信账号类型",
+            trigger: "blur"
+          }
+        ],
+        wx_contid: [
+          {
+            required: true,
+            message: "请输入联系人微信账号",
+            trigger: "blur"
+          }
+        ],
+        ali_source: [
+          {
+            required: true,
+            message: "请输入合作伙伴在支付宝的PID",
+            trigger: "blur"
+          }
+        ],
+        ali_orgpid: [
+          {
+            required: true,
+            message: "请输入收单机构在支付宝的PID",
+            trigger: "blur"
+          }
+        ],
+        ali_ctgyid: [
+         {
+            type: "array",
+            required: true,
+            message: "请选择经营类目",
+            trigger: "change"
+          }
+        ],
+        thum_img_business_license: [{
+          required: true,
+          message: '请上传营业执照照片'
+        }],
+        thum_img_idcard_a: [{
+          required: true,
+          message: '请上传法人身份证正面'
+        }],
+        thum_img_idcard_b: [{
+          required: true,
+          message: '请上传法人身份证反面'
+        }],
+        thum_img_bankcard_a: [{
+          required: true,
+          message: '请上传银行卡正面照片'
+        }],
+        thum_img_bankcard_b: [{
+          required: true,
+          message: '请上传银行卡反面照片'
+        }],
+        thum_img_logo: [{
+          required: true,
+          message: '请上传商户门头照片'
+        }],
+        thum_img_indoor: [{
+          required: true,
+          message: '请上传内部前台照片'
+        }],
+        thum_img_open_permits: [{
+          required: true,
+          message: '请上传开户许可证照片'
+        }],
+        thum_img_relation: [{
+          required: true,
+          message: '请上传商户关系证明'
+        }],
+        thum_img_private_idcard_a: [{
+          required: true,
+          message: '请上传结算人身份证正面'
+        }],
+        thum_img_private_idcard_b: [{
+          required: true,
+          message: '请上传结算人身份证反面'
+        }],
+        thum_img_org_code: [{
+          required: true,
+          message: '组织机构代码证照片'
+        }],
+        thum_img_tax_reg: [{
+          required: true,
+          message: '税务登记证照片'
+        }]
+      },
+      img_business_license: false, //营业执照照片
+      img_idcard_a: false, //法人身份证正面
+      img_idcard_b: false, //法人身份证反面
+      img_bankcard_a: false, //银行卡正面照片
+      img_bankcard_b: false, //银行卡反面照片
+      img_logo: false, //商户门头照片
+      img_indoor: false, //内部前台照片
+      img_open_permits: false, //开户许可证照片
+      img_relation: false, //商户关系证明
+      img_private_idcard_a: false, //结算人身份证正面
+      img_private_idcard_b: false, //结算人身份证反面
+      img_mer_relation: false, //商户总分店关系证明
+      img_mer_increment: false, //商户增值协议
+      img_org_code: false, //组织机构代码证照片
+      img_tax_reg: false, //税务登记证照片
+      formDisabled: false,
+      optionsBusiness: [],
+      businessProps: {
+        value: "id",
+        label: "name",
+        children: "cities"
+      },
+      optionsAliBusiness: [],
+      businessAliProps: {
+        value: "id",
+        label: "name",
+        children: "cities"
+      }
+    }
+  },
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  mounted () {</span></span>
+<span class="cstat-no" title="statement not covered" >    let queryType = this.$route.query</span>
+<span class="cstat-no" title="statement not covered" >    if (queryType.settlement_mer_type === 'QY' &amp;&amp; queryType.account_type === '1' &amp;&amp; queryType.document_type === 'SZHY') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'QY' &amp;&amp; queryType.account_type === '1' &amp;&amp; queryType.document_type === 'YYZZ') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_org_code = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_tax_reg = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'QY' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'SZHY' &amp;&amp; queryType.is_liable_account === '1') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'QY' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'YYZZ' &amp;&amp; queryType.is_liable_account === '1') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_org_code = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_tax_reg = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'QY' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'SZHY' &amp;&amp; queryType.is_liable_account === '2') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_relation = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'QY' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'YYZZ' &amp;&amp; queryType.is_liable_account === '2') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_org_code = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_tax_reg = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_relation = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'GT' &amp;&amp; queryType.account_type === '1' &amp;&amp; queryType.document_type === 'SZHY') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'GT' &amp;&amp; queryType.account_type === '1' &amp;&amp; queryType.document_type === 'YYZZ') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_open_permits = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_org_code = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_tax_reg = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'GT' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'SZHY' &amp;&amp; queryType.is_liable_account === '1') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'GT' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'YYZZ' &amp;&amp; queryType.is_liable_account === '1') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_org_code  = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_tax_reg = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'GT' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'SZHY' &amp;&amp; queryType.is_liable_account === '2') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >    } else if (queryType.settlement_mer_type === 'GT' &amp;&amp; queryType.account_type === '2' &amp;&amp; queryType.document_type === 'YYZZ' &amp;&amp; queryType.is_liable_account === '2') {</span>
+<span class="cstat-no" title="statement not covered" >      this.img_business_license = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_bankcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_logo = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_indoor = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_relation = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_mer_increment = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_a = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_private_idcard_b = true</span>
+<span class="cstat-no" title="statement not covered" >      this.img_relation = true</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (this.$route.query.id) {</span>
+<span class="cstat-no" title="statement not covered" >      this.getPageDetails() </span>
+    }
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    showBusinessType({ id: "0", type: "ALI" }).then(res =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >      let list = [];</span>
+<span class="cstat-no" title="statement not covered" >      for (let i = 0; i &lt; res.data.BusinessList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >        let e = res.data.BusinessList[i];</span>
+<span class="cstat-no" title="statement not covered" >        e.cities = [];</span>
+<span class="cstat-no" title="statement not covered" >        list.push(e);</span>
+      }
+<span class="cstat-no" title="statement not covered" >      this.optionsAliBusiness = list;</span>
+    });
+  },
+  methods: {
+<span class="fstat-no" title="function not covered" >    retstSubmit() {</span>
+<span class="cstat-no" title="statement not covered" >      this.$router.go(-1)</span>
+    },
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    businessItemAliChange(val) {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      showBusinessType({ id: val[0], type: "ALI" }).then(res =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >        this.optionsAliBusiness.findIndex(function(obj) {</span></span>
+<span class="cstat-no" title="statement not covered" >          if (val[0] == obj.id) {</span>
+<span class="cstat-no" title="statement not covered" >            let list = [];</span>
+<span class="cstat-no" title="statement not covered" >            for (let i = 0; i &lt; res.data.BusinessList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >              let e = res.data.BusinessList[i];</span>
+<span class="cstat-no" title="statement not covered" >              e.cities = [];</span>
+<span class="cstat-no" title="statement not covered" >              list.push(e);</span>
+            }
+<span class="cstat-no" title="statement not covered" >            obj.cities = res.data.BusinessList;</span>
+<span class="cstat-no" title="statement not covered" >            if (val[1]) {</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >              showBusinessType({ id: val[1], type: "ALI" }).then(res =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >                obj.cities.findIndex(function(params) {</span></span>
+<span class="cstat-no" title="statement not covered" >                  if (val[1] == params.id) {</span>
+<span class="cstat-no" title="statement not covered" >                    params.cities = res.data.BusinessList;</span>
+                  }
+                });
+              });
+            }
+          }
+        });
+      });
+    },
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    getPageDetails() {</span></span>
+<span class="cstat-no" title="statement not covered" >      let para = {</span>
+        id: this.$route.query.id,
+        page: 3
+      }
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      agentShopPage(para).then(res =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (res.status === 200 &amp;&amp; res.data.isEmpty === '1') {</span>
+<span class="cstat-no" title="statement not covered" >          let imageUrl = util.deepcopy(</span>
+            Object.assign(res.data.bsbPay, res.data.agentMap)
+          );
+<span class="cstat-no" title="statement not covered" >          console.log(imageUrl);</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.ali_open = imageUrl.ali_open === "Y" ? true : false;</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.wx_open = imageUrl.wx_open === "Y" ? true : false;</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.wx_chnlid = imageUrl.wx_chnlid;</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.wx_contid = imageUrl.wx_contid;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.ali_source = imageUrl.ali_source;</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.ali_ctgyid = JSON.parse(imageUrl.ali_ctgyid);</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.ali_mcccod = imageUrl.ali_mcccod;</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.id = imageUrl.id || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.wx_rate = imageUrl.wx_rate || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.ali_rate = imageUrl.ali_rate || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.best_rate = imageUrl.best_rate || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.debit_rate = imageUrl.debit_rate || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.crebit_rate = imageUrl.crebit_rate || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.unionpay_rate = imageUrl.unionpay_rate || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.reserve1 = imageUrl.reserve1 || ''</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_business_license = imageUrl.img_business_license || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_idcard_a = imageUrl.img_idcard_a || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_idcard_b = imageUrl.img_idcard_b || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_bankcard_a = imageUrl.img_bankcard_a || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_bankcard_b = imageUrl.img_bankcard_b || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_logo = imageUrl.img_logo || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_indoor = imageUrl.img_indoor || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_open_permits = imageUrl.img_open_permits || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_relation = imageUrl.img_relation || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_private_idcard_a = imageUrl.img_private_idcard_a || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_private_idcard_b = imageUrl.img_private_idcard_b || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_mer_relation = imageUrl.img_mer_relation || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_mer_increment = imageUrl.img_mer_increment || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_org_code = imageUrl.img_org_code || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.img_tax_reg = imageUrl.img_tax_reg || ''</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_business_license = imageUrl.thum_img_business_license || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_idcard_a = imageUrl.thum_img_idcard_a || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_idcard_b = imageUrl.thum_img_idcard_b || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_bankcard_a = imageUrl.thum_img_bankcard_a || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_bankcard_b = imageUrl.thum_img_bankcard_b || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_logo = imageUrl.thum_img_logo || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_indoor = imageUrl.thum_img_indoor || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_open_permits = imageUrl.thum_img_open_permits || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_relation = imageUrl.thum_img_relation || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_private_idcard_a = imageUrl.thum_img_private_idcard_a || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_private_idcard_b = imageUrl.thum_img_private_idcard_b || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_mer_relation = imageUrl.thum_img_mer_relation || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_mer_increment = imageUrl.thum_img_mer_increment || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_org_code = imageUrl.thum_img_org_code || ''</span>
+<span class="cstat-no" title="statement not covered" >          this.imageUrl.thum_img_tax_reg = imageUrl.thum_img_tax_reg || ''</span>
+          
+<span class="cstat-no" title="statement not covered" >          this.businessItemAliChange(this.imageUrl.ali_ctgyid);</span>
+<span class="cstat-no" title="statement not covered" >          if (res.data.timely_sign &amp;&amp; res.data.timely_sign === '1') {</span>
+<span class="cstat-no" title="statement not covered" >            this.formDisabled = true</span>
+          }else{
+<span class="cstat-no" title="statement not covered" >            this.formDisabled = false</span>
+          }
+        }
+      })
+    },
+    //图片上传
+<span class="fstat-no" title="function not covered" >    beforeAvatarUpload(file) {</span>
+<span class="cstat-no" title="statement not covered" >      const isJPG = file.type === 'image/jpeg';</span>
+<span class="cstat-no" title="statement not covered" >      const isLt3M = file.size / 1024 / 1024 &lt; 3;</span>
+<span class="cstat-no" title="statement not covered" >      if (!isJPG) {</span>
+<span class="cstat-no" title="statement not covered" >        this.$message.error('上传图片只能是 JPG 格式!');</span>
+      }
+<span class="cstat-no" title="statement not covered" >      if (!isLt3M) {</span>
+<span class="cstat-no" title="statement not covered" >        this.$message.error('上传图片大小不能超过 3MB!');</span>
+      }
+<span class="cstat-no" title="statement not covered" >      return isJPG &amp;&amp; isLt3M;</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess1(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_business_license = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_business_license = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess2(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_idcard_a = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_idcard_a = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess3(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_idcard_b = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_idcard_b = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess4(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_bankcard_a = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_bankcard_a = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess5(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_bankcard_b = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_bankcard_b = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess6(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_logo = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_logo = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess7(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_indoor = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_indoor = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess8(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_open_permits = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_open_permits = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess9(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_relation = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_relation = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess10(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_private_idcard_a = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_private_idcard_a = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess11(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_private_idcard_b = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_private_idcard_b = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess12(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_mer_relation = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_mer_relation = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess13(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_mer_increment = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_mer_increment = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess14(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_org_code = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_org_code = res.data.thumbnailImage</span>
+    },
+<span class="fstat-no" title="function not covered" >    handleAvatarScucess15(res, file) {</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.img_tax_reg = res.data.locationPath</span>
+<span class="cstat-no" title="statement not covered" >      this.imageUrl.thum_img_tax_reg = res.data.thumbnailImage</span>
+    },
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    addSubmit: function() {</span></span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >      this.$refs.imageUrl.validate((valid) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >        if (valid) {</span>
+<span class="cstat-no" title="statement not covered" >          let para = util.deepcopy(this.imageUrl)</span>
+<span class="cstat-no" title="statement not covered" >          para.shop_id = this.$route.query.shop_id,</span>
+          para.salesman_id = this.$route.query.salesman_id
+<span class="cstat-no" title="statement not covered" >          para.wx_open = para.wx_open ? "Y" : "N";</span>
+<span class="cstat-no" title="statement not covered" >          para.ali_open = para.ali_open ? "Y" : "N";</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >          addAgentMerthree(para).then(res =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >            if (res.status === 200) {</span>
+<span class="cstat-no" title="statement not covered" >              this.$message({</span>
+                message: res.message,
+                type: 'success'
+              });
+<span class="cstat-no" title="statement not covered" >              this.$router.push({</span>
+                path: '/index2/page4'
+              });
+            }
+          })
+        } else {
+<span class="cstat-no" title="statement not covered" >          return false;</span>
+        }
+      });
+    }
+  }
+}
+&lt;/script&gt;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Wed Dec 12 2018 10:40:32 GMT+0800 (中国标准时间)
+</div>
+</div>
+<script src="..\..\..\..\prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="..\..\..\..\sorter.js"></script>
+</body>
+</html>

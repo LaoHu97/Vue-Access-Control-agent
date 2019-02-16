@@ -53,7 +53,9 @@ export const queryCityCounty = params => { return instance.post(`${preUrlPath}/a
 
 export const queryCity = params => { return instance.post(`${preUrlPath}/admin/wp/comm/queryCity`,params).then(res => res.data); };
 //开户银行支行
-export const selectbranch = params => { return instance.post(`${preUrlPath}/admin/wp/comm/selectbranch`,params).then(res => res.data); };
+export const selectbranch = params => {
+  return instance.post(`${preUrlPath}/admin/wp/comm/selectbranchByProCit`, params).then(res => res.data);
+};
 //富有大商户
 export const getTokenList = params => { return instance.post(`${preUrlPath}/admin/wp/comm/getTokenList`,params).then(res => res.data); };
 //反佣查询
@@ -78,9 +80,9 @@ export const queryMerDaySum = params => { return instance.post(`${preUrlPath}/ad
 //首页
 export const showAgentDate = params => { return instance.post(`${preUrlPath}/admin/wp/ag/showAgentDate`,params).then(res => res.data); };
 //公告列表
-export const getNotices = params => { return instance.post(`${preUrlPath}/admin/sys/getNotices`,params).then(res => res.data); };
+export const getNotices = params => { return instance.post(`${preUrlPath}/admin//wp/ag/getNotices`,params).then(res => res.data); };
 //公告详情
-export const getNoticeById = params => { return instance.post(`${preUrlPath}/admin/sys/getNoticeById`,params).then(res => res.data); };
+export const getNoticeById = params => { return instance.post(`${preUrlPath}/admin/wp/ag/getNoticeById`,params).then(res => res.data); };
 //商户月排行榜
 export const queryMerMonthData = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryMerMonthData`,params).then(res => res.data); };
 
@@ -163,3 +165,50 @@ export const queryTerminal = params => { return Axios.post(`${preUrlPath}/admin/
 
 export const updateTerminal = params => { return Axios.post(`${preUrlPath}/admin/wp/ag/updateTerminal`,params).then(res => res.data); };
 
+export const bsbLegalDocumentType = params => { return Axios.post(`${preUrlPath}/admin/wp/bsbadmin/bsbLegalDocumentType`, params).then(res => res.data); };
+
+export const updateMerPayConfig = params => { return instance.post(`${preUrlPath}/admin/wp/ag/updateMerPayConfig`, params).then(res => res.data); };
+
+export const queryMerNextRate = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryMerNextRate`, params).then(res => res.data); };
+
+export const queryMerchantPay = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryMerchantPay`, params).then(res => res.data); };
+
+export const updateMerchantPay = params => { return instance.post(`${preUrlPath}/admin/wp/ag/updateMerchantPay`, params).then(res => res.data); };
+
+export const queryMerPayConfig = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryMerPayConfig`, params).then(res => res.data); };
+
+export const queryStatementList = params => { return instance.post(`${preUrlPath}/admin/wp/ag/queryStatementList`, params).then(res => res.data); };
+
+export const queryDownloadData = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryDownloadData`, params).then(res => res.data);
+};
+
+export const queryMerDownRecord = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryMerDownRecord`, params).then(res => res.data);
+};
+
+export const queryRateConfig = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryRateConfig`, params).then(res => res.data);
+};
+
+export const updateRateConfig = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/updateRateConfig`, params).then(res => res.data);
+};
+
+export const uploadZIP = `${preUrlPath}/admin/wp/ag/uploadZIP`;
+
+export const querySpeRateList = params => {
+  return instance.post(`${preUrlPath}/admin/wp/comm/querySpeRateList`, params).then(res => res.data);
+};
+
+export const merToSpecialRate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/merToSpecialRate`, params).then(res => res.data);
+};
+
+export const applicationSpecialRate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/applicationSpecialRate`, params).then(res => res.data);
+};
+
+export const queryChangeSpecialRate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryChangeSpecialRate`, params).then(res => res.data);
+};

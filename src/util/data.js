@@ -35,6 +35,9 @@ export const optionsPaymentCopy = [{
   label: '银联二维码'
 }]
 export const optionsPaymentExcel = [{
+  value: '',
+  label: '所有'
+}, {
   value: 'WX',
   label: '微信'
 }, {

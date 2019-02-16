@@ -244,7 +244,7 @@
             break;
           case 2:
             sessionStorage.setItem('menu', JSON.stringify(1));
-            this.$emit('login', '/index1/table2');
+            this.$emit('login', '/index1/table');
             break;
           case 3:
             sessionStorage.setItem('menu', JSON.stringify(2));

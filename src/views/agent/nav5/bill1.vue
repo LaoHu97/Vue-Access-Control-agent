@@ -82,10 +82,32 @@
       </el-row>
       <el-row>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('excelForm')">立即下载</el-button>
+          <el-button type="primary" @click="submitForm('excelForm')">下载</el-button>
+          <el-button type="success" @click="downClick">下载记录</el-button>
         </el-form-item>
       </el-row>
     </el-form>
+    <el-dialog title="预约下载" :visible.sync="dialogTableVisible" width="50%">
+      <el-alert
+        title="报表文件生成后系统将保留7天，过期自动删除"
+        type="warning"
+        show-icon
+        :closable="false"
+        style="margin-bottom: 10px;">
+      </el-alert>
+      <div>
+        <el-table :data="gridData">
+          <el-table-column :formatter="formatter_gmt_create" property="gmt_create" label="申请时间"></el-table-column>
+          <el-table-column property="file_name" label="文件名"></el-table-column>
+          <el-table-column :formatter="formatter_status" label="状态"></el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button plain type="success" :disabled="scope.row.status !== '1'" @click="excleClick(scope.$index, scope.row)">下载</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -96,8 +118,9 @@
     selectEmpsBySid,
     selectStoreList,
     selectMersByName,
-    checkDataExcel,
-    selectStoreListByPhone
+    queryDownloadData,
+    selectStoreListByPhone,
+    queryMerDownRecord
   } from '../../../api/agent';
   export default {
     data() {
@@ -133,7 +156,7 @@
           parag: '',
           excel_type: 'od',
           accountType: '0',
-          recsonId: 'WX',
+          recsonId: '',
           storeName: '',
           empName: '',
           mid: '',
@@ -157,12 +180,6 @@
         optionsExcel: [{
           value: 'od',
           label: '交易明细'
-        }, {
-          value: 'sd',
-          label: '门店日汇总'
-        }, {
-          value: 'ss',
-          label: '门店汇总'
         }],
         //账单类型
         optionsPayType: [{
@@ -173,7 +190,9 @@
           label: '退款成功'
         }],
         //支付方式
-        optionsScene: data.optionsPaymentExcel
+        optionsScene: data.optionsPaymentExcel,
+        dialogTableVisible: false,
+        gridData: []
       };
     },
     computed: {
@@ -195,6 +214,24 @@
       }
     },
     methods: {
+      formatter_gmt_create(row, cloumn){
+        return util.formatDate.format(new Date(row.gmt_create), 'yyyy-MM-dd hh:mm:ss')
+      },
+      formatter_status(row, cloumn){
+        return row.status === '0' ? '处理中' : row.status === '1' ? '成功' : '未知'
+      },
+      excleClick(index, row){
+        console.log(row.file_url);
+        window.open(row.file_url)
+      },
+      downClick() {
+        this.dialogTableVisible = true
+        this.$nextTick(() => {
+          queryMerDownRecord().then(res => {
+            this.gridData = res.data.dataList
+          })
+        })
+      },
       changTime(date) {
         let end_time = Date.parse(new Date(util.formatDate.format(new Date(this.excelForm.endTime), 'yyyy-MM-dd')))
         let date_time = Date.parse(new Date(util.formatDate.format(new Date(date), 'yyyy-MM-dd')))
@@ -335,12 +372,15 @@
               excel_type: this.excelForm.excel_type
             }
             para.startTime = (!para.startTime || para.startTime == '') ? '' : String(Date.parse(util.formatDate.format(
-              new Date(para.startTime), 'yyyy-MM-dd hh:mm:ss')));
+              new Date(para.startTime), 'yyyy/MM/dd hh:mm:ss')));
             para.endTime = (!para.endTime || para.endTime == '') ? '' : String(Date.parse(util.formatDate.format(
-              new Date(para.endTime), 'yyyy-MM-dd hh:mm:ss')));
-            checkDataExcel(para).then(res => {
-              if (res.data.status === 200) {
-                window.open(res.data.data)
+              new Date(para.endTime), 'yyyy/MM/dd hh:mm:ss')));
+            queryDownloadData(para).then(res => {
+              if (res.status === 200) {
+                this.$message({
+                  message: res.message,
+                  type: 'success'
+                });
               }
             })
           }

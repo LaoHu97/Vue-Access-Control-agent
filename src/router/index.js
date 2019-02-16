@@ -39,7 +39,7 @@ let router = new Router({
 
 router.beforeEach((to, from, next) => {  
   let routeName = to.meta.name || to.name;
-  window.document.title = (routeName ? routeName + ' - ' : '') + '后台管理系统';
+  window.document.title = (routeName ? routeName + ' - ' : '') + '有氧金融代理端';
   next();
 });
 

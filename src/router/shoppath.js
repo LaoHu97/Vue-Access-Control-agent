@@ -9,47 +9,21 @@ export default [{
   component: Abstract,
   children: [{
     path: 'table',
-    name: '实时交易查询',
+    name: '交易查询',
     meta: {
       title: '实时交易查询', icon: 'table1', noCache: false, code: '',
     },
     component: (resolve) => require(['../views/agent/nav1/Table.vue'], resolve)
   }, {
-    path: 'table2',
-    name: '商户日交易汇总',
+    path: 'settlement1',
+    name: '结算单查询',
     meta: {
-      title: '商户日交易汇总', icon: 'table', noCache: true, code: ''
+      title: '结算单查询',
+      icon: 'table1',
+      noCache: false,
+      code: '',
     },
-    component: (resolve) => require(['../views/agent/nav1/Table2.vue'], resolve)
-  }, {
-    path: 'table4',
-    name: '商户月交易汇总',
-    meta: {
-      title: '商户月交易汇总', icon: 'table', noCache: true, code: ''
-    },
-    component: (resolve) => require(['../views/agent/nav1/Table4.vue'], resolve)
-  }, {
-    path: 'table1',
-    name: '商户日汇总明细',
-    meta: {
-      title: '商户日汇总明细', icon: 'table', noCache: true, code: ''
-    },
-    component: (resolve) => require(['../views/agent/nav1/Table1.vue'], resolve)
-  }]
-}, {
-  path: '/index1',
-  name: '交易分析',
-  meta: {
-    icon: 'icon-shujutongji'
-  },
-  component: Abstract,
-  children: [{
-    path: 'table3',
-    name: '商户排行榜',
-    meta: {
-      title: '商户排行榜', icon: 'table', noCache: true, code: ''
-    },
-    component: (resolve) => require(['../views/agent/nav1/Table3.vue'], resolve)
+    component: (resolve) => require(['../views/agent/nav6/settlement1.vue'], resolve)
   }]
 }, {
   path: '/index2',
@@ -135,7 +109,43 @@ export default [{
       title: '终端管理', icon: 'table', noCache: true, code: '', hidden: true
     },
     component: (resolve) => require(['../views/agent/nav2/Page14.vue'], resolve)
-  }
+  }, {
+      path: 'page15',
+      name: '微信支付配置',
+      meta: {
+        title: '微信支付配置', icon: 'table', noCache: true, code: '', hidden: true
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page15.vue'], resolve)
+    }, {
+      path: 'page16',
+      name: '支付宝支付配置',
+      meta: {
+        title: '支付宝支付配置', icon: 'table', noCache: true, code: '', hidden: true
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page16.vue'], resolve)
+    }, {
+      path: 'page17',
+      name: '商户费率变更查询',
+      meta: {
+        title: '商户费率变更查询',
+        icon: 'table',
+        noCache: true,
+        code: '',
+        hidden: false
+      },
+      component: (resolve) => require(['../views/agent/nav2/Page17.vue'], resolve)
+    }, {
+      path: 'page18',
+      name: '特殊费率',
+      meta: {
+        title: '特殊费率',
+        icon: 'table',
+        noCache: true,
+        code: '',
+        hidden: true
+      },
+      component: (resolve) => require(['../views/agent/nav2/page18.vue'], resolve)
+    }
   ]
 }, {
   path: '/index2',
@@ -151,14 +161,8 @@ export default [{
       title: '业务员管理', icon: 'table1', noCache: false, code: '',
     },
     component: (resolve) => require(['../views/agent/nav3/List1.vue'], resolve)
-  }, {
-    path: 'list2',
-    name: '一键分配',
-    meta: {
-      title: '一键分配', icon: 'table', noCache: true, code: ''
-    },
-    component: (resolve) => require(['../views/agent/nav3/List2.vue'], resolve)
-  }]
+  }
+]
 }, {
   path: '/index1',
   name: '返佣管理',
@@ -168,9 +172,9 @@ export default [{
   component: Abstract,
   children: [{
     path: 'tab1',
-    name: '结算管理',
+    name: '返佣查询',
     meta: {
-      title: '结算管理', icon: 'table1', noCache: false, code: '',
+      title: '返佣查询', icon: 'table1', noCache: false, code: '',
     },
     component: (resolve) => require(['../views/agent/nav4/Tab1.vue'], resolve)
   }, {
@@ -180,13 +184,6 @@ export default [{
       title: '结算详情', icon: 'table', noCache: true, code: '', hidden: true
     },
     component: (resolve) => require(['../views/agent/nav4/Tab2.vue'], resolve)
-  }, {
-    path: 'tab3',
-    name: '业务员返佣查询',
-    meta: {
-      title: '业务员返佣查询', icon: 'table', noCache: true, code: ''
-    },
-    component: (resolve) => require(['../views/agent/nav4/Tab3.vue'], resolve)
   }]
 }, {
   path: '/bill1',

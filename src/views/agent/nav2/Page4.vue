@@ -105,10 +105,6 @@ export default {
         {
           value: "4",
           label: "初次审核驳回"
-        },
-        {
-          value: "3",
-          label: "审核通过"
         }
       ]
     };

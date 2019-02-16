@@ -72,13 +72,13 @@
         </span>
       </el-form>
     </div>
-    <div class="news">
+    <!-- <div class="news">
       <div class="notice">最新公告</div>
       <a href="http://www.wandingkeji.cn/newsitem/277761358" target="_blank">1、帮助商家便捷接入微信、支付宝</a>
       <a href="http://www.wandingkeji.cn/newsitem/277185235" target="_blank">2、帮助商家进行微信公众平台开发运营</a>
       <a href="#">3、《商户平台使用手册》即将上线</a>
       <a class="gengduo" href="http://www.wandingkeji.cn">查看更多>></a>
-    </div>
+    </div> -->
     <div class="service">
       <h2>商户入驻流程</h2>
       <el-steps space="45%" :active="1" :align-center="true">
@@ -169,17 +169,15 @@ export default {
           sessionStorage.setItem("name", JSON.stringify(name));
           sessionStorage.setItem("agentId",JSON.stringify(res.data.userLogin.id));
           sessionStorage.setItem("menu", JSON.stringify(1));
+          sessionStorage.setItem("activeIndex", JSON.stringify(2));
           this.$store.dispatch("top_nav", "2");
-          vm.$emit("login", "/index1/table2");
+          vm.$emit("login", "/index1/table");
         })
         .catch(err => {
           vm.isBtnLoading = false;
           this.clickCode();
         });
     }
-  },
-  created() {
-    sessionStorage.clear();
   }
 };
 </script>
@@ -189,7 +187,7 @@ export default {
   border-radius: 3px;
   -moz-border-radius: 3px;
   background-clip: padding-box;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: #27A1DD;
   float: right;
   padding: 14px 35px 0;
   width: 240px;
@@ -211,7 +209,8 @@ export default {
   text-align: center;
   line-height: 60px;
   color: #333;
-  margin-top: 120px;
+  position: fixed;
+  bottom: 0;
 }
 .centers {
   overflow: hidden;
