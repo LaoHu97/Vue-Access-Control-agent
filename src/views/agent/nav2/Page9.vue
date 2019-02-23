@@ -42,7 +42,7 @@
         </div>
       </el-col>
       <el-col :span="form.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" v-if="formDisabled" :disabled="form.merchant_status === '1'" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
@@ -63,7 +63,7 @@
           <el-col>
             <el-form-item label="商户结算入网类型" prop="settlement_mer_type">
               <template>
-                <el-select v-model="form.settlement_mer_type" :disabled="editDisabled" placeholder="请选择">
+                <el-select v-model="form.settlement_mer_type" placeholder="请选择">
                   <el-option
                     v-for="item in settlementOptions"
                     :key="item.value"
@@ -87,6 +87,7 @@
             <el-form-item label="证件到期日期：" prop="licensen_expire">
               <el-date-picker
                 v-model="form.licensen_expire"
+                :disabled="form.licensen_expire_long ? true : false"
                 :picker-options="pickerOptions"
                 type="date"
                 value-format="timestamp"
@@ -104,7 +105,7 @@
           <el-col>
             <el-form-item label="结算账户类型：" prop="account_type">
               <template>
-                <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW' || editDisabled">
+                <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW'">
                   <el-radio label="1">对公</el-radio>
                   <el-radio label="2">对私</el-radio>
                 </el-radio-group>
@@ -128,22 +129,22 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
+        <!-- <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
           <el-col>
             <el-form-item label="是否法人入账：" prop="is_liable_account">
               <template>
-                <el-radio-group v-model="form.is_liable_account" :disabled="editDisabled">
+                <el-radio-group v-model="form.is_liable_account">
                   <el-radio label="1">法人入账</el-radio>
                   <el-radio label="2">非法人入账</el-radio>
                 </el-radio-group>
               </template>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row  v-if="form.account_type == '1' || form.is_liable_account == '2'">
           <el-col>
             <el-form-item label="法人姓名：" prop="legal_name">
-              <el-input v-model.trim="form.legal_name" :disabled="editDisabled" ></el-input>
+              <el-input v-model.trim="form.legal_name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -183,6 +184,7 @@
             <el-form-item label="法人证件有效期" prop="merchant_id_expire">
                 <el-date-picker
                   v-model="form.merchant_id_expire"
+                  :disabled="form.merchant_id_expire_long ? true : false"
                   :picker-options="pickerOptions"
                   type="date"
                   value-format="timestamp"
@@ -206,7 +208,7 @@
         <el-row  v-if="form.account_type == '2'">
           <el-col>
             <el-form-item label="结算人身份证号" prop="settle_id_no">
-              <el-input v-model.trim="form.settle_id_no" :disabled="editDisabled" ></el-input>
+              <el-input v-model.trim="form.settle_id_no"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -215,6 +217,7 @@
             <el-form-item label="结算人身份证有效期" prop="settle_id_expire">
                 <el-date-picker
                   v-model="form.settle_id_expire"
+                  :disabled="form.settle_id_expire_long ? true : false"
                   :picker-options="pickerOptions"
                   type="date"
                   value-format="timestamp"
@@ -231,7 +234,7 @@
         <el-row>
           <el-col>
             <el-form-item label="结算人账户开户名：" prop="account_name">
-              <el-input v-model.trim="form.account_name" :disabled="editDisabled" ></el-input>
+              <el-input v-model.trim="form.account_name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -356,6 +359,7 @@
             <el-form-item label="控制人证件有效期" prop="contro_id_expire">
                 <el-date-picker
                   v-model="form.contro_id_expire"
+                  :disabled="form.contro_id_expire_long ? true : false"
                   :picker-options="pickerOptions"
                   type="date"
                   value-format="timestamp"
@@ -796,15 +800,27 @@ export default {
       this.form.bank_no = ''
     },
     licensen_expire_long_change(change){
+      if (change) {
+        this.form.licensen_expire = ''
+      }
       this.rules.licensen_expire[0].required = !change
     },
     merchant_id_expire_long_change(change){
+      if (change) {
+        this.form.merchant_id_expire = ''
+      }
       this.rules.merchant_id_expire[0].required = !change
     },
     settle_id_expire_long_change(change){
+      if (change) {
+        this.form.settle_id_expire = ''
+      }
       this.rules.settle_id_expire[0].required = !change
     },
     contro_id_expire_long_change(change){
+      if (change) {
+        this.form.contro_id_expire = ''
+      }
       this.rules.contro_id_expire[0].required = !change
     },
     getPageDetails() {

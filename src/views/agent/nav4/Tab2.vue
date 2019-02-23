@@ -10,7 +10,7 @@
   				</el-form-item>
         </el-col>
         <el-col :span="12">
-  				<el-form-item label="提成金额（元）：">
+  				<el-form-item label="分润金额（元）：">
   					<span name="name">{{Overview.rebate_amt}}</span>
   				</el-form-item>
         </el-col>
@@ -40,11 +40,7 @@
 			</el-table-column>
 			<el-table-column prop="sum_total" label="有效笔数" min-width="100">
 			</el-table-column>
-			<el-table-column prop="rebate_rate" label="返佣费率（千分比）" min-width="100">
-			</el-table-column>
-			<el-table-column prop="commission" label="返佣金额" min-width="100">
-			</el-table-column>
-			<el-table-column prop="rebate_amt" label="提成金额" min-width="100">
+			<el-table-column prop="rebate_amt" label="分润金额" min-width="100">
 			</el-table-column>
 		</el-table>
 
@@ -77,7 +73,7 @@ export default {
     //返回上一页
     Return: function() {
       sessionStorage.removeItem("rid"); //删除session
-      this.$router.push("/index1/tab1");
+      this.$router.push("/index3/tab1");
     },
     //获取用户列表
     handleCurrentChange(val) {

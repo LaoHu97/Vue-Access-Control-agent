@@ -22,19 +22,9 @@
     <el-form :inline="true" :model="filters" label-position="left" ref="filters" label-width="80px">
       <div class="search_top">
         <el-row>
-          <el-col :span="10">
-            <el-form-item label="查询日期" prop="dateTime">
-              <el-date-picker
-                v-model="filters.dateTime"
-                type="daterange"
-                range-separator="至"
-                start-placeholder="开始日期"
-                end-placeholder="结束日期"
-                value-format="timestamp"
-                :default-time="['00:00:00', '23:59:59']"
-                :picker-options="pickerOptions"
-                :clearable="false"
-              ></el-date-picker>
+          <el-col :span="6">
+            <el-form-item label="商户号" prop="merchant_no">
+              <el-input v-model="filters.merchant_no" class="fixed_search_input" placeholder="请输入商户号"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
@@ -60,23 +50,47 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
-            <el-form-item>
-              <el-button type="primary" @click="getUsers" round icon="el-icon-search">查询</el-button>
+          <el-col :span="12">
+            <el-form-item label="结算日期" prop="startTime">
+              <el-date-picker
+                v-model="filters.startTime"
+                class="fixed_search_input"
+                type="date"
+                placeholder="选择日期"
+                :picker-options="pickerOptions"
+                :clearable ="false"
+                value-format="timestamp">
+              </el-date-picker>
+            </el-form-item>
+            <el-form-item>至</el-form-item>
+            <el-form-item prop="endTime">
+              <el-date-picker
+                v-model="filters.endTime"
+                class="fixed_search_input"
+                type="date"
+                placeholder="选择日期"
+                :clearable ="false"
+                :picker-options="pickerOptions"
+                value-format="timestamp">
+              </el-date-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
+          <el-form-item style="float:right">
+            <el-button type="primary" @click="getUsers" round icon="el-icon-search">查询</el-button>
+          </el-form-item>
         </el-row>
       </div>
     </el-form>
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border stripe highlight-current-row>
-        <el-table-column prop="mname" label="商户名称"/>
         <el-table-column prop="business_no" label="商户号"/>
-        <el-table-column :formatter="formatCreate_time2" label="交易时间"/>
-        <el-table-column :formatter="formatCreate_time" label="清算时间"/>
-        <el-table-column prop="settlement_amount" label="清算金额"/>
-        <el-table-column prop="service_charge_amount" label="手续费"/>
+        <el-table-column prop="mname" label="商户名称"/>
+        <el-table-column :formatter="formatCreate_time2" label="交易日期"/>
+        <el-table-column :formatter="formatCreate_time" label="结算日期"/>
+        <el-table-column prop="settlement_amount" label="结算金额"/>
       </el-table>
     </div>
     <!--工具条-->
@@ -105,13 +119,10 @@ export default {
   data() {
     return {
       filters: {
-        startTime: "",
-        endTime: "",
-        dateTime: [          
-          new Date(new Date().getFullYear(), new Date().getMonth(),new Date().getDate()).getTime(),
-          new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),23,59,59).getTime()
-        ],
-        mid: ""
+        startTime: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime(),
+        endTime: new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(),23,59,59).getTime(),
+        mid: "",
+        merchant_no: ''
       },
       total: 0,
       page: 1,
@@ -134,23 +145,17 @@ export default {
     };
   },
   methods: {
-    formatCreate_paytype(row, column) {
-      return row.pay_type === '010' ? '微信' : row.pay_type === '020' ? '支付宝' : '未知'
-    },
     formatCreate_time(row, column) {
       return util.formatDate.format(
         new Date(row.settlement_date),
-        "yyyy/MM/dd hh:mm:ss"
+        "yyyy/MM/dd"
       );
     },
     formatCreate_time2(row, column) {
       return util.formatDate.format(
         new Date(row.trade_date),
-        "yyyy/MM/dd hh:mm:ss"
+        "yyyy/MM/dd"
       );
-    },
-    formatCreate_statue(row, column) {
-      return row.status === '1' ? '预生效' : row.status === '2' ? '已生效' : '未知'
     },
     handleCurrentChange (val) {
       this.page = val
@@ -186,8 +191,6 @@ export default {
       this.listLoading = true
       let para = this.filters;
       para.pageNum = this.page.toString();
-      para.startTime = para.dateTime ? para.dateTime[0].toString() : "";
-      para.endTime = para.dateTime ? para.dateTime[1].toString() : "";
       queryStatementList(para).then(res => {
         this.listLoading = false
         this.users = res.data.queryStatementList;

@@ -1,5 +1,6 @@
 <template>
 <section>
+  <el-button size="small" round @click="historyGo" style="margin-bottom:15px;">返回</el-button>
   <!--工具条-->
   <el-row>
     <el-form :inline="true" :model="filters" ref="filters">
@@ -15,6 +16,8 @@
 
   <!--列表-->
   <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
+    <el-table-column prop="saccount" label="门店编号" min-width="120">
+    </el-table-column>
     <el-table-column prop="storeName" label="门店名称" min-width="120">
     </el-table-column>
     <el-table-column prop="address" label="门店地址" min-width="180">
@@ -23,9 +26,7 @@
     </el-table-column>
     <el-table-column prop="telephone" label="联系电话" min-width="120">
     </el-table-column>
-    <el-table-column prop="saccount" label="登录帐号" min-width="120">
-    </el-table-column>
-    <el-table-column label="门店状态" min-width="80">
+    <!-- <el-table-column label="门店状态" min-width="80">
       <template slot-scope="scope">
           <el-switch
             name="value"
@@ -33,10 +34,10 @@
             v-model="scope.row.state">
           </el-switch>
       </template>
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column label="操作" width="360">
       <template slot-scope="scope">
-          <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+          <!-- <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button> -->
 					<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 					<el-button type="info" size="mini" @click="handleDet(scope.$index, scope.row)">详情</el-button>
           <el-button type="info" size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
@@ -61,9 +62,6 @@
       <el-form-item label="详细地址：">
         <span>{{detForm.address}}</span>
       </el-form-item>
-      <!-- <el-form-item label="渠道门店ID：">
-					<span>{{detForm.pnum}}</span>
-				</el-form-item> -->
       <el-form-item label="门店编号：">
         <span>{{detForm.storeName}}</span>
       </el-form-item>
@@ -76,16 +74,16 @@
   <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="editForm" :rules="editFormRules" ref="editForm">
       <el-form-item label="门店名称" prop="storeName">
-        <el-input v-model="editForm.storeName" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="详细地址" prop="address">
-        <el-input v-model="editForm.address" auto-complete="off"></el-input>
+        <el-input v-model="editForm.storeName"></el-input>
       </el-form-item>
       <el-form-item label="联系人" prop="revsere2">
         <el-input v-model="editForm.revsere2"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="telephone">
         <el-input v-model="editForm.telephone"></el-input>
+      </el-form-item>
+      <el-form-item label="详细地址" prop="address">
+        <el-input v-model="editForm.address"></el-input>
       </el-form-item>
       <el-form-item label="营业时间" prop="shopHours">
         <template>
@@ -126,16 +124,16 @@
   <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="门店名称" prop="storeName">
-        <el-input v-model="addForm.storeName" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="详细地址" prop="address">
-        <el-input v-model="addForm.address" auto-complete="off"></el-input>
+        <el-input v-model="addForm.storeName"></el-input>
       </el-form-item>
       <el-form-item label="联系人" prop="revsere2">
         <el-input v-model="addForm.revsere2"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="telephone">
         <el-input v-model="addForm.telephone" auto-complete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="详细地址" prop="address">
+        <el-input v-model="addForm.address"></el-input>
       </el-form-item>
       <el-form-item label="营业时间">
         <template>
@@ -236,7 +234,7 @@ export default {
           }
         ],
         address: [{
-            required: true,
+            required: false,
             message: '请输入门店地址',
             trigger: 'blur'
           },
@@ -290,7 +288,7 @@ export default {
           }
         ],
         address: [{
-            required: true,
+            required: false,
             message: '请输入门店地址',
             trigger: 'blur'
           },
@@ -326,6 +324,9 @@ export default {
     }
   },
   methods: {
+    historyGo() {
+      this.$router.go(-1)
+    },
     lookEmp(index, row){
       this.$router.push({ path: '/index2/page8', query: { id: row.id, mid: this.$route.query.mid } })
     },

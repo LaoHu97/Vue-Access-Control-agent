@@ -42,7 +42,7 @@
         </div>
       </el-col>
       <el-col :span="form.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" v-if="formDisabled" :disabled="form.merchant_status === '1'" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
@@ -50,7 +50,7 @@
         <el-row>
           <el-col>
             <el-form-item label="商户名称：" prop="merchant_name">
-              <el-input v-model.trim="form.merchant_name" :disabled="$route.query.id ? true : false" placeholder="全局唯一不可重复"></el-input>
+              <el-input v-model.trim="form.merchant_name" placeholder="全局唯一不可重复"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -106,6 +106,7 @@
             <el-form-item label="联系人证件有效期" prop="person_id_expire">
                 <el-date-picker
                   v-model="form.person_id_expire"
+                  :disabled="form.person_id_expire_long === 'Y' ? true : false"
                   :picker-options="pickerOptions"
                   type="date"
                   value-format="timestamp"
@@ -412,7 +413,7 @@ export default {
       agentShopPage(para).then(res => {
         if (res.status === 200 && res.data.isEmpty === "1") {
           this.form = res.data.agentMap;
-          this.rules.person_id_expire[0].required = !res.data.agentMap.person_id_expire_long
+          this.rules.person_id_expire[0].required = res.data.agentMap.person_id_expire_long === 'Y' ? false : true
           if (res.data.timely_sign && res.data.timely_sign === "1") {
             this.formDisabled = true;
           } else {
@@ -440,6 +441,7 @@ export default {
     person_id_expire_long_change(change){
       if (change === 'Y') {
         this.rules.person_id_expire[0].required = false
+        this.form.person_id_expire = ''
       }else{
         this.rules.person_id_expire[0].required = true
       }

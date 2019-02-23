@@ -51,6 +51,12 @@
       </div>
       <div class="box-card-text">
         <el-row>
+          <el-col :span="8" style="font-size:20px;color:#F56C6C">
+            <span>商户号：</span>
+            {{ boxCardText.merchant_no }}
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="8">
             <span>商户名称：</span>
             {{ boxCardText.merchant_name }}
@@ -108,7 +114,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <span>创建时间：</span>
+            <span>准入日期：</span>
             {{ formatCreate_time(boxCardText.gmt_create) }}
           </el-col>
           <el-col :span="8">
@@ -153,12 +159,12 @@
             <span><router-link :to="{path: '/index2/page15', query: { mid: $route.query.mid } }">微信支付</router-link>
               <b :style="{ color: wx_open === 'Y' ? '#19C862' :'#F56C6C' }">（{{ wx_open === 'Y' ? '开启' : '关闭' }}）</b>
             </span>
-            <el-switch
+            <!-- <el-switch
               v-model="wx_open"
               active-value="Y"
               inactive-value="N"
               active-color="#19C862"
-              @change="switchChange"/>
+              @change="switchChange"/> -->
           </el-col>
           <el-col :span="8">
             <svg
@@ -169,12 +175,12 @@
             <span><router-link :to="{path: '/index2/page16', query: { mid: $route.query.mid } }">支付宝支付</router-link>
               <b :style="{ color: ali_open === 'Y' ? '#19C862' :'#F56C6C' }">（{{ ali_open === 'Y' ? '开启' : '关闭' }}）</b>
             </span>
-            <el-switch
+            <!-- <el-switch
               v-model="ali_open"
               active-value="Y"
               inactive-value="N"
               active-color="#13ce66"
-              @change="switchChange"/>
+              @change="switchChange"/> -->
           </el-col>
         </el-row>
       </div>
@@ -219,14 +225,14 @@
             </svg>
             <el-button type="text" size="medium" @click="resetPassWord">重置密码</el-button>
           </el-col>
-          <el-col :span="8">
+          <!-- <el-col :span="8">
             <svg class="box-card-pay-icon" aria-hidden="true">
               <use xlink:href="#icon-zhongduan"></use>
             </svg>
             <router-link :to="{path: '/index2/page14', query: { mid: $route.query.mid }}">
               <el-button type="text" size="medium">查看终端</el-button>
             </router-link>
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
     </el-card>

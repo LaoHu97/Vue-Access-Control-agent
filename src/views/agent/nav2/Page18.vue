@@ -1,5 +1,6 @@
 <template>
   <section>
+    <el-button size="small" round @click="historyGo">返回</el-button>
     <!--工具条-->
     <div class="top_header">
       <p class="top_header_text">特殊费率申请</p>
@@ -39,7 +40,11 @@
       <el-table :data="users" border highlight-current-row style="width: 100%;">
         <el-table-column prop="mname" label="商户名称" min-width="100">
         </el-table-column>
-        <el-table-column prop="gmt_create" label="创建时间" min-width="100" :formatter="formatterDate">
+        <el-table-column prop="spe_name" label="特殊费率名称" min-width="100">
+        </el-table-column>
+        <el-table-column prop="efectiveDate" label="生效日期" min-width="100">
+        </el-table-column>
+        <el-table-column prop="gmt_create" label="报名时间" min-width="100" :formatter="formatterDate">
         </el-table-column>
         <el-table-column prop="payType" label="支付方式" min-width="120" :formatter="formatterPayType">
         </el-table-column>
@@ -73,7 +78,7 @@ export default {
       //商户名
       filters: {
         speRateId: '',
-        material: '123123123'
+        material: ''
       },
       optionsSpeRate: [],
       total: 0,
@@ -95,6 +100,9 @@ export default {
     formatterPayType(row, column) {
       return util.formatPayment(row.payType)
     },
+    historyGo() {
+      this.$router.go(-1)
+    },
     submileRate() {
       if (!this.filters.speRateId) {
         return this.$message({
@@ -113,7 +121,16 @@ export default {
       })
     },
     handleAvatarScucess(res, file) {
-
+      if (res.status === 200) {
+        this.filters.material = res.data.locationPath
+        this.$message({
+          message: '补充资料上传成功',
+          type: 'success'
+        });
+      }else{
+        this.$message.error('补充资料上传失败');
+      }
+      
     },
     beforeAvatarUploadOther(file) {
       const isZIP = file.name.substring(file.name.lastIndexOf('.') + 1)	 === 'zip'

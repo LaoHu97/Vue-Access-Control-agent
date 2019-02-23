@@ -1,5 +1,6 @@
 <template>
 <section>
+  <el-button size="small" round @click="historyGo" style="margin-bottom:15px;">返回</el-button>
   <!--工具条-->
   <el-row>
     <el-form :inline="true" :model="filters">
@@ -14,8 +15,8 @@
       <el-form-item label="款台名称">
         <el-input v-model="filters.username" class="fixed_search_input" placeholder="款台名称"></el-input>
       </el-form-item>
-      <el-form-item label="款台帐号">
-        <el-input v-model="filters.account" class="fixed_search_input" placeholder="款台帐号"></el-input>
+      <el-form-item label="款台编号">
+        <el-input v-model="filters.account" class="fixed_search_input" placeholder="款台编号"></el-input>
       </el-form-item>
       <el-form-item style="float: right;">
         <el-button type="primary" @click="getUsers" round>查询</el-button>
@@ -29,32 +30,20 @@
 
   </div>
   <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
+    <el-table-column prop="account" label="款台编号" min-width="120">
+    </el-table-column>
+    <el-table-column prop="reverse1" label="所属门店" min-width="120">
+    </el-table-column>
     <el-table-column prop="username" label="款台名称" min-width="120">
-    </el-table-column>
-    <el-table-column prop="account" label="登录帐号" min-width="120">
-    </el-table-column>
-    <el-table-column label="款台状态" min-width="80">
-      <template slot-scope="scope">
-          <el-switch
-            name="value"
-            @change="test(scope.$index, scope.row)"
-            v-model="scope.row.status">
-          </el-switch>
-        </template>
     </el-table-column>
     <el-table-column label="二维码" width="100">
       <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleCode(scope.$index, scope.row)">二维码</el-button>
         </template>
     </el-table-column>
-    <!-- <el-table-column label="会员支付二维码" width="140" v-if="showVipCode">
-      <template slot-scope="scope">
-          <el-button type="success" size="mini" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
-        </template>
-    </el-table-column> -->
     <el-table-column label="操作" width="260">
       <template slot-scope="scope">
-          <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+          <!-- <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button> -->
           <el-button type="warning" size="mini" @click="handleModify(scope.$index, scope.row)">修改</el-button>
           <el-button type="info" size="mini" @click="handleEdit(scope.$index, scope.row)">详情</el-button>
         </template>
@@ -67,26 +56,26 @@
     </el-pagination>
   </el-row>
   <!--修改界面-->
-  <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="修改款台" :visible.sync="modFormVisible" :close-on-click-modal="false" width="400px">
     <el-form :model="modForm" :rules="modFormRules" ref="editForm">
       <el-form-item label="款台名称" prop="username">
-        <el-input v-model="modForm.username" auto-complete="off"></el-input>
+        <el-input v-model="modForm.username"></el-input>
       </el-form-item>
       <!-- <el-form-item label="支付宝操作员编号：" prop="ali_operation_id">
           <el-input v-model="modForm.ali_operation_id"></el-input>
         </el-form-item> -->
       <el-form-item label="联系人" prop="linkman">
-        <el-input v-model="modForm.linkman" auto-complete="off"></el-input>
+        <el-input v-model="modForm.linkman"></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="phone">
-        <el-input v-model="modForm.phone" auto-complete="off"></el-input>
+      <el-form-item label="联系电话" prop="phone">
+        <el-input v-model="modForm.phone"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="modForm.email"></el-input>
       </el-form-item>
-      <el-form-item label="微收银设备号" prop="wsy_num">
+      <!-- <el-form-item label="微收银设备号" prop="wsy_num">
         <el-input v-model="modForm.wsy_num"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="选择门店">
         <template>
             <el-select v-model="modForm.value" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
@@ -116,17 +105,17 @@
     </el-form>
   </el-dialog> -->
   <!--详情界面-->
-  <el-dialog title="交易详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="款台详情" :visible.sync="editFormVisible" :close-on-click-modal="false" width="420px">
     <el-form :model="editForm" label-width="140px" ref="editForm" label-position="left">
+      <el-form-item label="款台编号：">
+        <span>{{editForm.account}}</span>
+      </el-form-item>
       <el-form-item label="款台名称：">
         <span>{{editForm.username}}</span>
       </el-form-item>
-      <el-form-item label="款台帐号：">
-        <span>{{editForm.account}}</span>
+      <el-form-item label="联系人：">
+        <span>{{editForm.linkman}}</span>
       </el-form-item>
-      <!-- <el-form-item label="支付宝操作员编号：">
-          <span>{{editForm.ali_operation_id}}</span>
-        </el-form-item> -->
       <el-form-item label="手机号：">
         <span>{{editForm.phone}}</span>
       </el-form-item>
@@ -136,33 +125,33 @@
       <el-form-item label="所属门店：">
         <span>{{editForm.storeName}}</span>
       </el-form-item>
-      <el-form-item label="万鼎终端：">
+      <el-form-item label="对接终端号：">
         <span>{{editForm.reverse1}}</span>
       </el-form-item>
-      <el-form-item label="万鼎Token：">
+      <el-form-item label="对接token：">
         <span>{{editForm.etoken}}</span>
       </el-form-item>
     </el-form>
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="新增款台" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="新增款台" :visible.sync="addFormVisible" :close-on-click-modal="false" width="400px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="款台名称" prop="username">
-        <el-input v-model="addForm.username" auto-complete="off"></el-input>
+        <el-input v-model="addForm.username"></el-input>
       </el-form-item>
       <el-form-item label="联系人" prop="linkman">
-        <el-input v-model="addForm.linkman" auto-complete="off"></el-input>
+        <el-input v-model="addForm.linkman"></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="phone">
-        <el-input v-model="addForm.phone" auto-complete="off"></el-input>
+      <el-form-item label="联系电话" prop="phone">
+        <el-input v-model="addForm.phone"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="addForm.email" auto-complete="off" value="number"></el-input>
+        <el-input v-model="addForm.email" value="number"></el-input>
       </el-form-item>
-      <el-form-item label="微收银设备号" prop="wsy_num">
+      <!-- <el-form-item label="微收银设备号" prop="wsy_num">
         <el-input v-model="addForm.wsy_num"></el-input>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="选择门店" prop="value">
         <template>
           <el-select v-model="addForm.value" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="loading" clearable @visible-change="clickShop">
@@ -261,6 +250,7 @@ export default {
           }
         ],
         phone: [{
+          required: true,
           validator: phone,
           trigger: 'blur'
         }],
@@ -302,6 +292,7 @@ export default {
           }
         ],
         phone: [{
+          required: true,
           validator: phone,
           trigger: 'blur'
         }],
@@ -344,6 +335,13 @@ export default {
     }
   },
   methods: {
+    historyGo() {
+      if (this.$route.query.id) {
+        this.$router.go(-2) 
+      }else{
+        this.$router.go(-1) 
+      }
+    },
     //门店远程搜索
     clickShop: function() {
       selectStoreList({mid: this.$route.query.mid}).then((res) => {
@@ -417,7 +415,7 @@ export default {
         eid: row.eid,
         storeId: row.storeId
       }
-      this.editCode.code = process.env.API_ROOT + "/pay/cashier/getEmpTwoCode" + "?" + "mid=" + para.mid + "&" + "eid=" + para.eid + "&" + "storeId=" + para.storeId
+      this.editCode.code = getEmpTwoCode + "?" + "mid=" + para.mid + "&" + "eid=" + para.eid + "&" + "storeId=" + para.storeId
     },
     code: function() {
       window.location.href = this.editCode.code

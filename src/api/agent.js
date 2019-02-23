@@ -212,3 +212,9 @@ export const applicationSpecialRate = params => {
 export const queryChangeSpecialRate = params => {
   return instance.post(`${preUrlPath}/admin/wp/ag/queryChangeSpecialRate`, params).then(res => res.data);
 };
+
+export const getEmpTwoCode = `${preUrlPath}/admin/wp/mer/getEmpTwoCode`;
+
+export const queryOrderDetailNew = params => {
+  return Axios.post(`${preUrlPath}/admin/wp/admin/queryOrderDetailNew`, params).then(res => res.data);
+};

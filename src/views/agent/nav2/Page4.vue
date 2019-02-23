@@ -11,7 +11,7 @@
         <el-form-item label="商户名称">
           <el-input v-model="filters.mname" placeholder="请输入商户名称关键字" style="width: 220px;"></el-input>
         </el-form-item>
-        <el-form-item label="商户状态">
+        <el-form-item label="审核状态">
           <el-select v-model="filters.status" clearable placeholder="请选择状态">
             <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column align="center" label="操作" width="180">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" :disabled="scope.row.merchant_status === '1'" @click="handleModify(scope.$index, scope.row)">修改</el-button>
+            <el-button type="success" size="mini" @click="handleModify(scope.$index, scope.row)">查看</el-button>
             <!-- <el-button type="info" size="mini" v-show="scope.row.merchant_status === '2'" @click="showErrMessage(scope.$index, scope.row)">驳回原因</el-button> -->
           </template>
         </el-table-column>

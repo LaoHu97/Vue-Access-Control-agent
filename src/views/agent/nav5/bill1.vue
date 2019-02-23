@@ -241,6 +241,12 @@
       },
       //款台远程搜索
       clickEmp: function () {
+        if (!this.excelForm.storeName) {
+          return  this.$message({
+            message: '请先选择门店',
+            type: 'warning'
+          });
+        }
         this.empLoading = true;
         let para = {
           mid: this.excelForm.mid.toString(),

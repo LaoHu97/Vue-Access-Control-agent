@@ -50,6 +50,8 @@ export default {
   },
   methods: {
     generateRoute() {
+      console.log(this.$route);
+      
       if (this.$route.name) {
         return this.$route
       }
@@ -85,6 +87,7 @@ export default {
           } else {
             this.$router.push('/home')
             this.$store.dispatch('top_nav', '1')
+            sessionStorage.setItem('activeIndex', '1');
           }
         }
       })

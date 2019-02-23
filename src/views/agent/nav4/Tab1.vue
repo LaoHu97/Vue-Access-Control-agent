@@ -197,7 +197,7 @@
       handleSee: function (index, row) {
         var rid = row.id;
         sessionStorage.setItem("rid", JSON.stringify(rid));
-        this.$router.push("/index1/tab2");
+        this.$router.push("/index3/tab2");
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();

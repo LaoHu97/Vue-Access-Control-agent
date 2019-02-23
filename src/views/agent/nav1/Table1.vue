@@ -1,220 +1,163 @@
+<style scoped>
+.box-card {
+  margin-top: 20px;
+}
+.box-card-text span {
+  color: #909399;
+  line-height: 2;
+}
+.box-card-pay span {
+  line-height: 2;
+  width: 150px;
+  display: inline-block;
+}
+.box-card-switch {
+  border-top: 1px #ebeef5 solid;
+}
+.icon {
+  margin: 0 5px;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: -0.3em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.box-card-pay-icon {
+  margin: 0 5px;
+  width: 3.5em;
+  height: 3.5em;
+  vertical-align: -1.4em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.box_card_img {
+  width: 100px;
+  height: 120px;
+  border: 1px solid #999;
+  padding: 4px;
+  border-radius: 4px;
+}
+.element_icon{
+  font-size: 20px;
+  padding: 10px;
+}
+</style>
+
 <template>
-  <section>
-    <el-form :inline="true" :model="filters" ref="filters">
-      <el-row>
-        <el-form-item label="商户名称">
-          <el-select v-model="filters.mid" class="fixed_search_input" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteShop" :loading="mersLoading" clearable @visible-change="clickShop">
-            <el-option v-for="item in optionsMers" :key="item.mid" :value="item.mid" :label="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="支付方式">
-          <el-select v-model="filters.state" class="fixed_search_input" clearable placeholder="支付方式">
-            <el-option v-for="item in optionsState" :key="item.valueState" :label="item.labelState" :value="item.valueState">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="日期时间">
-          <el-date-picker v-model="filters.time1" class="fixed_search_input_date" placeholder="开始日期" :picker-options="pickerOptions1" :clearable="false" :editable='false'>
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item>
-          <el-date-picker v-model="filters.time2" class="fixed_search_input_date" placeholder="结束日期" :picker-options="pickerOptions2" :clearable="false" :editable='false'>
-          </el-date-picker>
-        </el-form-item>
-        <el-form-item style="float: right;">
-          <el-button type="primary" @click="getUsers" round>查询</el-button>
-          <el-button @click="resetForm('filters')" round>重置</el-button>
-        </el-form-item>
-      </el-row>
-      <el-row>
-        <el-alert title="可查询最近三个月的信息" type="warning" show-icon center close-text="知道了">
-        </el-alert>
-      </el-row>
-    </el-form>
-    <!--列表-->
-    <div v-loading="listLoading">
-      <el-table :data="users" border highlight-current-row style="width: 100%;">
-        <el-table-column prop="mname" label="商户名称" min-width="100">
-        </el-table-column>
-        <el-table-column prop="trans_amt" label="交易金额" min-width="100" :formatter="format_trans_amt">
-        </el-table-column>
-        <el-table-column prop="amount" label="有效金额" min-width="100" :formatter="format_amount">
-        </el-table-column>
-        <el-table-column prop="sum_total" label="交易笔数" min-width="100">
-        </el-table-column>
-        <el-table-column prop="refund_amt" label="退款金额" min-width="100" :formatter="format_refund_amt">
-        </el-table-column>
-        <el-table-column prop="pay_type" label="支付方式" min-width="100" :formatter="format_pay_type">
-        </el-table-column>
-        <el-table-column prop="factorage" label="手续费" min-width="100" :formatter="format_factorage">
-        </el-table-column>
-        <el-table-column prop="surplus" label="结余金额" min-width="100" :formatter="format_surplus">
-        </el-table-column>
-      </el-table>
-    </div>
-
-    <!--工具条-->
-    <el-row class="toolbar">
-      <el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
-      </el-pagination>
-    </el-row>
-  </section>
+  <div>
+    <el-card class="box-card">
+      <div slot="header">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-xinxi"></use>
+        </svg>
+        <span>交易详情</span>
+      </div>
+      <div class="box-card-text">
+        <el-row>
+          <el-col :span="12" style="font-size:20px;color:#F56C6C">
+            <span>订单号：</span>
+            {{ boxCardText.orderId }}
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <span>第三方订单号：</span>
+            {{ boxCardText.transactionId }}
+          </el-col>
+          <el-col :span="8">
+            <span>支付方式：</span>
+            {{ formatPay1(boxCardText.payWay) }}
+          </el-col>
+          <el-col :span="8">
+            <span>商户名称：</span>
+            {{ boxCardText.mname }}
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <span>交易金额（元）：</span>
+            {{ boxCardText.goodsPrice }}
+          </el-col>
+          <el-col :span="8">
+            <span>支付状态：</span>
+            {{ formatPay2(boxCardText) }}
+          </el-col>
+          <el-col :span="8">
+            <span>门店名称：</span>
+            {{ boxCardText.storeName }}
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <span>退款金额（元）：</span>
+            {{ boxCardText.refundAmount }}
+          </el-col>
+          <el-col :span="8">
+            <span>支付类型：</span>
+            {{ boxCardText.payType === 'MICRO' ? '刷卡' : boxCardText.payType === 'NATIVE' ? '扫码' : boxCardText.payType === 'JSAPI' ? '公众号' : '其他' }}
+          </el-col>
+          <el-col :span="8">
+            <span>款台名称：</span>
+            {{ boxCardText.username }}
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="8">
+            <span>手续费（元）：</span>
+            {{ boxCardText.factorage }}
+          </el-col>
+          <el-col :span="8">
+            <span>交易时间：</span>
+            {{ format_payTime(boxCardText.payTime) }}
+          </el-col>
+          <el-col :span="8">
+            <span>商户号：</span>
+            {{ boxCardText.merchant_no }}
+          </el-col>
+        </el-row>
+      </div>
+    </el-card>
+  </div>
 </template>
-
 <script>
-  import * as util from '../../../util/util.js'
-  import {
-    queryAgentOrder,
-    selectMersByName,
-    selectSaleByName,
-    showMerStatement
-  } from '../../../api/agent';
-
-  export default {
-    data() {
-      return {
-        //支付状态
-        optionsState: [{
-          valueState: 'WX',
-          labelState: '微信'
-        }, {
-          valueState: 'ALI',
-          labelState: '支付宝'
-        }, {
-          valueState: 'DEBIT',
-          labelState: '借记卡'
-        }, {
-          valueState: 'CREDIT',
-          labelState: '贷记卡'
-        }, {
-          valueState: 'BEST',
-          labelState: '翼支付'
-        }],
-        //时间控制
-        pickerOptions1: {
-          disabledDate(time) {
-            return time.getTime() > Date.now() - 3600 * 1000 * 24 * 1 || time.getTime() < Date.now() - 3600 * 1000 * 24 *
-              90;
-          }
-        },
-        pickerOptions2: {
-          disabledDate(time) {
-            return time.getTime() > Date.now() - 3600 * 1000 * 24 * 1 || time.getTime() < Date.now() - 3600 * 1000 * 24 *
-              90;
-          }
-        },
-        //商户名
-        filters: {
-          time1: Date.now() - 3600 * 1000 * 24 * 1,
-          time2: Date.now() - 3600 * 1000 * 24 * 1,
-          state: '',
-          mid: ''
-        },
-        total: 0,
-        page: 1,
-        users: [],
-        optionsMers: [],
-        listLoading: false,
-        mersLoading: false
-      }
-    },
-    methods: {
-      format_pay_type(row,column){
-        return row.pay_type === 'WX' ? '微信' : row.pay_type === 'ALI' ? '支付宝' : row.pay_type === 'DEBIT' ? '借记卡' : row.pay_type === 'CREDIT' ? '贷记卡' : row.pay_type === 'BEST' ? '翼支付' : '未知';
+import {
+  queryOrderDetailNew
+} from "@/api/agent";
+import * as util from "@/util/util.js";
+export default {
+  data() {
+    return {
+      boxCardText: {}
+    };
+  },
+  mounted() {
+    this.getMerDetails()
+  },
+  methods: {
+      formatPay2: function (row, column) {
+        return util.formatPayStatus(row.status, row.orderType)
       },
-      //格式化金额
-      format_trans_amt(row, column) {
-        return util.number_format(row.trans_amt, 2, ".", ",")
+      formatPay1: function (row) {
+        return util.formatPayment(row)
       },
-      format_amount(row, column) {
-        return util.number_format(row.amount, 2, ".", ",")
+      format_payWay(row, column) {
+        return util.formatPayment(row.payWay)
       },
-      format_refund_amt(row, column) {
-        return util.number_format(row.refund_amt, 2, ".", ",")
+      format_payTime(props) {
+        return util.formatDate.format(new Date(props), 'yyyy-MM-dd hh:mm:ss')
       },
-      format_factorage(row, column) {
-        return util.number_format(row.factorage, 2, ".", ",")
-      },
-      format_surplus(row, column) {
-        return util.number_format(row.surplus, 2, ".", ",")
-      },
-      //商户远程搜索
-      clickShop: function () {
-        this.mersLoading = true;
-        selectMersByName().then((res) => {
-          let {
-            status,
-            data
-          } = res
-          this.mersLoading = false;
-          this.optionsMers = data.merchantList
-        })
-      },
-      remoteShop(query) {
-        if (query !== '') {
-          this.mersLoading = true;
-          setTimeout(() => {
-            this.mersLoading = false;
-            selectMersByName({
-              mname: query
-            }).then((res) => {
-              let {
-                status,
-                data
-              } = res
-              this.optionsMers = data.merchantList
-            })
-          }, 200);
-        } else {
-          this.optionsMers = [];
-        }
-      },
-      //获取用户列表
-      handleCurrentChange(val) {
-        this.page = val;
-        this.getList();
-      },
-      getUsers() {
-        this.page = 1
-        this.getList()
-      },
-      getList() {
-        let para = {
-          pageNum: String(this.page),
-          startTime: this.filters.time1,
-          endTime: this.filters.time2,
-          payType: this.filters.state,
-          mid: this.filters.mid 
-        };
-        para.startTime = (!para.startTime || para.startTime == '') ? '' : String(util.formatDate.format(new Date(para.startTime),
-          'yyyy/MM/dd')); //开始时间
-        para.endTime = (!para.endTime || para.endTime == '') ? '' : String(util.formatDate.format(new Date(para.endTime),
-          'yyyy/MM/dd')); //结束时间
-        this.listLoading = true;
-        showMerStatement(para).then((res) => {
-          let {
-            data,
-            message,
-            status
-          } = res;
-          if (status == 200) {
-            this.total = res.data.totalCount;
-            this.users = res.data.merStatementList;
-          }
-          this.listLoading = false;
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      },
-    },
-    mounted() {
-      this.getUsers();
+    getMerDetails() {
+      const loading = this.$loading({
+        lock: true,
+        text: "正在请求数据",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.8)"
+      });
+      queryOrderDetailNew({ id: this.$route.query.id }).then(res => {
+        this.boxCardText = res.data;
+        loading.close();
+      });
     }
   }
-
+};
 </script>
-
-<style scoped>
-</style>

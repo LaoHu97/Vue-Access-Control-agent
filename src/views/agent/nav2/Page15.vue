@@ -48,6 +48,7 @@
 
 <template>
   <section>
+    <el-button size="small" round @click="historyGo">返回</el-button>
     <el-card class="box_card">
       <div slot="header">
         <span>通道配置</span>
@@ -68,8 +69,7 @@
     <el-dialog title="费率配置" :visible.sync="dialogFormVisibleRate" width="450px">
       <el-form :model="formRate" :rules="formRateRules" ref="formRate" label-width="100px" label-position="left">
         <el-form-item label="费率（‰）" prop="rate">
-          <el-input-number v-model="formRate.rate" :controls="false" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
-          <span style="font-size:12px;color:#f00;margin-left: 5px;">最大值：50，最小值：3</span>
+          <el-input v-model="formRate.rate"></el-input>
         </el-form-item>
         <el-form-item label="图片附件" prop="imgProtocol">
           <el-upload
@@ -134,6 +134,13 @@ import {
 
 export default {
   data() {
+      var validaterate = (rule, value, callback) => {
+        if (!/^(\-)?\d+(\.\d{1})?$/.test(value)) {
+          callback(new Error('请输入正确的商户费率'));
+        } else {
+          callback();
+        }
+      };
     return {
       uploadUrl: uploadImage,
       dialogFormVisibleArgument: false,
@@ -159,7 +166,8 @@ export default {
       dialogFormVisibleRate: false,
       formRateRules: {
         rate: [
-          { required: true, message: '请输入商户费率', trigger: 'blur' }
+          { required: true, message: '请输入商户费率', trigger: 'blur' },
+          { validator: validaterate, trigger: 'blur' }
         ]
       },
       formRate: {
@@ -169,6 +177,9 @@ export default {
     };
   },
   methods: {
+    historyGo() {
+      this.$router.go(-1)
+    },
     clickArgument() {
       this.dialogFormVisibleArgument = true
       this.$nextTick(() => {

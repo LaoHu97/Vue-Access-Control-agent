@@ -56,7 +56,7 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row>
-        <el-table-column prop="userName" align="center" label="代理名称" min-width="120">
+        <el-table-column prop="userName" align="center" label="渠道商名称" min-width="120">
         </el-table-column>
         <el-table-column prop="merchant_name" align="center" label="商户名称" min-width="120">
         </el-table-column>

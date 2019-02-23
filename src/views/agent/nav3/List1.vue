@@ -15,28 +15,15 @@
 
   <!--列表-->
   <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="id" label="编号" min-width="80">
-    </el-table-column>
     <el-table-column prop="name" label="姓名" min-width="120">
     </el-table-column>
-    <el-table-column prop="saccount" label="登录帐号" min-width="120">
-    </el-table-column>
-    <el-table-column prop="phone" label="手机号" min-width="120">
+    <el-table-column prop="phone" label="联系电话" min-width="120">
     </el-table-column>
     <el-table-column prop="address" label="住址" min-width="120">
     </el-table-column>
-    <el-table-column label="状态">
-      <template slot-scope="scope">
-          <el-switch
-            name="value"
-            @change="test(scope.$index, scope.row)"
-            v-model="scope.row.status">
-          </el-switch>
-        </template>
-    </el-table-column>
     <el-table-column label="操作" width="180">
       <template slot-scope="scope">
-        <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+        <!-- <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button> -->
 				<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 				</template>
     </el-table-column>
@@ -53,7 +40,7 @@
       <el-form-item label="姓名" prop="name">
         <el-input v-model="editForm.name" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="phone">
+      <el-form-item label="联系电话" prop="phone">
         <el-input v-model="editForm.phone" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="住址" prop="address">
@@ -81,8 +68,8 @@
       <el-form-item label="姓名" prop="name">
         <el-input v-model="addForm.name" placeholder="请输入业务员姓名" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="手机" prop="phone">
-        <el-input type="phone" v-model="addForm.phone" placeholder="请输入业务员手机号" auto-complete="off"></el-input>
+      <el-form-item label="联系电话" prop="phone">
+        <el-input type="phone" v-model="addForm.phone" placeholder="请输入业务员联系电话" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="住址" prop="address">
         <el-input v-model="addForm.address" placeholder="请输入业务员详细住址"></el-input>
@@ -161,7 +148,7 @@ export default {
         phone: [
           {
             required: true,
-            message: "请输入业务员手机号",
+            message: "请输入业务员联系电话",
             trigger: "blur"
           },
           { validator: phone, trigger: "blur" }
@@ -221,7 +208,7 @@ export default {
         phone: [
           {
             required: true,
-            message: "请输入业务员手机号",
+            message: "请输入业务员联系电话",
             trigger: "blur"
           },
           { validator: phone, trigger: "blur" }

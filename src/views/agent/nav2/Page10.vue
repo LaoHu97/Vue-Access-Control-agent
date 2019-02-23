@@ -67,57 +67,34 @@
         </div>
       </el-col>
       <el-col :span="imageUrl.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" v-if="formDisabled" :disabled="imageUrl.merchant_status === '1'" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
       <el-form ref="imageUrl" :inline="true" :disabled="formDisabled" :model="imageUrl" :rules="rules" label-width="150px" label-position="top" class="form_contron">
-
         <el-row>
           <el-col :span="6">
             <el-checkbox v-model="imageUrl.wx_open" true-label="Y" false-label="N" style="margin:40px 0;"><h3>微信</h3></el-checkbox>
           </el-col>
-        </el-row>
-        <el-row v-if="imageUrl.wx_open === 'Y'" >
-          <el-col :span="6">
-            <el-form-item label="微信费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.wx_rate" :disabled="editDisabled" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="联系人微信账号" prop="wx_contid" label-width="100px">
-              <el-input v-model="imageUrl.wx_contid" placeholder="请输入内容"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="6">
             <el-checkbox v-model="imageUrl.ali_open" true-label="Y" false-label="N" style="margin:40px 0;"><h3>支付宝</h3></el-checkbox>
           </el-col>
         </el-row>
-        <el-row v-if="imageUrl.ali_open === 'Y'">
+        <el-row>
           <el-col :span="6">
-            <el-form-item label="支付宝费率（‰）" label-width="100px">
+            <el-form-item label="微信费率（‰）" label-width="100px" v-if="imageUrl.wx_open === 'Y'">
+              <el-input-number v-model="imageUrl.wx_rate" :disabled="editDisabled" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
+            </el-form-item>
+            <el-form-item v-else></el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="支付宝费率（‰）" label-width="100px" v-if="imageUrl.ali_open === 'Y'">
               <el-input-number v-model="imageUrl.ali_rate" :disabled="editDisabled" :precision="1" :step="0.1" :min="3" :max="50"></el-input-number>
             </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="合作伙伴在支付宝的PID" prop="ali_source" label-width="100px">
-              <el-input v-model="imageUrl.ali_source" placeholder="请输入内容"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="经营类目" prop="ali_ctgyid" label-width="100px">
-              <el-cascader
-                v-model="imageUrl.ali_ctgyid"
-                :options="optionsAliBusiness"
-                @active-item-change="businessItemAliChange"
-                :props="businessAliProps"
-              ></el-cascader>
-            </el-form-item>
+            <el-form-item v-else></el-form-item>
           </el-col>
         </el-row>
-        <h3>费率设置</h3>
+        <!-- <h3>费率设置</h3>
         <el-row>
           <el-col :span="5">
             <el-form-item label="翼支付费率（‰）" label-width="100px">
@@ -125,13 +102,13 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="贷记卡费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.crebit_rate" :precision="1" :step="0.1" :min="5.4" :max="500"></el-input-number>
+            <el-form-item label="银联二维码费率（‰）" label-width="100px">
+              <el-input-number v-model="imageUrl.unionpay_rate" :precision="1" :step="0.1" :min="3.8" :max="6"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="银联费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.unionpay_rate" :precision="1" :step="0.1" :min="3.8" :max="6"></el-input-number>
+            <el-form-item label="贷记卡费率（‰）" label-width="100px">
+              <el-input-number v-model="imageUrl.crebit_rate" :precision="1" :step="0.1" :min="5.4" :max="500"></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="9">
@@ -142,7 +119,7 @@
               <el-input-number v-model="imageUrl.reserve1" :precision="0" size="mini" :step="1" :min="18" :max="25"></el-input-number>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
         <h3>上传照片</h3>
         <el-row>
           <el-col :span="5" v-if="img_business_license">
@@ -392,7 +369,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="附件" prop="img_other" >
+            <el-form-item label="补充资料" prop="img_other" >
               <el-upload
                 class="avatar-uploader"
                 :data="{id:imageUrl.id}"
@@ -404,6 +381,7 @@
                 <!-- <img v-if="imageUrl.img_other" :src="imageUrl.img_other" class="avatar"> -->
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
+              <a :href="imageUrl.img_other">下载</a>
             </el-form-item>
           </el-col>
         </el-row>
@@ -574,7 +552,7 @@ export default {
           message: '请上传内部前台照片'
         }],
         thum_img_open_permits: [{
-          required: true,
+          required: false,
           message: '请上传开户许可证照片'
         }],
         thum_img_relation: [{
@@ -823,7 +801,6 @@ export default {
           let imageUrl = util.deepcopy(
             Object.assign(res.data.bsbPay, res.data.agentMap)
           );
-          console.log(imageUrl);
           this.imageUrl.ali_open = imageUrl.ali_open
           this.imageUrl.wx_open = imageUrl.wx_open
           this.imageUrl.wx_contid = imageUrl.wx_contid;
@@ -874,6 +851,8 @@ export default {
           this.imageUrl.thum_img_tax_reg = imageUrl.thum_img_tax_reg || ''
           this.imageUrl.thum_img_person_a = imageUrl.thum_img_person_a || ''
           this.imageUrl.thum_img_person_b = imageUrl.thum_img_person_b || ''
+          this.imageUrl.img_other = imageUrl.img_other || ''
+          this.imageUrl.merchant_status = imageUrl.merchant_status
           
           if (res.data.timely_sign && res.data.timely_sign === '1') {
             this.formDisabled = true
@@ -902,17 +881,15 @@ export default {
       return isJPG && isLt3M;
     },
     beforeAvatarUploadOther(file) {
-      console.log(file.type);
-      // const isJPG = file.type === 'application/x-zip-compressed';
+      const isZIP = file.name.substring(file.name.lastIndexOf('.') + 1)	 === 'zip'
       const isLt3M = file.size / 1024 / 1024 < 20;
-      // if (!isJPG) {
-      //   this.$message.error('上传附件只能是 ZIP 格式!');
-      // }
+      if (!isZIP) {
+        this.$message.error('上传附件只能是 ZIP 格式!');
+      }
       if (!isLt3M) {
         this.$message.error('上传附件大小不能超过 20MB!');
       }
-      // return isJPG && isLt3M;
-      return isLt3M;
+      return isZIP && isLt3M;
     },
     handleAvatarScucess1(res, file) {
       this.imageUrl.img_business_license = res.data.locationPath
@@ -983,10 +960,25 @@ export default {
       this.imageUrl.thum_img_person_b = res.data.thumbnailImage
     },
     handleAvatarScucess18(res, file) {
-      this.imageUrl.img_other = res.data.locationPath
+      if (res.status === 200) {
+        this.imageUrl.img_other = res.data.locationPath
+        this.$message({
+          message: '补充资料上传成功',
+          type: 'success'
+        });
+      }else{
+        this.$message.error('补充资料上传失败');
+      }
+      
     },
 
     addSubmit: function() {
+      if (this.imageUrl.merchant_status === '1') {
+        return this.$message({
+          message: '商户审核中，无法提交资料',
+          type: 'warning'
+        });
+      }
       this.$refs.imageUrl.validate((valid) => {
         if (valid) {
           let para = util.deepcopy(this.imageUrl)
