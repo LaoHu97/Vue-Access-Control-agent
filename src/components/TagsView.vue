@@ -50,8 +50,6 @@ export default {
   },
   methods: {
     generateRoute() {
-      console.log(this.$route);
-      
       if (this.$route.name) {
         return this.$route
       }

@@ -15,6 +15,12 @@
           </el-option>
         </el-select>
       </el-form-item>
+      <!-- <el-form-item label="联系人证件号">
+        <el-input v-model="filters.person_id_no" class="fixed_search_input" placeholder="联系人证件号"></el-input>
+      </el-form-item>
+      <el-form-item label="法人证件号">
+        <el-input v-model="filters.merchant_id_no" class="fixed_search_input" placeholder="法人证件号"></el-input>
+      </el-form-item> -->
       <el-form-item style="float: right;">
         <el-button type="primary" @click="getUsers"  icon="el-icon-search" round>查询</el-button>
       </el-form-item>
@@ -67,7 +73,9 @@ export default {
       filters: {
         mname: '',
         maccount: '',
-        parag: ''
+        parag: '',
+        person_id_no: '',
+        merchant_id_no: ''
       },
       total: 0,
       page: 1,
@@ -128,7 +136,9 @@ export default {
         id: this.filters.parag,
         pageNum: this.page,
         mname: this.filters.mname,
-        maccount: this.filters.maccount
+        maccount: this.filters.maccount,
+        person_id_no: this.filters.person_id_no,
+        merchant_id_no: this.filters.merchant_id_no,
       };
       this.listLoading = true;
       queryAgentMer(para).then((res) => {
@@ -139,9 +149,7 @@ export default {
         } = res;
         if (status == 200) {
           this.total = res.data.totalCount;
-          this.filters.time1 = res.data.returnST;
           this.users = res.data.merchantsList;
-          this.whole.sum = res.data.totalCount
         }
         this.listLoading = false;
       });

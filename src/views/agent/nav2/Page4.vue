@@ -6,7 +6,7 @@
         <el-tag type="primary" style="margin:0 10px 20px 0;">商户总数：{{whole.sum}}</el-tag>
       </el-row>
     </el-form>
-    <el-form :inline="true" :model="filters" ref="filters" size="medium">
+    <el-form :inline="true" :model="filters" ref="filters">
       <el-row>
         <el-form-item label="商户名称">
           <el-input v-model="filters.mname" placeholder="请输入商户名称关键字" style="width: 220px;"></el-input>
@@ -18,8 +18,8 @@
           </el-select>
         </el-form-item>
         <el-form-item style="float: right;">
-          <el-button type="primary" v-on:click="getUsers" size="medium" round>查询</el-button>
-          <el-button type="primary" @click="getShop" size="medium" round>新增商户</el-button>
+          <el-button type="primary" v-on:click="getUsers" round>查询</el-button>
+          <el-button type="primary" @click="getShop" round>新增商户</el-button>
         </el-form-item>
       </el-row>
     </el-form>
@@ -83,7 +83,7 @@ export default {
       //商户名
       filters: {
         mname: "",
-        status: ""
+        status: "1"
       },
       total: 0,
       page: 1,
@@ -99,12 +99,8 @@ export default {
           label: "审核中"
         },
         {
-          value: "2",
-          label: "审核驳回"
-        },
-        {
           value: "4",
-          label: "初次审核驳回"
+          label: "审核驳回"
         }
       ]
     };
@@ -130,7 +126,7 @@ export default {
     },
     //状态转换
     formatMerchantStatus: function(row, column) {
-      return row.merchant_status === "0" ? "未提交" : row.merchant_status === "1" ? "审核中" : row.merchant_status === "2" && row.timely_sign === '0' ? "初次审核驳回" : row.merchant_status === "2" && row.timely_sign === '1' ? "审核驳回" : "审核通过"
+      return row.merchant_status === '0' ? '未提交' : row.merchant_status === '1' ? '审核中' : row.merchant_status === '2' ? '审核驳回' : '审核通过'
     },
     handleCurrentChange(val) {
       this.page = val;

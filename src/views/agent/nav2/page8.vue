@@ -116,7 +116,7 @@
       <el-form-item label="联系人：">
         <span>{{editForm.linkman}}</span>
       </el-form-item>
-      <el-form-item label="手机号：">
+      <el-form-item label="联系电话：">
         <span>{{editForm.phone}}</span>
       </el-form-item>
       <el-form-item label="邮箱：">
@@ -190,9 +190,9 @@ export default {
   data() {
     var phone = (rule, value, callback) => {
       if (value === '') {
-        callback();
-      } else if (!/^1(3|4|5|7|8)\d{9,10}$/.test(value)) {
-        callback(new Error('请输入正确的联系人手机号'));
+        callback(new Error('请输入联系电话'));
+      } else if (!/^\d{5,12}$/.test(value)) {
+        callback(new Error('请输入正确的联系电话'));
       } else {
         callback();
       }

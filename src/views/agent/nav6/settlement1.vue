@@ -57,7 +57,7 @@
                 class="fixed_search_input"
                 type="date"
                 placeholder="选择日期"
-                :picker-options="pickerOptions"
+                :picker-options="pickerOptions1"
                 :clearable ="false"
                 value-format="timestamp">
               </el-date-picker>
@@ -70,7 +70,7 @@
                 type="date"
                 placeholder="选择日期"
                 :clearable ="false"
-                :picker-options="pickerOptions"
+                :picker-options="pickerOptions2"
                 value-format="timestamp">
               </el-date-picker>
             </el-form-item>
@@ -130,16 +130,15 @@ export default {
       listLoading: false,
       merLoading: false,
       optionsMer: [],
-      pickerOptions: {
+      pickerOptions1: {
         disabledDate(time) {
-          return (
-            time.getTime() >
-            new Date(
-              new Date(new Date().toLocaleDateString()).getTime() +
-                24 * 60 * 60 * 1000 -
-                1
-            )
-          );
+          return time.getTime() > Date.now();
+        }
+      },
+      pickerOptions2: {
+        disabledDate: (time) => {
+          let startTime = this.filters.startTime
+          return time.getTime() > Date.now() || time.getTime() < startTime;
         }
       }
     };

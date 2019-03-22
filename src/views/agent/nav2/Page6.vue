@@ -42,7 +42,7 @@
         </div>
       </el-col>
       <el-col :span="form.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" :disabled="form.merchant_status === '1'" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" :disabled="form.merchant_status === '1'" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
@@ -192,6 +192,7 @@ import {
   uploadImage,
   agentShopPage
 } from "../../../api/agent";
+import { log } from 'util';
 export default {
   data() {
     var merchant_id_no = (rule, value, callback) => {
@@ -369,6 +370,7 @@ export default {
         ],
         merchant_service_phone: [
           {
+            required: true,
             message: "请输入客服电话",
             trigger: "blur"
           },
@@ -414,7 +416,7 @@ export default {
         if (res.status === 200 && res.data.isEmpty === "1") {
           this.form = res.data.agentMap;
           this.rules.person_id_expire[0].required = res.data.agentMap.person_id_expire_long === 'Y' ? false : true
-          if (res.data.timely_sign && res.data.timely_sign === "1") {
+          if (res.data.timely_sign && res.data.timely_sign === "1" || res.data.agentMap.merchant_status === '1') {
             this.formDisabled = true;
           } else {
             this.formDisabled = false;
@@ -439,6 +441,7 @@ export default {
       });
     },
     person_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['person_id_expire'])
       if (change === 'Y') {
         this.rules.person_id_expire[0].required = false
         this.form.person_id_expire = ''

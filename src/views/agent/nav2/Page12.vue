@@ -439,7 +439,7 @@ export default {
   },
   methods: {
     formatCreate_time(row) {
-      return row ? util.formatDate.format(new Date(row), "yyyy/MM/dd hh:MM:ss") : '';
+      return row ? util.formatDate.format(new Date(row), "yyyy/MM/dd") : '';
     },
     getPaySwitch() {
       queryMerchantPay({mid: this.$route.query.mid}).then(res => {
@@ -479,7 +479,7 @@ export default {
         inputValue: "123456"
       }).then(({ value }) => {
         let para = {
-          password: CryptoJS.MD5(value + this.$route.query.maccount).toString(
+          mpwd: CryptoJS.MD5(value + this.$route.query.maccount).toString(
             CryptoJS.enc.Hex
           ),
           mid: this.$route.query.mid

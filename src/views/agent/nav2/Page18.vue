@@ -30,7 +30,7 @@
               </el-upload>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" v-on:click="submileRate" size="medium" round>提 交</el-button>
+            <el-button type="primary" v-on:click="submileRate" round>提 交</el-button>
           </el-form-item>
         </el-row>
       </el-form>
@@ -170,9 +170,8 @@ export default {
       });
     }
   },
-
   mounted() {
-    this.getUsers();
+    this.getUsers()
     this.getSpeRateList()
   }
 };

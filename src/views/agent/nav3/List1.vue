@@ -109,7 +109,7 @@ export default {
     var phone = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入业务员手机号"));
-      } else if (!/^1(3|4|5|7|8)\d{9,10}$/.test(value)) {
+      } else if (!/^\d{5,12}$/.test(value)) {
         callback(new Error("请输入正确的业务员手机号"));
       } else {
         callback();

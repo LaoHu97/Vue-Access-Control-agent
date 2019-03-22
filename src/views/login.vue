@@ -82,21 +82,6 @@
         <span class="title" style="display: block;"></span>
       </el-form>
     </div>
-    <!-- <div class="news">
-      <div class="notice">最新公告</div>
-      <a href="http://www.wandingkeji.cn/newsitem/277761358" target="_blank">1、帮助商家便捷接入微信、支付宝</a>
-      <a href="http://www.wandingkeji.cn/newsitem/277185235" target="_blank">2、帮助商家进行微信公众平台开发运营</a>
-      <a href="#">3、《商户平台使用手册》即将上线</a>
-      <a class="gengduo" href="http://www.wandingkeji.cn">查看更多>></a>
-    </div> -->
-    <!-- <div class="service">
-      <h2>商户入驻流程</h2>
-      <el-steps space="45%" :active="1" :align-center="true">
-        <el-step title="提交资料" description></el-step>
-        <el-step title="审核认证" description></el-step>
-        <el-step title="开始使用" description></el-step>
-      </el-steps>
-    </div> -->
     <el-row>
       <el-col>
         <div class="grid-content">版权所有：包商银行股份有限公司 | ICP备 XXXXXXXX号 </div>
@@ -179,7 +164,8 @@ export default {
           sessionStorage.setItem("name", JSON.stringify(name));
           sessionStorage.setItem("agentId",JSON.stringify(res.data.userLogin.id));
           sessionStorage.setItem("menu", JSON.stringify(1));
-          sessionStorage.setItem("activeIndex", JSON.stringify(2));
+          sessionStorage.setItem("activeIndex", JSON.stringify('2'));
+          sessionStorage.setItem('first', JSON.stringify(res.data.first));
           this.$store.dispatch("top_nav", "2");
           vm.$emit("login", "/index1/table");
         })

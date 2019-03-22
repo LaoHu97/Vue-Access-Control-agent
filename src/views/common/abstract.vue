@@ -1,6 +1,9 @@
 <template>
   <div>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view v-if="!$route.meta.noCache"></router-view>
+    </keep-alive>
+    <router-view v-if="$route.meta.noCache"></router-view>
   </div>
 </template>
 

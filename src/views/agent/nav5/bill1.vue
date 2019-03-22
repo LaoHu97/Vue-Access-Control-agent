@@ -70,7 +70,7 @@
         <el-col :span="8">
           <el-form-item label="" prop="endTime" label-width="0px">
             <el-date-picker v-model="excelForm.endTime" :editable="false" :clearable="false" :type="dateType" :picker-options="pickerOptions2"
-              placeholder="选择日期">
+              placeholder="选择日期" default-time="23:59:59">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -155,7 +155,7 @@
         excelForm: {
           parag: '',
           excel_type: 'od',
-          accountType: '0',
+          accountType: 'ALL',
           recsonId: '',
           storeName: '',
           empName: '',
@@ -183,6 +183,9 @@
         }],
         //账单类型
         optionsPayType: [{
+          value: 'ALL',
+          label: '所有'
+        },{
           value: '0',
           label: '支付成功'
         }, {
@@ -234,14 +237,17 @@
       },
       changTime(date) {
         let end_time = Date.parse(new Date(util.formatDate.format(new Date(this.excelForm.endTime), 'yyyy-MM-dd')))
+        let sat_time = Date.parse(new Date(util.formatDate.format(new Date(this.excelForm.startTime), 'yyyy-MM-dd')))
         let date_time = Date.parse(new Date(util.formatDate.format(new Date(date), 'yyyy-MM-dd')))
-        if (date_time < end_time - 3600 * 1000 * 24 * 90) {
-          this.excelForm.endTime = ''
+        if (date_time < end_time - 3600 * 1000 * 24 * 90 || sat_time > end_time) {
+          this.excelForm.endTime = new Date(this.excelForm.startTime.getFullYear(), this.excelForm.startTime.getMonth(),
+            this.excelForm.startTime.getDate(), 23, 59, 59)
         }
       },
       //款台远程搜索
       clickEmp: function () {
         if (!this.excelForm.storeName) {
+          this.optionsEmp = []
           return  this.$message({
             message: '请先选择门店',
             type: 'warning'

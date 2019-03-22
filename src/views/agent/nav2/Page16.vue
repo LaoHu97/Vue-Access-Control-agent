@@ -122,7 +122,7 @@ import {
 export default {
   data() {
       var validaterate = (rule, value, callback) => {
-        if (!/^(\-)?\d+(\.\d{1})?$/.test(value)) {
+        if (!/^(\-)?\d+(\.\d{2})?$/.test(value)) {
           callback(new Error('请输入正确的商户费率'));
         } else {
           callback();

@@ -35,7 +35,7 @@
           </el-switch>
       </template>
     </el-table-column> -->
-    <el-table-column label="操作" width="360">
+    <el-table-column label="操作" width="280">
       <template slot-scope="scope">
           <!-- <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button> -->
 					<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
@@ -56,7 +56,7 @@
       <el-form-item label="门店名称：">
         <span>{{detForm.storeName}}</span>
       </el-form-item>
-      <el-form-item label="电话：">
+      <el-form-item label="联系电话：">
         <span>{{detForm.telephone}}</span>
       </el-form-item>
       <el-form-item label="详细地址：">
@@ -71,7 +71,7 @@
     </el-form>
   </el-dialog>
   <!--修改界面-->
-  <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="450px">
     <el-form :model="editForm" :rules="editFormRules" ref="editForm">
       <el-form-item label="门店名称" prop="storeName">
         <el-input v-model="editForm.storeName"></el-input>
@@ -85,25 +85,24 @@
       <el-form-item label="详细地址" prop="address">
         <el-input v-model="editForm.address"></el-input>
       </el-form-item>
-      <el-form-item label="营业时间" prop="shopHours">
+      <el-form-item label="营业时间" prop="startTime">
         <template>
 						<el-time-select
 							placeholder="起始时间"
-							v-model="startTime"
+							v-model="editForm.startTime"
 							:picker-options="{
 								start: '08:30',
 								step: '00:15',
 								end: '18:30'
 							}">
 						</el-time-select>
-
 					</template>
       </el-form-item>
-      <el-form-item label="" prop="shopHours" style="margin-left:68px;">
+      <el-form-item label="" prop="endTime" style="margin-left:68px;">
         <template>
 						<el-time-select
 								placeholder="结束时间"
-								v-model="endTime"
+								v-model="editForm.endTime"
 								:picker-options="{
 									start: '00:00',
 									step: '00:15',
@@ -121,7 +120,7 @@
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" width="450px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="门店名称" prop="storeName">
         <el-input v-model="addForm.storeName"></el-input>
@@ -130,12 +129,12 @@
         <el-input v-model="addForm.revsere2"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="telephone">
-        <el-input v-model="addForm.telephone" auto-complete="off"></el-input>
+        <el-input v-model="addForm.telephone"></el-input>
       </el-form-item>
       <el-form-item label="详细地址" prop="address">
         <el-input v-model="addForm.address"></el-input>
       </el-form-item>
-      <el-form-item label="营业时间">
+      <el-form-item label="营业时间" prop="startTime">
         <template>
 						<el-time-select
 								placeholder="起始时间"
@@ -149,7 +148,7 @@
 						</el-time-select>
 					</template>
       </el-form-item>
-      <el-form-item label="" style="margin-left:68px;">
+      <el-form-item label="" prop="endTime" style="margin-left:68px;">
         <template>
 						<el-time-select
 								placeholder="结束时间"
@@ -157,8 +156,7 @@
 								:picker-options="{
 									start: '00:00',
 									step: '00:15',
-									end: '24:00',
-                  minTime: addForm.startTime
+									end: '24:00'
 								  }"
 								>
 						</el-time-select>
@@ -189,9 +187,9 @@ export default {
   data() {
     var telephone = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入联系人手机号'));
-      } else if (!/^1(3|4|5|7|8)\d{9,10}$/.test(value)) {
-        callback(new Error('请输入正确的联系人手机号'));
+        callback(new Error('请输入联系电话'));
+      } else if (!/^\d{5,12}$/.test(value)) {
+        callback(new Error('请输入正确的联系电话'));
       } else {
         callback();
       }
@@ -200,9 +198,6 @@ export default {
       filters: {
         storeName: ''
       },
-      value: "",
-      startTime: '',
-      endTime: '',
       users: [],
       total: 1,
       page: 1,
@@ -210,9 +205,6 @@ export default {
 
       detFormVisible: false,
       detLoading: false,
-
-      stateFormVisible: false,
-      stateLoading: false,
 
       editFormVisible: false, //编辑界面是否显示
       editFormRules: {
@@ -246,7 +238,7 @@ export default {
         ],
         telephone: [{
             required: true,
-            message: '请输入联系人手机号',
+            message: '请输入联系电话',
             trigger: 'blur'
           },
           {
@@ -256,13 +248,12 @@ export default {
         ]
       },
       detForm: {},
-      stateForm: {},
       //编辑界面数据
       editForm: {
+        id: '',
         storeName: '',
         address: '',
         telephone: '',
-        shopHours: '',
         startTime: '',
         endTime: '',
         revsere2: ''
@@ -300,7 +291,7 @@ export default {
         ],
         telephone: [{
             required: true,
-            message: '请输入联系人手机号',
+            message: '请输入联系电话',
             trigger: 'blur'
           },
           {
@@ -315,7 +306,6 @@ export default {
         storeName: '',
         address: '',
         telephone: '',
-        shopHours: '',
         startTime: '',
         endTime: '',
         revsere2: ''
@@ -364,11 +354,6 @@ export default {
           message: '取消修改'
         });
       });
-    },
-    handle: function(index, row) {
-      this.stateFormVisible = true;
-      this.stateForm = Object.assign({}, row);
-      this.radio = this.stateForm.state;
     },
     handleDet: function(index, row) {
       this.detFormVisible = true;
@@ -453,15 +438,28 @@ export default {
     //显示编辑界面
     handleEdit: function(index, row) {
       this.editFormVisible = true;
-      this.editForm = util.deepcopy(row)
-      var startTimes = row.shopHours.slice(0, 5);
-      this.startTime = startTimes;
-      var endTimes = row.shopHours.slice(6, 11);
-      this.endTime = endTimes
+      this.$nextTick(() => {
+        this.$refs.editForm.resetFields()
+        let f = util.deepcopy(row)
+        this.editForm.id = f.id
+        this.editForm.storeName = f.storeName
+        this.editForm.address = f.address
+        this.editForm.telephone = f.telephone
+        this.editForm.revsere2 = f.revsere2
+        if (f.shopHours !== '-' && f.shopHours !== 'null-null' ) {
+          let s = f.shopHours.slice(0, 5);
+          this.editForm.startTime = s
+          let e = f.shopHours.slice(6, 11);
+          this.editForm.endTime = e 
+        }
+      })
     },
     //显示新增界面
     handleAdd: function() {
       this.addFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs.addForm.resetFields()
+      })
     },
     //编辑
     editSubmit: function() {
@@ -474,25 +472,14 @@ export default {
               address: this.editForm.address,
               telephone: this.editForm.telephone,
               linkman: this.editForm.revsere2,
-              shopHours: this.startTime + "-" + this.endTime
+              shopHours: this.editForm.startTime + "-" + this.editForm.endTime
             };
             updateStore(para).then((res) => {
-              let {
-                status,
-                message
-              } = res;
-              if (status == 200) {
-                this.$notify({
-                  title: '成功',
-                  message: message,
-                  type: 'success'
-                });
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
-              }
+              this.$message({
+                message: res.message,
+                type: 'success',
+                showClone: true
+              });
               this.$refs['editForm'].resetFields();
               this.editFormVisible = false;
               this.getUsers();
@@ -527,11 +514,7 @@ export default {
           });
         }
       });
-    },
-    //重置按钮
-    // resetForm(formName) {
-    // 		this.$refs[formName].resetFields();
-    // },
+    }
   },
   mounted() {
     this.getUsers();

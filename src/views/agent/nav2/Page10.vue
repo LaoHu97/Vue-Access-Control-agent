@@ -67,7 +67,7 @@
         </div>
       </el-col>
       <el-col :span="imageUrl.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" :disabled="imageUrl.merchant_status === '1'" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" :disabled="imageUrl.merchant_status === '1'"  v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
@@ -381,7 +381,7 @@
                 <!-- <img v-if="imageUrl.img_other" :src="imageUrl.img_other" class="avatar"> -->
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
-              <a :href="imageUrl.img_other">下载</a>
+              <a :href="imageUrl.img_other" v-if="imageUrl.img_other">下载</a>
             </el-form-item>
           </el-col>
         </el-row>
@@ -397,7 +397,6 @@
 <script>
 import * as util from '../../../util/util.js'
 import * as data from '../../../util/data.js'
-import { Loading } from 'element-ui'
 import {
   addAgentMerone,
   selectBank,
@@ -477,7 +476,6 @@ export default {
         img_other: ''
       },
       addLoading: false,
-      loading: false,
       rules: {
         wx_busins: [
          {
@@ -854,16 +852,16 @@ export default {
           this.imageUrl.img_other = imageUrl.img_other || ''
           this.imageUrl.merchant_status = imageUrl.merchant_status
           
-          if (res.data.timely_sign && res.data.timely_sign === '1') {
+          console.log(imageUrl);
+          
+          if (res.data.timely_sign && res.data.timely_sign === '1' || res.data.agentMap.merchant_status === '1') {
+            console.log('我进来了');
+            
             this.formDisabled = true
             this.editDisabled = true
           }else{
             this.formDisabled = false
-            this.formDisabled = false
-          }
-          if (imageUrl.ali_ctgyid.length) {
-            this.imageUrl.ali_ctgyid = JSON.parse(imageUrl.ali_ctgyid);
-            this.businessItemAliChange(this.imageUrl.ali_ctgyid); 
+            this.editDisabled = false
           }
         }
       })

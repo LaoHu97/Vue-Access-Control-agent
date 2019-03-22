@@ -84,10 +84,11 @@
         }
       };
       var validatePass1 = (rule, value, callback) => {
+        let regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,18}');
         if (value === '') {
           callback(new Error('请输入密码'));
-        } else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
-          callback(new Error('请输入不含汉字和空格的6到18位密码'));
+        } else if (!regex.test(value)) {
+          callback(new Error('请输入包含大小写字母、数字、特殊字符的8到18位密码'));
         } else {
           if (this.ruleForm.checkPass !== '') {
             this.$refs.ruleForm.validateField('checkPass');
@@ -161,9 +162,6 @@
         return this.$store.state.perMission.activeIndex
       }
     },
-    watch: {
-
-    },
     methods: {
       //修改密码提交按钮
       submitForm() {
@@ -213,7 +211,9 @@
       //修改密码弹框是否弹出
       handleEdit: function (index, row) {
         this.editFormVisible = true;
-        this.editForm = Object.assign({}, row);
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields()
+        })
       },
       //退出登录
       logout: function () {

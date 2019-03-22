@@ -15,7 +15,7 @@
   }
 
   .top_logo img {
-    width: 30%;
+    width: 100%;
     margin-top: 17px;
     float: left;
   }
@@ -122,8 +122,7 @@
         <el-row>
           <el-col :span="5">
             <div class="top_logo">
-              <img src="../../assets/images/logo4.png" />
-              <span>万 鼎 科 技</span>
+              <img src="../../assets/images/webwxgetmsgimg.png" />
             </div>
           </el-col>
           <el-col :span="12">
@@ -133,8 +132,6 @@
                 <el-menu-item index="3">商户中心</el-menu-item>
                 <el-menu-item index="2">交易中心</el-menu-item>
                 <el-menu-item index="4">运营中心</el-menu-item>
-                <!-- <el-menu-item index="5">营销中心</el-menu-item>
-                <el-menu-item index="6">帮助中心</el-menu-item> -->
               </el-menu>
             </div>
           </el-col>
@@ -205,12 +202,6 @@
           </el-col>
           <el-col :span="6">
             <div class="grid-content">
-              <!-- <div class="grid_content_right_top">
-                <p>预留信息：</p>
-                <p>商户简称：西安万鼎网络科技有限公司</p>
-                <p>企业名称：西安万鼎网络科技有限公司</p>
-                <p>企业类目：微信支付服务商</p>
-              </div> -->
               <div class="grid_content_right_bottom">
                 <h3>
                   <i></i>平台公告</h3>
@@ -229,25 +220,25 @@
           </el-col>
         </el-row>
       </el-main>
-      <el-footer class="element_footer">版权所有：西安万鼎网络科技有限公司 | ICP备 陕17002918号</el-footer>
+      <el-footer class="element_footer">版权所有：包商银行股份有限公司 | ICP备 XXXXXXXX号 </el-footer>
       <!--修改密码-->
-      <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" width="400px">
-        <span style="font-size:10px;color:#20a0ff;line-height: 1;width: 100%;">提示：密码修改成功后需重新登录</span>
+      <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" :show-close="false" :close-on-press-escape="false" width="400px">
+        <el-alert title="提示：密码修改成功后需重新登录" type="warning" center show-icon :closable="false"></el-alert>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
           <el-form-item label="旧密码" prop="usedPass">
-            <el-input type="password" v-model="ruleForm.usedPass"></el-input>
+            <el-input type="password" v-model.trim="ruleForm.usedPass"></el-input>
           </el-form-item>
           <el-form-item label="新密码" prop="pass">
-            <el-input type="password" v-model="ruleForm.pass"></el-input>
+            <el-input type="password" v-model.trim="ruleForm.pass"></el-input>
           </el-form-item>
           <el-form-item label="确认新密码" prop="checkPass">
-            <el-input type="password" v-model="ruleForm.checkPass"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button @click="editFormVisible=false">取消</el-button>
-            <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+            <el-input type="password" v-model.trim="ruleForm.checkPass"></el-input>
           </el-form-item>
         </el-form>
+        <div slot="footer">
+          <el-button :disabled="doneEditPassword" @click="editFormVisible=false">取消</el-button>
+          <el-button type="primary" :loading="submitFormLogining" @click="submitForm('ruleForm')">提交</el-button>
+        </div>
       </el-dialog>
     </el-container>
   </div>
@@ -279,10 +270,14 @@
         }
       };
       var validatePass1 = (rule, value, callback) => {
+        let regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,18}');
+        let han = new RegExp("[\\u4E00-\\u9FFF]+","g");
         if (value === '') {
           callback(new Error('请输入密码'));
-        } else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
-          callback(new Error('请输入不含汉字和空格的6到18位密码'));
+        } else if (!regex.test(value)) {
+          callback(new Error('请输入包含大小写字母、数字、特殊字符的8到18位密码'));
+        } else if (han.test(value)) {
+          callback(new Error('请输入包含大小写字母、数字、特殊字符的8到18位密码'));
         } else {
           if (this.ruleForm.checkPass !== '') {
             this.$refs.ruleForm.validateField('checkPass');
@@ -306,8 +301,8 @@
         user: {},
         sysUserName: '',
         editFormVisible: false, //修改密码弹窗是否显示
-        editLoading: false,
-        logining: false,
+        doneEditPassword: false,
+        submitFormLogining: false,
         //修改密码弹窗数据
         ruleForm: {
           pass: '',
@@ -319,12 +314,6 @@
               required: true,
               validator: validatePass,
               trigger: 'blur'
-            },
-            {
-              min: 6,
-              max: 18,
-              message: '密码为6到18位数字或字母',
-              trigger: 'blur'
             }
           ],
           pass: [{
@@ -333,21 +322,15 @@
               trigger: 'blur'
             },
             {
-              min: 6,
+              min: 8,
               max: 18,
-              message: '密码为6到18位数字或字母',
+              message: '请输入包含大小写字母、数字、特殊字符的8到18位密码',
               trigger: 'blur'
             }
           ],
           checkPass: [{
               required: true,
               validator: validatePass2,
-              trigger: 'blur'
-            },
-            {
-              min: 6,
-              max: 18,
-              message: '密码为6到18位数字或字母',
               trigger: 'blur'
             }
           ]
@@ -401,7 +384,6 @@
         var _this = this;
         this.$refs.ruleForm.validate((valid) => {
           if (valid) {
-            this.logining = false;
             var oldPwd = CryptoJS.MD5(this.ruleForm.usedPass + this.maccount).toString(CryptoJS.enc.Hex);
             var mpwd = CryptoJS.MD5(this.ruleForm.pass + this.maccount).toString(CryptoJS.enc.Hex);
             var mpwd2 = CryptoJS.MD5(this.ruleForm.checkPass + this.maccount).toString(CryptoJS.enc.Hex);
@@ -410,8 +392,9 @@
               mpwd,
               mpwd2
             };
-            //console.log(modifypass);
+            this.submitFormLogining = true;
             updateSysPwd(modifypass).then(res => {
+              this.submitFormLogining = false;
               let {
                 status,
                 message
@@ -430,6 +413,8 @@
                 //清除动态标签
                 this.$store.dispatch('delAllViews')
               }
+            }).catch(() => {
+              this.submitFormLogining = false;
             });
           } else {
             return false;
@@ -439,7 +424,9 @@
       //修改密码弹框是否弹出
       handleEdit: function (index, row) {
         this.editFormVisible = true;
-        this.editForm = Object.assign({}, row);
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields()
+        })
       },
       //退出登录
       logout: function () {
@@ -503,6 +490,13 @@
       }
       this.lineCharIndex()
       this.getUsers()
+    },
+    created() {
+      let first = JSON.parse(sessionStorage.getItem('first'))
+      if (first === 0) {
+        this.editFormVisible = true;
+        this.doneEditPassword = true
+      }
     }
   };
 

@@ -42,7 +42,7 @@
         </div>
       </el-col>
       <el-col :span="form.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" :disabled="form.merchant_status === '1'" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" :disabled="form.merchant_status === '1'" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
@@ -635,6 +635,11 @@ export default {
           required: true,
           message: '请选择开户银行'
         }],
+        bank_no: [{
+          required: true,
+          message: '请选择开户支行',
+          trigger: 'change'
+        }],
         merchant_province3: [{
           required: true,
           message: '请选择商户所在省'
@@ -800,24 +805,28 @@ export default {
       this.form.bank_no = ''
     },
     licensen_expire_long_change(change){
+      this.$refs.form.clearValidate(['licensen_expire'])
       if (change) {
         this.form.licensen_expire = ''
       }
       this.rules.licensen_expire[0].required = !change
     },
     merchant_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['merchant_id_expire'])
       if (change) {
         this.form.merchant_id_expire = ''
       }
       this.rules.merchant_id_expire[0].required = !change
     },
     settle_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['settle_id_expire'])
       if (change) {
         this.form.settle_id_expire = ''
       }
       this.rules.settle_id_expire[0].required = !change
     },
     contro_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['contro_id_expire'])
       if (change) {
         this.form.contro_id_expire = ''
       }
@@ -842,7 +851,7 @@ export default {
           res.data.agentMap.bank_addres_pro_no = parseInt(res.data.agentMap.bank_addres_pro_no)
           res.data.agentMap.bank_addres_city_no = parseInt(res.data.agentMap.bank_addres_city_no)
           this.form = res.data.agentMap
-          if (res.data.timely_sign && res.data.timely_sign === '1') {
+          if (res.data.timely_sign && res.data.timely_sign === '1' || res.data.agentMap.merchant_status === '1') {
             this.editDisabled = true
             this.formDisabled = true
           }else{
