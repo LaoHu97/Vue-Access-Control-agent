@@ -163,3 +163,28 @@ export const queryTerminal = params => { return Axios.post(`${preUrlPath}/admin/
 
 export const updateTerminal = params => { return Axios.post(`${preUrlPath}/admin/wp/ag/updateTerminal`,params).then(res => res.data); };
 
+export const uploadZIP = `${preUrlPath}/admin/wp/ag/uploadZIP`;
+
+export const queryChangeSpecialRate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryChangeSpecialRate`, params).then(res => res.data);
+};
+
+export const querySpeRateList = params => {
+  return instance.post(`${preUrlPath}/admin/wp/comm/querySpeRateList`, params).then(res => res.data);
+};
+
+export const applicationSpecialRate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/applicationSpecialRate`, params).then(res => res.data);
+};
+
+export const queryRebate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryRebate`, params).then(res => res.data);
+};
+
+export const queryAgentRebateDetail = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryAgentRebateDetail`, params).then(res => res.data);
+};
+
+export const updateAgentRebateStatus = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/updateAgentRebateStatus`, params).then(res => res.data);
+};

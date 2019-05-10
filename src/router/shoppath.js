@@ -135,6 +135,17 @@ export default [{
       title: '终端管理', icon: 'table', noCache: true, code: '', hidden: true
     },
     component: (resolve) => require(['../views/agent/nav2/Page14.vue'], resolve)
+  }, {
+    path: 'page15',
+    name: '特殊费率',
+    meta: {
+      title: '特殊费率',
+      icon: 'table',
+      noCache: true,
+      code: '',
+      hidden: true
+    },
+    component: (resolve) => require(['../views/agent/nav2/Page15.vue'], resolve)
   }
   ]
 }, {
@@ -170,7 +181,7 @@ export default [{
     path: 'tab1',
     name: '结算管理',
     meta: {
-      title: '结算管理', icon: 'table1', noCache: false, code: '',
+      title: '结算管理', icon: 'table1', noCache: true, code: '',
     },
     component: (resolve) => require(['../views/agent/nav4/Tab1.vue'], resolve)
   }, {

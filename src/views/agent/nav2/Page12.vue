@@ -288,6 +288,26 @@
         </el-row>
       </div>
     </el-card>
+    <el-card class="box-card">
+      <div slot="header">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-caidan"></use>
+        </svg>
+        <span>报名活动</span>
+      </div>
+      <div class="box-card-pay">
+        <el-row>
+          <el-col :span="8">
+            <svg class="box-card-pay-icon" aria-hidden="true">
+              <use xlink:href="#icon-dayinji"></use>
+            </svg>
+            <router-link :to="{path: '/index2/page15', query: { mid: $route.query.mid }}">
+              <el-button type="text" size="medium">特殊费率</el-button>
+            </router-link>
+          </el-col>
+        </el-row>
+      </div>
+    </el-card>
     <!--修改分配业务员界面-->
     <el-dialog title="分配业务员" :visible.sync="editFormVisible" width="30%">
       <el-form :model="editSaleForm">
