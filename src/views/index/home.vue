@@ -220,7 +220,7 @@
           </el-col>
         </el-row>
       </el-main>
-      <el-footer class="element_footer">版权所有：包商银行股份有限公司 | ICP备 XXXXXXXX号 </el-footer>
+      <el-footer class="element_footer">版权所有：包商银行股份有限公司 | 蒙ICP备14002100号-5 </el-footer>
       <!--修改密码-->
       <el-dialog :visible.sync="editFormVisible" :close-on-click-modal="false" :show-close="false" :close-on-press-escape="false" width="400px">
         <el-alert title="提示：密码修改成功后需重新登录" type="warning" center show-icon :closable="false"></el-alert>

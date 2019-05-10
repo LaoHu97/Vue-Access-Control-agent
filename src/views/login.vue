@@ -84,7 +84,7 @@
     </div>
     <el-row>
       <el-col>
-        <div class="grid-content">版权所有：包商银行股份有限公司 | ICP备 XXXXXXXX号 </div>
+        <div class="grid-content">版权所有：包商银行股份有限公司 | 蒙ICP备14002100号-5 </div>
       </el-col>
     </el-row>
   </div>

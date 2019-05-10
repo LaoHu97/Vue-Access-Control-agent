@@ -139,7 +139,7 @@
         </el-row>
       </div>
     </el-card>
-    <el-card class="box-card">
+    <!-- <el-card class="box-card">
       <div slot="header">
         <svg
           class="icon"
@@ -159,12 +159,12 @@
             <span><router-link :to="{path: '/index2/page15', query: { mid: $route.query.mid } }">微信支付</router-link>
               <b :style="{ color: wx_open === 'Y' ? '#19C862' :'#F56C6C' }">（{{ wx_open === 'Y' ? '开启' : '关闭' }}）</b>
             </span>
-            <!-- <el-switch
+            <el-switch
               v-model="wx_open"
               active-value="Y"
               inactive-value="N"
               active-color="#19C862"
-              @change="switchChange"/> -->
+              @change="switchChange"/>
           </el-col>
           <el-col :span="8">
             <svg
@@ -175,16 +175,16 @@
             <span><router-link :to="{path: '/index2/page16', query: { mid: $route.query.mid } }">支付宝支付</router-link>
               <b :style="{ color: ali_open === 'Y' ? '#19C862' :'#F56C6C' }">（{{ ali_open === 'Y' ? '开启' : '关闭' }}）</b>
             </span>
-            <!-- <el-switch
+            <el-switch
               v-model="ali_open"
               active-value="Y"
               inactive-value="N"
               active-color="#13ce66"
-              @change="switchChange"/> -->
+              @change="switchChange"/>
           </el-col>
         </el-row>
       </div>
-    </el-card>
+    </el-card> -->
 
     <el-card class="box-card">
       <div slot="header">
