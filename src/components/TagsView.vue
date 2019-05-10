@@ -85,6 +85,7 @@ export default {
           } else {
             this.$router.push('/home')
             this.$store.dispatch('top_nav', '1')
+            sessionStorage.setItem('activeIndex', '1');
           }
         }
       })

@@ -47,9 +47,15 @@
           <use xlink:href="#icon-xinxi"></use>
         </svg>
         <span>商户信息</span>
-        <el-button style="float: right; padding: 3px 0" type="text" @click="clickMerEdit"  v-show="boxCardText.id">修改</el-button>
+        <el-button style="float: right; padding: 3px 0" type="text" @click="clickMerEdit"  v-show="boxCardText.id">查看</el-button>
       </div>
       <div class="box-card-text">
+        <el-row>
+          <el-col :span="8" style="font-size:20px;color:#F56C6C">
+            <span>商户号：</span>
+            {{ boxCardText.merchant_no }}
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="8">
             <span>商户名称：</span>
@@ -108,7 +114,7 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-            <span>创建时间：</span>
+            <span>准入日期：</span>
             {{ formatCreate_time(boxCardText.gmt_create) }}
           </el-col>
           <el-col :span="8">
@@ -150,12 +156,15 @@
               aria-hidden="true">
               <use xlink:href="#icon-weixin"/>
             </svg>
-            <span>微信支付
-              <b :style="{ color: switchValue ? '#19C862' :'#F56C6C' }">（{{ switchValue ? '开启' : '关闭' }}）</b>
+            <span><router-link :to="{path: '/index2/page15', query: { mid: $route.query.mid } }">微信支付</router-link>
+              <b :style="{ color: wx_open === 'Y' ? '#19C862' :'#F56C6C' }">（{{ wx_open === 'Y' ? '开启' : '关闭' }}）</b>
             </span>
             <el-switch
-              v-model="switchValue"
-              active-color="#19C862"/>
+              v-model="wx_open"
+              active-value="Y"
+              inactive-value="N"
+              active-color="#19C862"
+              @change="switchChange"/>
           </el-col>
           <el-col :span="8">
             <svg
@@ -163,62 +172,19 @@
               aria-hidden="true">
               <use xlink:href="#icon-big-Pay"/>
             </svg>
-            <span>支付宝支付
-              <b :style="{ color: switchValue ? '#19C862' :'#F56C6C' }">（{{ switchValue ? '开启' : '关闭' }}）</b>
+            <span><router-link :to="{path: '/index2/page16', query: { mid: $route.query.mid } }">支付宝支付</router-link>
+              <b :style="{ color: ali_open === 'Y' ? '#19C862' :'#F56C6C' }">（{{ ali_open === 'Y' ? '开启' : '关闭' }}）</b>
             </span>
             <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
-          </el-col>
-          <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
-          </el-col>
-          <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
-          </el-col>
-          <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
+              v-model="ali_open"
+              active-value="Y"
+              inactive-value="N"
+              active-color="#13ce66"
+              @change="switchChange"/>
           </el-col>
         </el-row>
       </div>
-    </el-card>-->
+    </el-card> -->
 
     <el-card class="box-card">
       <div slot="header">
@@ -259,14 +225,14 @@
             </svg>
             <el-button type="text" size="medium" @click="resetPassWord">重置密码</el-button>
           </el-col>
-          <el-col :span="8">
+          <!-- <el-col :span="8">
             <svg class="box-card-pay-icon" aria-hidden="true">
               <use xlink:href="#icon-zhongduan"></use>
             </svg>
             <router-link :to="{path: '/index2/page14', query: { mid: $route.query.mid }}">
               <el-button type="text" size="medium">查看终端</el-button>
             </router-link>
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
     </el-card>
@@ -284,6 +250,26 @@
               <use xlink:href="#icon-dayinji"></use>
             </svg>
             <el-button type="text" size="medium" @click="clickPrint">云打印</el-button>
+          </el-col>
+        </el-row>
+      </div>
+    </el-card>
+    <el-card class="box-card">
+      <div slot="header">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-caidan"></use>
+        </svg>
+        <span>报名活动</span>
+      </div>
+      <div class="box-card-pay">
+        <el-row>
+          <el-col :span="8">
+            <svg class="box-card-pay-icon" aria-hidden="true">
+              <use xlink:href="#icon-dayinji"></use>
+            </svg>
+            <router-link :to="{path: '/index2/page18', query: { mid: $route.query.mid }}">
+              <el-button type="text" size="medium">特殊费率</el-button>
+            </router-link>
           </el-col>
         </el-row>
       </div>
@@ -399,6 +385,16 @@
             <img class="box_card_img" :src="boxCardText.thum_img_tax_reg" alt="证件照片">
           </a>
         </el-form-item>
+        <el-form-item label="联系人身份证正面" v-if="boxCardText.img_person_a">
+          <a :href="boxCardText.img_person_a" target="_blank">
+            <img class="box_card_img" :src="boxCardText.thum_img_person_a" alt="证件照片">
+          </a>
+        </el-form-item>
+        <el-form-item label="联系人身份证反面" v-if="boxCardText.img_person_b">
+          <a :href="boxCardText.img_person_b" target="_blank">
+            <img class="box_card_img" :src="boxCardText.thum_img_person_b" alt="证件照片">
+          </a>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPhoneVisible = false">关 闭</el-button>
@@ -411,7 +407,9 @@ import {
   selectSaleByName,
   updateAgentSalesman,
   queryAgentShopMer,
-  resetMerMpwd
+  resetMerMpwd,
+  queryMerchantPay,
+  updateMerchantPay
 } from "../../../api/agent";
 import CryptoJS from "crypto-js";
 import * as util from "../../../util/util.js";
@@ -428,15 +426,41 @@ export default {
       editSaleForm: {
         sale: ""
       },
-      dialogPhoneVisible: false
+      dialogPhoneVisible: false,
+
+
+      wx_open: 'N',
+      ali_open: 'N'
     };
   },
   mounted() {
-    this.getMerDetails();
+    this.getMerDetails()
+    this.getPaySwitch()
   },
   methods: {
     formatCreate_time(row) {
-      return row ? util.formatDate.format(new Date(row), "yyyy/MM/dd hh:MM:ss") : '';
+      return row ? util.formatDate.format(new Date(row), "yyyy/MM/dd") : '';
+    },
+    getPaySwitch() {
+      queryMerchantPay({mid: this.$route.query.mid}).then(res => {
+        this.wx_open = res.data.returnMap.wx_open
+        this.ali_open = res.data.returnMap.ali_open
+      })
+    },
+    switchChange() {
+      let para = {
+        wx_open: this.wx_open,
+        ali_open: this.ali_open,
+        mid: this.$route.query.mid
+      }
+      updateMerchantPay(para).then(res => {
+        this.$message({
+          message: res.message,
+          type: "success"
+        });
+      }).catch(() => {
+        this.getPaySwitch()
+      })
     },
     //云打印
     clickPrint() {
@@ -455,7 +479,7 @@ export default {
         inputValue: "123456"
       }).then(({ value }) => {
         let para = {
-          password: CryptoJS.MD5(value + this.$route.query.maccount).toString(
+          mpwd: CryptoJS.MD5(value + this.$route.query.maccount).toString(
             CryptoJS.enc.Hex
           ),
           mid: this.$route.query.mid

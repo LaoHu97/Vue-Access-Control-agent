@@ -12,16 +12,16 @@
           <div class="navmenu_horizontal">
             <el-menu :default-active="activeIndex" class="el_menu_horizontal" mode="horizontal" @select="handleSelect" background-color="#fff">
               <el-menu-item index="1">首页</el-menu-item>
-              <el-menu-item index="2">数据中心</el-menu-item>
-              <el-menu-item index="3">管理中心</el-menu-item>
-              <el-menu-item index="4">产品中心</el-menu-item>
-              <el-menu-item index="5">营销中心</el-menu-item>
-              <el-menu-item index="6">帮助中心</el-menu-item>
+              <el-menu-item index="3">商户中心</el-menu-item>
+              <el-menu-item index="2">交易中心</el-menu-item>
+              <el-menu-item index="4">运营中心</el-menu-item>
+              <!-- <el-menu-item index="5">营销中心</el-menu-item>
+              <el-menu-item index="6">帮助中心</el-menu-item> -->
             </el-menu>
           </div>
         </el-col>
         <el-col :span="7" style="line-height: 60px;text-align: right;">
-          <span>{{sysUserName}} ，欢迎登录代理平台 </span>
+          <span>{{sysUserName}} ，欢迎登录渠道商平台 </span>
           <el-dropdown split-button size="mini" type="danger" @click="logout">
             退出登录
             <el-dropdown-menu slot="dropdown">
@@ -84,10 +84,11 @@
         }
       };
       var validatePass1 = (rule, value, callback) => {
+        let regex = new RegExp('(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^a-zA-Z0-9]).{8,18}');
         if (value === '') {
           callback(new Error('请输入密码'));
-        } else if (!/^[a-zA-Z0-9]{6,18}$/.test(value)) {
-          callback(new Error('请输入不含汉字和空格的6到18位密码'));
+        } else if (!regex.test(value)) {
+          callback(new Error('请输入包含大小写字母、数字、特殊字符的8到18位密码'));
         } else {
           if (this.ruleForm.checkPass !== '') {
             this.$refs.ruleForm.validateField('checkPass');
@@ -161,9 +162,6 @@
         return this.$store.state.perMission.activeIndex
       }
     },
-    watch: {
-
-    },
     methods: {
       //修改密码提交按钮
       submitForm() {
@@ -213,7 +211,9 @@
       //修改密码弹框是否弹出
       handleEdit: function (index, row) {
         this.editFormVisible = true;
-        this.editForm = Object.assign({}, row);
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields()
+        })
       },
       //退出登录
       logout: function () {
@@ -244,11 +244,15 @@
             break;
           case 2:
             sessionStorage.setItem('menu', JSON.stringify(1));
-            this.$emit('login', '/index1/table2');
+            this.$emit('login', '/index1/table');
             break;
           case 3:
             sessionStorage.setItem('menu', JSON.stringify(2));
             this.$emit('login', '/index2/page4');
+            break;
+          case 4:
+            sessionStorage.setItem('menu', JSON.stringify(2));
+            this.$emit('login', '/index3/list1');
             break;
           default:
             this.$router.push({

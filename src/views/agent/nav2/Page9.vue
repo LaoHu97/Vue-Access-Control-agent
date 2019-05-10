@@ -42,16 +42,28 @@
         </div>
       </el-col>
       <el-col :span="form.merchant_status === '2' ? 4 : 24">
-        <el-button type="primary" class="editBtn" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
+        <el-button type="primary" class="editBtn" :disabled="form.merchant_status === '1'" v-if="formDisabled" round @click="formDisabled = !formDisabled">修改</el-button>
       </el-col>
     </el-row>
     <div class="form_main">
       <el-form ref="form" :model="form" :disabled="formDisabled" :rules="rules" label-width="150px" label-position="left" class="form_contron">
         <el-row>
           <el-col>
+            <el-form-item label="业务员：" prop="salesman_id">
+              <template>
+                <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
+                  <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
+                  </el-option>
+                </el-select>
+              </template>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
             <el-form-item label="商户结算入网类型" prop="settlement_mer_type">
               <template>
-                <el-select v-model="form.settlement_mer_type" :disabled="editDisabled" placeholder="请选择">
+                <el-select v-model="form.settlement_mer_type" placeholder="请选择">
                   <el-option
                     v-for="item in settlementOptions"
                     :key="item.value"
@@ -75,6 +87,7 @@
             <el-form-item label="证件到期日期：" prop="licensen_expire">
               <el-date-picker
                 v-model="form.licensen_expire"
+                :disabled="form.licensen_expire_long ? true : false"
                 :picker-options="pickerOptions"
                 type="date"
                 value-format="timestamp"
@@ -92,7 +105,7 @@
           <el-col>
             <el-form-item label="结算账户类型：" prop="account_type">
               <template>
-                <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW' || editDisabled">
+                <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW'">
                   <el-radio label="1">对公</el-radio>
                   <el-radio label="2">对私</el-radio>
                 </el-radio-group>
@@ -116,37 +129,62 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
+        <!-- <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
           <el-col>
             <el-form-item label="是否法人入账：" prop="is_liable_account">
               <template>
-                <el-radio-group v-model="form.is_liable_account" :disabled="editDisabled">
+                <el-radio-group v-model="form.is_liable_account">
                   <el-radio label="1">法人入账</el-radio>
                   <el-radio label="2">非法人入账</el-radio>
                 </el-radio-group>
               </template>
             </el-form-item>
           </el-col>
-        </el-row>
+        </el-row> -->
         <el-row  v-if="form.account_type == '1' || form.is_liable_account == '2'">
           <el-col>
             <el-form-item label="法人姓名：" prop="legal_name">
-              <el-input v-model.trim="form.legal_name" :disabled="editDisabled" ></el-input>
+              <el-input v-model.trim="form.legal_name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row  v-if="form.account_type == '1' || form.is_liable_account == '2'">
           <el-col>
-            <el-form-item label="法人身份证号" prop="merchant_id_no">
+            <el-form-item label="证件类型：" prop="merchant_id_type">
+              <el-select
+                v-model="form.merchant_id_type"
+                placeholder="请输入证件类型关键字查询"
+                :multiple="false"
+                filterable
+                remote
+                :remote-method="remoteMerchantType"
+                :loading="MerchantTypeLoading"
+                clearable
+                @focus="clickMerchantType"
+              >
+                <el-option
+                  v-for="item in optionsMerchantType"
+                  :key="item.id"
+                  :value="item.code"
+                  :label="item.type"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row  v-if="form.account_type == '1' || form.is_liable_account == '2'">
+          <el-col>
+            <el-form-item label="法人证件号码" prop="merchant_id_no">
               <el-input v-model.trim="form.merchant_id_no" ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row  v-if="form.account_type == '1' || form.is_liable_account == '2'">
           <el-col :span="16">
-            <el-form-item label="法人身份证有效期" prop="merchant_id_expire">
+            <el-form-item label="法人证件有效期" prop="merchant_id_expire">
                 <el-date-picker
                   v-model="form.merchant_id_expire"
+                  :disabled="form.merchant_id_expire_long ? true : false"
                   :picker-options="pickerOptions"
                   type="date"
                   value-format="timestamp"
@@ -160,10 +198,17 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row  v-if="form.account_type == '1' || form.is_liable_account == '2'">
+          <el-col>
+            <el-form-item label="法人手机号：" prop="legal_phone">
+              <el-input v-model.trim="form.legal_phone" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row  v-if="form.account_type == '2'">
           <el-col>
             <el-form-item label="结算人身份证号" prop="settle_id_no">
-              <el-input v-model.trim="form.settle_id_no" :disabled="editDisabled" ></el-input>
+              <el-input v-model.trim="form.settle_id_no"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -172,6 +217,7 @@
             <el-form-item label="结算人身份证有效期" prop="settle_id_expire">
                 <el-date-picker
                   v-model="form.settle_id_expire"
+                  :disabled="form.settle_id_expire_long ? true : false"
                   :picker-options="pickerOptions"
                   type="date"
                   value-format="timestamp"
@@ -188,7 +234,7 @@
         <el-row>
           <el-col>
             <el-form-item label="结算人账户开户名：" prop="account_name">
-              <el-input v-model.trim="form.account_name" :disabled="editDisabled" ></el-input>
+              <el-input v-model.trim="form.account_name"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -256,23 +302,74 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row v-if="form.document_type !== 'SZHY'">
+          <el-col>
+            <el-form-item label="组织机构代码号：" prop="orgcod">
+              <el-input v-model.trim="form.orgcod" placeholder="请输入组织机构代码号" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="form.document_type !== 'SZHY'">
+          <el-col>
+            <el-form-item label="税务登记号：" prop="taxcod">
+              <el-input v-model.trim="form.taxcod" placeholder="请输入税务登记号" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col>
-            <el-form-item label="业务员：" prop="salesman_id">
-              <template>
-                <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请输入关键字查询" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
-                  <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
-                  </el-option>
-                </el-select>
-                <!-- <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请选择" @visible-change="nowrapsubm">
-                  <el-option
-                    v-for="item in nowrapList"
-                    :label="item.value"
-                    :value="item.id"
-                    :key="item.id">
-                  </el-option>
-                </el-select> -->
-              </template>
+            <el-form-item label="控制人姓名：" prop="contro_name">
+              <el-input v-model.trim="form.contro_name"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="控制人证件类型：" prop="contro_id_type">
+              <el-select
+                v-model="form.contro_id_type"
+                placeholder="请输入证件类型关键字查询"
+                :multiple="false"
+                filterable
+                remote
+                :remote-method="remoteMerchantType"
+                :loading="MerchantTypeLoading"
+                clearable
+                @focus="clickMerchantType"
+              >
+                <el-option
+                  v-for="item in optionsMerchantType"
+                  :key="item.id"
+                  :value="item.code"
+                  :label="item.type"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="控制人证件号：" prop="contro_id_no">
+              <el-input v-model.trim="form.contro_id_no" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="16">
+            <el-form-item label="控制人证件有效期" prop="contro_id_expire">
+                <el-date-picker
+                  v-model="form.contro_id_expire"
+                  :disabled="form.contro_id_expire_long ? true : false"
+                  :picker-options="pickerOptions"
+                  type="date"
+                  value-format="timestamp"
+                  placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label-width="0">
+              <el-checkbox @change="contro_id_expire_long_change" v-model="form.contro_id_expire_long">长期有效</el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -300,7 +397,8 @@ import {
   selectSaleByName,
   uploadImage,
   addAgentMertwo,
-  agentShopPage
+  agentShopPage,
+  bsbLegalDocumentType
 } from '../../../api/agent';
 export default {
   data() {
@@ -333,6 +431,7 @@ export default {
         account_type: '1',//结算账户类型
         document_type:'SZHY',//入网证件类型
         legal_name: '',//法人姓名
+        merchant_id_type: '',
         merchant_id_no: '',//法人证件号码
         merchant_id_expire: '',//法人证件有效期
         merchant_id_expire_long: false,
@@ -346,8 +445,18 @@ export default {
         bank_addres_pro_no: '',//结算账户开户行省市01
         bank_addres_city_no: '',//结算账户开户行省市02
         bank_no: '',//结算户开户支行
-        salesman_id: ''//业务员
+        salesman_id: '',//业务员
+        orgcod: '',
+        taxcod: '',
+        contro_name: '',
+        contro_id_type: '',
+        contro_id_no: '',
+        contro_id_expire: '',
+        contro_id_expire_long: false,
+        legal_phone:''
       },
+      optionsMerchantType: [],
+      MerchantTypeLoading: false,
       editDisabled: false,
       addLoading: false,
       loading: false,
@@ -377,6 +486,20 @@ export default {
         }
       },
       rules: {
+        orgcod: [
+          {
+            required: true,
+            message: '请输入组织机构代码号',
+            trigger: 'blur'
+          }
+        ],
+        taxcod: [
+          {
+            required: true,
+            message: '请输入税务登记号',
+            trigger: 'blur'
+          }
+        ],
         settlement_mer_type: [{
             required: true,
             message: '请选择商户结算入网类型',
@@ -422,10 +545,11 @@ export default {
             trigger: 'blur'
           }
         ],
-        merchant_id_type: [{
+        merchant_id_type: [
+          {
             required: true,
-            message: '请选择结算人证件类型',
-            trigger: 'change'
+            message: "请选择法人证件类型",
+            trigger: "change"
           }
         ],
         merchant_id_no: [{
@@ -485,6 +609,16 @@ export default {
           trigger: 'blur'
           }
         ],
+        legal_phone: [
+          {
+            message: '请输入法人手机号',
+            trigger: 'blur'
+          },
+          {
+          validator: data.regPhone,
+          trigger: 'blur'
+          }
+        ],
         business1: [{
           required: true,
           message: '请选择行业类目'
@@ -500,6 +634,11 @@ export default {
         bank_zname_no: [{
           required: true,
           message: '请选择开户银行'
+        }],
+        bank_no: [{
+          required: true,
+          message: '请选择开户支行',
+          trigger: 'change'
         }],
         merchant_province3: [{
           required: true,
@@ -520,6 +659,32 @@ export default {
         salesman_id: [{
           required: true,
           message: '请选择业务员'
+        }],
+        contro_name: [{
+            required: true,
+            message: '请输入控制人姓名',
+            trigger: 'blur'
+          },{
+            validator: data.regFont,
+            trigger: 'blur'
+          }
+        ],
+        contro_id_type: [
+          {
+            required: true,
+            message: "请选择证件类型",
+            trigger: "change"
+          }
+        ],
+        contro_id_no: [{
+          required: true,
+          message: '请输入正确的证件号码',
+          trigger: 'blur'
+        }],
+        contro_id_expire: [{
+          required: true,
+          message: '请选择证件有效期',
+          trigger: 'change'
         }]
       },
       formDisabled: false
@@ -531,22 +696,73 @@ export default {
   　},
     account_type() {
       return this.form.account_type
+    },
+    merchant_id_type() {
+      return this.form.merchant_id_type
     }
   },
   watch: {
+    account_type(curVal,oldVal) {
+      this.$refs.form.clearValidate()
+    },
     settlement_mer_type(curVal,oldVal) {
       this.$refs.form.clearValidate()
       if(curVal !== 'QY'){
         this.form.document_type = 'SZHY'
+      }
+    },
+    merchant_id_type(curVal,oldVal) {
+      this.$refs.form.clearValidate()
+      if (curVal !== '01' ) {
+        this.rules.merchant_id_no[1] = {}
+      } else {
+        var merchant_id_no = (rule, value, callback) => {
+          if (value === "") {
+            callback(new Error("请输入身份证号码"));
+          } else if (
+            !/^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$/.test(value)
+          ) {
+            callback(new Error("请输入正确的身份证号码"));
+          } else {
+            callback();
+          }
+        };
+        this.rules.merchant_id_no[1] = {
+            validator: merchant_id_no,
+            trigger: "blur"
+        }
       }
     }
   },
   mounted () {
     if (this.$route.query.id) {
       this.getPageDetails() 
+      this.clickMerchantType()
     }
   },
   methods: {
+    clickMerchantType() {
+      this.MerchantTypeLoading = true;
+      bsbLegalDocumentType({ id: "123" }).then(res => {
+        this.MerchantTypeLoading = false;
+        this.optionsMerchantType = res.data;
+      });
+    },
+    remoteMerchantType(query) {
+      if (query !== "") {
+        this.MerchantTypeLoading = true;
+        setTimeout(() => {
+          this.MerchantTypeLoading = false;
+          bsbLegalDocumentType({
+            type: query
+          }).then(res => {
+            this.optionsMerchantType = res.data;
+          });
+        }, 200);
+      } else {
+        this.optionsMerchantType = [];
+      }
+    },
       //业务员远程搜索
       clickSale: function () {
         selectSaleByName().then((res) => {
@@ -589,13 +805,32 @@ export default {
       this.form.bank_no = ''
     },
     licensen_expire_long_change(change){
+      this.$refs.form.clearValidate(['licensen_expire'])
+      if (change) {
+        this.form.licensen_expire = ''
+      }
       this.rules.licensen_expire[0].required = !change
     },
     merchant_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['merchant_id_expire'])
+      if (change) {
+        this.form.merchant_id_expire = ''
+      }
       this.rules.merchant_id_expire[0].required = !change
     },
     settle_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['settle_id_expire'])
+      if (change) {
+        this.form.settle_id_expire = ''
+      }
       this.rules.settle_id_expire[0].required = !change
+    },
+    contro_id_expire_long_change(change){
+      this.$refs.form.clearValidate(['contro_id_expire'])
+      if (change) {
+        this.form.contro_id_expire = ''
+      }
+      this.rules.contro_id_expire[0].required = !change
     },
     getPageDetails() {
       let para = {
@@ -607,14 +842,16 @@ export default {
           res.data.agentMap.licensen_expire_long = res.data.agentMap.licensen_expire_long === 'Y' ? true : false
           res.data.agentMap.merchant_id_expire_long = res.data.agentMap.merchant_id_expire_long === 'Y' ? true : false
           res.data.agentMap.settle_id_expire_long = res.data.agentMap.settle_id_expire_long === 'Y' ? true : false
+          res.data.agentMap.contro_id_expire_long = res.data.agentMap.contro_id_expire_long === 'Y' ? true : false
           this.rules.licensen_expire[0].required = !res.data.agentMap.licensen_expire_long
           this.rules.merchant_id_expire[0].required = !res.data.agentMap.merchant_id_expire_long
           this.rules.settle_id_expire[0].required = !res.data.agentMap.settle_id_expire_long
+          this.rules.contro_id_expire[0].required = !res.data.agentMap.contro_id_expire_long
           res.data.agentMap.bank_zname_no = parseInt(res.data.agentMap.bank_zname_no)
           res.data.agentMap.bank_addres_pro_no = parseInt(res.data.agentMap.bank_addres_pro_no)
           res.data.agentMap.bank_addres_city_no = parseInt(res.data.agentMap.bank_addres_city_no)
           this.form = res.data.agentMap
-          if (res.data.timely_sign && res.data.timely_sign === '1') {
+          if (res.data.timely_sign && res.data.timely_sign === '1' || res.data.agentMap.merchant_status === '1') {
             this.editDisabled = true
             this.formDisabled = true
           }else{
@@ -637,6 +874,7 @@ export default {
       let para = {
         bank_city_code: this.form.bank_addres_city_no,
         id: this.form.bank_zname_no,
+        bank_provice_code: this.form.bank_addres_pro_no
       }
       selectbranch(para).then((res) => {
         this.branchNameList = res.data.bankList
@@ -651,6 +889,7 @@ export default {
           let para = {
             bank_city_code: this.form.bank_addres_city_no,
             id: this.form.bank_zname_no,
+            bank_provice_code: this.form.bank_addres_pro_no,
             bank_name: query
           }
           selectbranch(para).then((res) => {
@@ -694,6 +933,7 @@ export default {
           para.licensen_expire_long = para.licensen_expire_long ? 'Y' : 'N'
           para.merchant_id_expire_long = para.merchant_id_expire_long ? 'Y' : 'N'
           para.settle_id_expire_long = para.settle_id_expire_long ? 'Y' : 'N'
+          para.contro_id_expire_long = para.contro_id_expire_long ? 'Y' : 'N'
           para.shop_id = this.$route.query.shop_id
           addAgentMertwo(para).then(res => {
             if (res.status === 200) {

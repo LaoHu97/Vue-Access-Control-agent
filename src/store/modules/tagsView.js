@@ -6,12 +6,14 @@ const tagsView = {
   mutations: {
     ADD_VISITED_VIEWS: (state, view) => {
       if (state.visitedViews.some(v => v.path === view.path)) return
-      state.visitedViews.push({
-        name: view.name,
-        path: view.path,
-        title: view.meta.title || 'no-name',
-        query: view.query
-      })
+      if (!view.meta.noTages) {
+        state.visitedViews.push({
+          name: view.name,
+          path: view.path,
+          title: view.meta.title || 'no-name',
+          query: view.query
+        })
+      }
       if (!view.meta.noCache) {
         state.cachedViews.push(view.name)
       }
@@ -53,9 +55,7 @@ const tagsView = {
   },
   actions: {
     addVisitedViews({ commit }, view) {
-      if (view.meta.noCache) {
-        commit('ADD_VISITED_VIEWS', view) 
-      }
+      commit('ADD_VISITED_VIEWS', view)
     },
     delVisitedViews({ commit, state }, view) {
       return new Promise((resolve) => {

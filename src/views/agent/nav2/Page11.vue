@@ -56,7 +56,7 @@
     <!--列表-->
     <div v-loading="listLoading">
       <el-table :data="users" border highlight-current-row>
-        <el-table-column prop="userName" align="center" label="代理名称" min-width="120">
+        <el-table-column prop="userName" align="center" label="渠道商名称" min-width="120">
         </el-table-column>
         <el-table-column prop="merchant_name" align="center" label="商户名称" min-width="120">
         </el-table-column>
@@ -74,7 +74,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <el-dialog title="商户详情" :visible.sync="dialogDetailVisible">
+    <el-dialog title="商户详情" :visible.sync="dialogDetailVisible" width="800px">
       <el-form :model="formDetail" :inline="true" label-width="150px" label-position="left">
         <el-alert  class="box-alert" :closable="false" v-if="formDetail.merchant_status === '2'" title="审核驳回原因：" :description="formDetail.error_msg || '暂无驳回原因，请联系运营人员'" type="error" show-icon>
         </el-alert>
@@ -120,6 +120,17 @@
           </el-col>
         </el-row><el-row>
           <el-col :span="12">
+            <el-form-item label="联系人证件号">
+              <span>{{formDetail.person_id_no}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系人证件有效期">
+              <span>{{formatDateperson_id_no(formDetail)}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row><el-row>
+          <el-col :span="12">
             <el-form-item label="联系人邮箱">
               <span>{{formDetail.merchant_email}}</span>
             </el-form-item>
@@ -135,6 +146,11 @@
               <span>{{formDetail.merchant_service_phone}}</span>
             </el-form-item>
           </el-col>
+              <el-col :span="12">
+                <el-form-item label="商户类型">
+                  <span>{{ formDetail.merchant_type === '1' ? '一级商户' : formDetail.merchant_type === '2' ? '二级商户' : '未知' }}</span>
+                </el-form-item>
+              </el-col>
         </el-row>
           </div>
         </el-card>
@@ -185,61 +201,141 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="法人身份证号">
+            <el-form-item label="法人证件号">
               <span>{{formDetail.merchant_id_no}}</span>
             </el-form-item>
           </el-col>
         </el-row><el-row>
           <el-col :span="12">
-            <el-form-item label="法人身份证有效期">
+            <el-form-item label="法人证件有效期">
               <span>{{formatDatemerchant_id_expire(formDetail)}}</span>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="法人手机号">
+              <span>{{formDetail.legal_phone}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="结算人身份证号">
               <span>{{formDetail.settle_id_no}}</span>
             </el-form-item>
           </el-col>
-        </el-row><el-row>
           <el-col :span="12">
             <el-form-item label="结算人身份证有效期">
               <span>{{formatDatesettle_id_expire(formDetail)}}</span>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="结算人账户开户名">
               <span>{{formDetail.account_name}}</span>
             </el-form-item>
           </el-col>
-        </el-row><el-row>
           <el-col :span="12">
             <el-form-item label="结算人账户开户号">
               <span>{{formDetail.account_no}}</span>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="银行卡预留手机号">
               <span>{{formDetail.account_phone}}</span>
             </el-form-item>
           </el-col>
-        </el-row><el-row>
           <el-col :span="12">
             <el-form-item label="结算账户开户行">
               <span>{{formDetail.bank_zname}}</span>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="结算户开户支行">
               <span>{{formDetail.bank_name}}</span>
             </el-form-item>
           </el-col>
-        </el-row><el-row>
           <el-col :span="12">
             <el-form-item label="业务员">
               <span>{{formDetail.salesman_name}}</span>
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="控制人姓名">
+              <span>{{formDetail.contro_name}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="控制人证件类型">
+              <span>{{formDetail.contro_id_type}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="控制人证件号">
+              <span>{{formatDatecontro_id_expire(formDetail)}}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="控制人证件有效期">
+              <span>{{formDetail.contro_id_type}}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+          </div>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header">
+            <span>微信</span>
+            <el-tag :type="formDetail.wx_open === 'Y' ? 'success' : 'warning'" style="float: right;">{{formDetail.wx_open === 'Y' ? '开启' : formDetail.wx_open === 'N' ? '关闭' : '未知'}}</el-tag>
+          </div>
+          <div>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="微信费率（‰）">
+                  <span>{{ formDetail.wx_rate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="联系人微信账号">
+                  <span>{{ bsbPay.wx_contid }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </div>
+        </el-card>
+        <el-card class="box-card">
+          <div slot="header">
+            <span>支付宝</span>
+            <el-tag :type="formDetail.ali_open === 'Y' ? 'success' : 'warning'" style="float: right;">{{formDetail.ali_open === 'Y' ? '开启' : formDetail.ali_open === 'N' ? '关闭' : '未知'}}</el-tag>
+          </div>
+          <div>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="支付宝费率（‰）">
+                  <span>{{ formDetail.ali_rate }}</span>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="支付宝的PID">
+                  <span>{{ bsbPay.ali_source }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="行业类目">
+                  <span>{{ bsbPay.reserve1 }}</span>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </div>
         </el-card>
         <el-card class="box-card">
@@ -248,17 +344,6 @@
           </div>
           <div>
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="微信费率">
-              <span>{{formDetail.wx_rate}}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="支付宝费率">
-              <span>{{formDetail.ali_rate}}</span>
-            </el-form-item>
-          </el-col>
-        </el-row><el-row>
           <el-col :span="12">
             <el-form-item label="翼支付费率">
               <span>{{formDetail.best_rate}}</span>
@@ -288,6 +373,7 @@
         <el-card class="box-card">
           <div slot="header">
             <span>证件照片</span>
+            <a :href="formDetail.img_other" style="float: right; padding: 3px 0" type="text">附件下载</a>
           </div>
           <div>
         <el-row>
@@ -406,7 +492,35 @@
               </a>
             </el-form-item>
           </el-col>
+              <el-col :span="12">
+                <el-form-item label="联系人身份证正面">
+                  <a
+                    :href="formDetail.img_person_a"
+                    v-if="formDetail.img_person_a"
+                    target='_blank'>
+                    <img
+                      class="box_card_img"
+                      :src="formDetail.thum_img_person_a"
+                      alt="证件照片">
+                  </a>
+                </el-form-item>
+              </el-col>
         </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="联系人身份证反面">
+                  <a
+                    :href="formDetail.img_person_b"
+                    v-if="formDetail.img_person_b"
+                    target='_blank'>
+                    <img
+                      class="box_card_img"
+                      :src="formDetail.thum_img_person_b"
+                      alt="证件照片">
+                  </a>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </div>
         </el-card>
       </el-form>
@@ -447,6 +561,7 @@ export default {
         }
       ],
       formDetail: {},
+      bsbPay: {},
       total: 0,
       page: 1,
       users: [],
@@ -476,6 +591,12 @@ export default {
     formatDatesettle_id_expire(val){
       return val.settle_id_expire_long === 'Y' ? '长期有效' : val.settle_id_expire ? util.dateFormat(parseInt(val.settle_id_expire), 'yyyy-MM-dd hh:mm:ss') : '' 
     },
+    formatDateperson_id_no(val){
+      return val.person_id_expire_long === 'Y' ? '长期有效' : val.person_id_expire ? util.dateFormat(parseInt(val.person_id_expire), 'yyyy-MM-dd hh:mm:ss') : '' 
+    },
+    formatDatecontro_id_expire(val){
+      return val.contro_id_expire_long === 'Y' ? '长期有效' : val.contro_id_expire ? util.dateFormat(parseInt(val.contro_id_expire), 'yyyy-MM-dd hh:mm:ss') : '' 
+    },
     handleCurrentChange (val) {
       this.page = val
       this.getList()
@@ -496,8 +617,8 @@ export default {
     },
     getListDetail(change, val) {
       ChangeAgentShop({ id: change, shop_id: val }).then(res => {
-        this.formDetail = res.data.changeAgentShop
-        console.log(this.formDetail.merchant_status);
+        this.formDetail = res.data.changeAgentShop 
+        this.bsbPay = res.data.bsbPay
       });
     },
     handleDetail(index, row) {

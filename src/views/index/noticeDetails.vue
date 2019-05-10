@@ -4,8 +4,7 @@
       <el-row>
         <el-col :span="6">
           <div class="top_logo">
-            <img src="../../assets/images/logo4.png" />
-            <span>万 鼎 科 技</span>
+            <img src="../../assets/images/webwxgetmsgimg.png" />
           </div>
         </el-col>
       </el-row>
@@ -15,7 +14,7 @@
         <h1>{{data.title}}</h1>
         <span>尊敬的微信支付商户：</span>
         <div class="details_main_text"><div v-html="data.article"></div></div>
-        <h2>西安万鼎科技
+        <h2>有氧金融
           <br>{{format_date(data.gmt_create)}}</h2>
       </div>
     </el-main>
@@ -53,7 +52,7 @@ export default {
   }
 
   .top_logo img {
-    width: 30%;
+    width: 100%;
     margin-top: 17px;
     float: left;
   }

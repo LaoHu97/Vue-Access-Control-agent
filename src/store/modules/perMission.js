@@ -6,6 +6,8 @@ const perMission = {
   },
   mutations: {
     TOP_NAV: (state, view) => {
+      console.log(state.activeIndex);
+      
       state.activeIndex=view
     },
     SIDE_NAV: (state, view) => {

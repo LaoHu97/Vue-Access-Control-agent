@@ -1,5 +1,6 @@
 <template>
 <section>
+  <el-button size="small" round @click="historyGo" style="margin-bottom:15px;">返回</el-button>
   <!--工具条-->
   <el-row>
     <el-form :inline="true" :model="filters" ref="filters">
@@ -15,15 +16,17 @@
 
   <!--列表-->
   <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
+    <el-table-column prop="saccount" label="门店编号" min-width="120">
+    </el-table-column>
     <el-table-column prop="storeName" label="门店名称" min-width="120">
     </el-table-column>
     <el-table-column prop="address" label="门店地址" min-width="180">
     </el-table-column>
+    <el-table-column prop="revsere2" label="联系人" min-width="120">
+    </el-table-column>
     <el-table-column prop="telephone" label="联系电话" min-width="120">
     </el-table-column>
-    <el-table-column prop="saccount" label="登录帐号" min-width="120">
-    </el-table-column>
-    <el-table-column label="门店状态" min-width="80">
+    <!-- <el-table-column label="门店状态" min-width="80">
       <template slot-scope="scope">
           <el-switch
             name="value"
@@ -31,10 +34,10 @@
             v-model="scope.row.state">
           </el-switch>
       </template>
-    </el-table-column>
-    <el-table-column label="操作" width="340">
+    </el-table-column> -->
+    <el-table-column label="操作" width="280">
       <template slot-scope="scope">
-          <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+          <!-- <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button> -->
 					<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 					<el-button type="info" size="mini" @click="handleDet(scope.$index, scope.row)">详情</el-button>
           <el-button type="info" size="mini" @click="lookEmp(scope.$index, scope.row)">查看款台</el-button>
@@ -53,15 +56,12 @@
       <el-form-item label="门店名称：">
         <span>{{detForm.storeName}}</span>
       </el-form-item>
-      <el-form-item label="电话：">
+      <el-form-item label="联系电话：">
         <span>{{detForm.telephone}}</span>
       </el-form-item>
       <el-form-item label="详细地址：">
         <span>{{detForm.address}}</span>
       </el-form-item>
-      <!-- <el-form-item label="渠道门店ID：">
-					<span>{{detForm.pnum}}</span>
-				</el-form-item> -->
       <el-form-item label="门店编号：">
         <span>{{detForm.storeName}}</span>
       </el-form-item>
@@ -71,36 +71,38 @@
     </el-form>
   </el-dialog>
   <!--修改界面-->
-  <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="修改信息" :visible.sync="editFormVisible" :close-on-click-modal="false" width="450px">
     <el-form :model="editForm" :rules="editFormRules" ref="editForm">
       <el-form-item label="门店名称" prop="storeName">
-        <el-input v-model="editForm.storeName" auto-complete="off"></el-input>
+        <el-input v-model="editForm.storeName"></el-input>
       </el-form-item>
-      <el-form-item label="门店地址" prop="address">
-        <el-input v-model="editForm.address" auto-complete="off"></el-input>
+      <el-form-item label="联系人" prop="revsere2">
+        <el-input v-model="editForm.revsere2"></el-input>
       </el-form-item>
       <el-form-item label="联系电话" prop="telephone">
         <el-input v-model="editForm.telephone"></el-input>
       </el-form-item>
-      <el-form-item label="营业时间" prop="shopHours">
+      <el-form-item label="详细地址" prop="address">
+        <el-input v-model="editForm.address"></el-input>
+      </el-form-item>
+      <el-form-item label="营业时间" prop="startTime">
         <template>
 						<el-time-select
 							placeholder="起始时间"
-							v-model="startTime"
+							v-model="editForm.startTime"
 							:picker-options="{
 								start: '08:30',
 								step: '00:15',
 								end: '18:30'
 							}">
 						</el-time-select>
-
 					</template>
       </el-form-item>
-      <el-form-item label="" prop="shopHours" style="margin-left:68px;">
+      <el-form-item label="" prop="endTime" style="margin-left:68px;">
         <template>
 						<el-time-select
 								placeholder="结束时间"
-								v-model="endTime"
+								v-model="editForm.endTime"
 								:picker-options="{
 									start: '00:00',
 									step: '00:15',
@@ -113,23 +115,26 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="editFormVisible = false">取消</el-button>
-      <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+      <el-button type="primary" @click.native="editSubmit">提交</el-button>
     </div>
   </el-dialog>
 
   <!--新增界面-->
-  <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" width="600px">
+  <el-dialog title="新增门店" :visible.sync="addFormVisible" :close-on-click-modal="false" width="450px">
     <el-form :model="addForm" :rules="addFormRules" ref="addForm">
       <el-form-item label="门店名称" prop="storeName">
-        <el-input v-model="addForm.storeName" auto-complete="off"></el-input>
+        <el-input v-model="addForm.storeName"></el-input>
+      </el-form-item>
+      <el-form-item label="联系人" prop="revsere2">
+        <el-input v-model="addForm.revsere2"></el-input>
+      </el-form-item>
+      <el-form-item label="联系电话" prop="telephone">
+        <el-input v-model="addForm.telephone"></el-input>
       </el-form-item>
       <el-form-item label="详细地址" prop="address">
-        <el-input v-model="addForm.address" auto-complete="off"></el-input>
+        <el-input v-model="addForm.address"></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="telephone">
-        <el-input v-model="addForm.telephone" auto-complete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="营业时间">
+      <el-form-item label="营业时间" prop="startTime">
         <template>
 						<el-time-select
 								placeholder="起始时间"
@@ -143,7 +148,7 @@
 						</el-time-select>
 					</template>
       </el-form-item>
-      <el-form-item label="" style="margin-left:68px;">
+      <el-form-item label="" prop="endTime" style="margin-left:68px;">
         <template>
 						<el-time-select
 								placeholder="结束时间"
@@ -151,8 +156,7 @@
 								:picker-options="{
 									start: '00:00',
 									step: '00:15',
-									end: '24:00',
-                  minTime: addForm.startTime
+									end: '24:00'
 								  }"
 								>
 						</el-time-select>
@@ -161,7 +165,7 @@
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="addFormVisible = false">取消</el-button>
-      <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
+      <el-button type="primary" @click.native="addSubmit">提交</el-button>
     </div>
   </el-dialog>
 </section>
@@ -183,9 +187,9 @@ export default {
   data() {
     var telephone = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入联系人手机号'));
-      } else if (!/^1(3|4|5|7|8)\d{9,10}$/.test(value)) {
-        callback(new Error('请输入正确的联系人手机号'));
+        callback(new Error('请输入联系电话'));
+      } else if (!/^\d{5,12}$/.test(value)) {
+        callback(new Error('请输入正确的联系电话'));
       } else {
         callback();
       }
@@ -194,9 +198,6 @@ export default {
       filters: {
         storeName: ''
       },
-      value: "",
-      startTime: '',
-      endTime: '',
       users: [],
       total: 1,
       page: 1,
@@ -205,11 +206,7 @@ export default {
       detFormVisible: false,
       detLoading: false,
 
-      stateFormVisible: false,
-      stateLoading: false,
-
       editFormVisible: false, //编辑界面是否显示
-      editLoading: false,
       editFormRules: {
         storeName: [{
             required: true,
@@ -222,8 +219,14 @@ export default {
             trigger: 'blur'
           }
         ],
-        address: [{
+        revsere2: [{
             required: true,
+            message: '请输入联系人',
+            trigger: 'blur'
+          }
+        ],
+        address: [{
+            required: false,
             message: '请输入门店地址',
             trigger: 'blur'
           },
@@ -235,7 +238,7 @@ export default {
         ],
         telephone: [{
             required: true,
-            message: '请输入联系人手机号',
+            message: '请输入联系电话',
             trigger: 'blur'
           },
           {
@@ -245,19 +248,18 @@ export default {
         ]
       },
       detForm: {},
-      stateForm: {},
       //编辑界面数据
       editForm: {
+        id: '',
         storeName: '',
         address: '',
         telephone: '',
-        shopHours: '',
         startTime: '',
-        endTime: ''
+        endTime: '',
+        revsere2: ''
       },
 
       addFormVisible: false, //新增界面是否显示
-      addLoading: false,
       addFormRules: {
         storeName: [{
             required: true,
@@ -270,8 +272,14 @@ export default {
             trigger: 'blur'
           }
         ],
-        address: [{
+        revsere2: [{
             required: true,
+            message: '请输入联系人',
+            trigger: 'blur'
+          }
+        ],
+        address: [{
+            required: false,
             message: '请输入门店地址',
             trigger: 'blur'
           },
@@ -283,7 +291,7 @@ export default {
         ],
         telephone: [{
             required: true,
-            message: '请输入联系人手机号',
+            message: '请输入联系电话',
             trigger: 'blur'
           },
           {
@@ -298,14 +306,17 @@ export default {
         storeName: '',
         address: '',
         telephone: '',
-        shopHours: '',
         startTime: '',
         endTime: '',
+        revsere2: ''
       }
 
     }
   },
   methods: {
+    historyGo() {
+      this.$router.go(-1)
+    },
     lookEmp(index, row){
       this.$router.push({ path: '/index2/page8', query: { id: row.id, mid: this.$route.query.mid } })
     },
@@ -343,11 +354,6 @@ export default {
           message: '取消修改'
         });
       });
-    },
-    handle: function(index, row) {
-      this.stateFormVisible = true;
-      this.stateForm = Object.assign({}, row);
-      this.radio = this.stateForm.state;
     },
     handleDet: function(index, row) {
       this.detFormVisible = true;
@@ -432,47 +438,48 @@ export default {
     //显示编辑界面
     handleEdit: function(index, row) {
       this.editFormVisible = true;
-      this.editForm = Object.assign({}, row);
-      var startTimes = row.shopHours.slice(0, 5);
-      this.startTime = startTimes;
-      var endTimes = row.shopHours.slice(6, 11);
-      this.endTime = endTimes
+      this.$nextTick(() => {
+        this.$refs.editForm.resetFields()
+        let f = util.deepcopy(row)
+        this.editForm.id = f.id
+        this.editForm.storeName = f.storeName
+        this.editForm.address = f.address
+        this.editForm.telephone = f.telephone
+        this.editForm.revsere2 = f.revsere2
+        if (f.shopHours !== '-' && f.shopHours !== 'null-null' ) {
+          let s = f.shopHours.slice(0, 5);
+          this.editForm.startTime = s
+          let e = f.shopHours.slice(6, 11);
+          this.editForm.endTime = e 
+        }
+      })
     },
     //显示新增界面
     handleAdd: function() {
       this.addFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs.addForm.resetFields()
+      })
     },
     //编辑
     editSubmit: function() {
       this.$refs.editForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.editLoading = true;
             let para = {
               id: this.editForm.id,
               storeName: this.editForm.storeName,
               address: this.editForm.address,
               telephone: this.editForm.telephone,
-              shopHours: this.startTime + "-" + this.endTime
+              linkman: this.editForm.revsere2,
+              shopHours: this.editForm.startTime + "-" + this.editForm.endTime
             };
             updateStore(para).then((res) => {
-              this.editLoading = false;
-              let {
-                status,
-                message
-              } = res;
-              if (status == 200) {
-                this.$notify({
-                  title: '成功',
-                  message: message,
-                  type: 'success'
-                });
-              } else {
-                this.$notify.error({
-                  title: '错误',
-                  message: message
-                });
-              }
+              this.$message({
+                message: res.message,
+                type: 'success',
+                showClone: true
+              });
               this.$refs['editForm'].resetFields();
               this.editFormVisible = false;
               this.getUsers();
@@ -486,17 +493,15 @@ export default {
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           this.$confirm('确认提交吗？', '提示', {}).then(() => {
-            this.addLoading = true;
             let para = {
               mid: this.$route.query.mid,
               storeName: this.addForm.storeName,
               address: this.addForm.address,
               telephone: this.addForm.telephone,
+              linkman: this.addForm.revsere2,
               shopHours: this.addForm.startTime + "-" + this.addForm.endTime
             };
             addStore(para).then((res) => {
-              this.addLoading = false;
-              
               this.$notify({
                 title: '成功',
                 message: '提交成功',
@@ -509,11 +514,7 @@ export default {
           });
         }
       });
-    },
-    //重置按钮
-    // resetForm(formName) {
-    // 		this.$refs[formName].resetFields();
-    // },
+    }
   },
   mounted() {
     this.getUsers();

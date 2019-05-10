@@ -15,28 +15,15 @@
 
   <!--列表-->
   <el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
-    <el-table-column prop="id" label="编号" min-width="80">
-    </el-table-column>
     <el-table-column prop="name" label="姓名" min-width="120">
     </el-table-column>
-    <el-table-column prop="saccount" label="登录帐号" min-width="120">
-    </el-table-column>
-    <el-table-column prop="phone" label="手机号" min-width="120">
+    <el-table-column prop="phone" label="联系电话" min-width="120">
     </el-table-column>
     <el-table-column prop="address" label="住址" min-width="120">
     </el-table-column>
-    <el-table-column label="状态">
-      <template slot-scope="scope">
-          <el-switch
-            name="value"
-            @change="test(scope.$index, scope.row)"
-            v-model="scope.row.status">
-          </el-switch>
-        </template>
-    </el-table-column>
     <el-table-column label="操作" width="180">
       <template slot-scope="scope">
-        <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
+        <!-- <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button> -->
 				<el-button type="warning" size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
 				</template>
     </el-table-column>
@@ -53,13 +40,13 @@
       <el-form-item label="姓名" prop="name">
         <el-input v-model="editForm.name" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="电话" prop="phone">
+      <el-form-item label="联系电话" prop="phone">
         <el-input v-model="editForm.phone" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="住址" prop="address">
         <el-input v-model="editForm.address"></el-input>
       </el-form-item>
-      <el-form-item label="底价费率(‰)" prop="salesmanRate">
+      <!-- <el-form-item label="底价费率(‰)" prop="salesmanRate">
         <el-input v-model.number="editForm.salesmanRate" placeholder="请输入底价费率"></el-input>
       </el-form-item>
       <el-form-item label="分成比例" prop="commossion">
@@ -67,7 +54,7 @@
       </el-form-item>
       <el-form-item label="零费率商户提成费率(‰)" prop="zeroRate">
         <el-input v-model.number="editForm.zeroRate" placeholder="请输入零费率商户提成费率"></el-input>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="editFormVisible = false">取消</el-button>
@@ -81,13 +68,13 @@
       <el-form-item label="姓名" prop="name">
         <el-input v-model="addForm.name" placeholder="请输入业务员姓名" auto-complete="off"></el-input>
       </el-form-item>
-      <el-form-item label="手机" prop="phone">
-        <el-input type="phone" v-model="addForm.phone" placeholder="请输入业务员手机号" auto-complete="off"></el-input>
+      <el-form-item label="联系电话" prop="phone">
+        <el-input type="phone" v-model="addForm.phone" placeholder="请输入业务员联系电话" auto-complete="off"></el-input>
       </el-form-item>
       <el-form-item label="住址" prop="address">
         <el-input v-model="addForm.address" placeholder="请输入业务员详细住址"></el-input>
       </el-form-item>
-      <el-form-item label="底价费率(‰)" prop="salesmanRate">
+      <!-- <el-form-item label="底价费率(‰)" prop="salesmanRate">
         <el-input v-model.number="addForm.salesmanRate" placeholder="请输入底价费率"></el-input>
       </el-form-item>
       <el-form-item label="分成比例" prop="commossion">
@@ -95,7 +82,7 @@
       </el-form-item>
       <el-form-item label="零费率商户提成费率(‰)" prop="zeroRate">
         <el-input v-model.number="addForm.zeroRate" placeholder="请输入零费率商户提成费率"></el-input>
-      </el-form-item>
+      </el-form-item> -->
     </el-form>
     <div slot="footer" class="dialog-footer">
       <el-button @click.native="addFormVisible = false">取消</el-button>
@@ -122,7 +109,7 @@ export default {
     var phone = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入业务员手机号"));
-      } else if (!/^1(3|4|5|7|8)\d{9,10}$/.test(value)) {
+      } else if (!/^\d{5,12}$/.test(value)) {
         callback(new Error("请输入正确的业务员手机号"));
       } else {
         callback();
@@ -161,7 +148,7 @@ export default {
         phone: [
           {
             required: true,
-            message: "请输入业务员手机号",
+            message: "请输入业务员联系电话",
             trigger: "blur"
           },
           { validator: phone, trigger: "blur" }
@@ -178,18 +165,18 @@ export default {
             trigger: "blur"
           }
         ],
-        salesmanRate: [
-          { required: true, message: '请输入底价费率'},
-          { type: 'number', max: 10, message: '底价费率必须为数字值且小于10'}
-        ],
-        commossion: [
-          { required: true, message: '请输入成比例'},
-          { type: 'number', max: 1, message: '分成比例必须为数字值且小于1'}
-        ],
-        zeroRate: [
-          { required: true, message: '请输入零费率商户提成费率'},
-          { type: 'number', max: 10, message: '零费率商户提成费率必须为数字值且小于10'}
-        ]
+        // salesmanRate: [
+        //   { required: true, message: '请输入底价费率'},
+        //   { type: 'number', max: 10, message: '底价费率必须为数字值且小于10'}
+        // ],
+        // commossion: [
+        //   { required: true, message: '请输入成比例'},
+        //   { type: 'number', max: 1, message: '分成比例必须为数字值且小于1'}
+        // ],
+        // zeroRate: [
+        //   { required: true, message: '请输入零费率商户提成费率'},
+        //   { type: 'number', max: 10, message: '零费率商户提成费率必须为数字值且小于10'}
+        // ]
       },
       stateForm: {},
       //编辑界面数据
@@ -221,7 +208,7 @@ export default {
         phone: [
           {
             required: true,
-            message: "请输入业务员手机号",
+            message: "请输入业务员联系电话",
             trigger: "blur"
           },
           { validator: phone, trigger: "blur" }
@@ -238,18 +225,18 @@ export default {
             trigger: "blur"
           }
         ],
-        salesmanRate: [
-          { required: true, message: '请输入底价费率'},
-          { type: 'number', max: 10, message: '底价费率必须为数字值且小于10'}
-        ],
-        commossion: [
-          { required: true, message: '请输入成比例'},
-          { type: 'number', max: 1, message: '分成比例必须为数字值且小于1'}
-        ],
-        zeroRate: [
-          { required: true, message: '请输入零费率商户提成费率'},
-          { type: 'number', max: 10, message: '零费率商户提成费率必须为数字值且小于10'}
-        ]
+        // salesmanRate: [
+        //   { required: true, message: '请输入底价费率'},
+        //   { type: 'number', min:0, max: 10, message: '底价费率必须为数字值且小于10'}
+        // ],
+        // commossion: [
+        //   { required: true, message: '请输入成比例'},
+        //   { type: 'number', min:0, max: 1, message: '分成比例必须为数字值且小于1'}
+        // ],
+        // zeroRate: [
+        //   { required: true, message: '请输入零费率商户提成费率'},
+        //   { type: 'number', min:0, max: 10, message: '零费率商户提成费率必须为数字值且小于10'}
+        // ]
       },
       //新增界面数据
       addForm: {

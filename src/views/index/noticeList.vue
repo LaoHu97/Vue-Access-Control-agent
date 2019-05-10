@@ -4,8 +4,7 @@
       <el-row>
         <el-col :span="6">
           <div class="top_logo">
-            <img src="../../assets/images/logo4.png" />
-            <span>万 鼎 科 技</span>
+            <img src="../../assets/images/webwxgetmsgimg.png" />
           </div>
         </el-col>
       </el-row>
@@ -76,7 +75,7 @@ export default {
   }
 
   .top_logo img {
-    width: 30%;
+    width: 100%;
     margin-top: 17px;
     float: left;
   }

@@ -32,9 +32,9 @@
         </el-table-column>
         <el-table-column prop="sum_amt" label="有效金额（￥）" min-width="120" :formatter="format_sum_amt">
         </el-table-column>
-        <el-table-column prop="rebate_amt" label="提成金额（￥）" min-width="120" :formatter="format_rebate_amt">
+        <el-table-column prop="rebate_amt" label="分润金额（￥）" min-width="120" :formatter="format_rebate_amt">
         </el-table-column>
-        <el-table-column prop="status" label="状态" min-width="140">
+        <el-table-column prop="status" label="结算状态" min-width="140">
           <template slot-scope="scope">
             <span>{{scope.row.status == 1 ? '待结算' : scope.row.status == 2 ? '结算中' : '已结算'}}</span>
             <el-button v-if="scope.row.status==1" type="success" size="mini" @click="handleYes(scope.$index, scope.row)">确认</el-button>
@@ -68,18 +68,15 @@
       return {
         //状态查询
         options: [{
-            value: 1,
-            label: "待结算"
-          },
-          {
-            value: 2,
-            label: "结算中"
-          },
-          {
-            value: 3,
-            label: "已结算"
-          }
-        ],
+          value: 1,
+          label: "待结算"
+        },{
+          value: 2,
+          label: "结算中"
+        },{
+          value: 3,
+          label: "已结算"
+        }],
         //商户名
         filters: {
           startTime: Date(),
@@ -90,7 +87,6 @@
         page: 1,
         users: [],
         listLoading: false,
-        sels: [], //列表选中列
 
         editFormVisible: false, //编辑界面是否显示
         editLoading: false,
@@ -197,7 +193,7 @@
       handleSee: function (index, row) {
         var rid = row.id;
         sessionStorage.setItem("rid", JSON.stringify(rid));
-        this.$router.push("/index1/tab2");
+        this.$router.push("/index3/tab2");
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
