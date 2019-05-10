@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/admin': {
-        target: 'http://192.168.1.149:8080',
+        target: 'http://dev.weupay.com',
         changeOrigin: true,
         pathRewrite: {
           '^/admin': '/admin'

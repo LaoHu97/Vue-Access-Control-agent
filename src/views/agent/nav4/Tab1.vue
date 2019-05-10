@@ -68,7 +68,7 @@
         <el-table-column prop="status" label="状态" :formatter="formatterStatus" />
         <el-table-column label="操作" align="center" width="300">
           <template slot-scope="scope">
-            <el-button type="warning" :disabled="scope.row.status !== '2'" size="mini" @click="clickAgentRebateStatus(scope.$index, scope.row)">修改状态</el-button>
+            <el-button type="warning" :disabled="scope.row.status !== '1'" size="mini" @click="clickAgentRebateStatus(scope.$index, scope.row)">修改状态</el-button>
             <el-button type="primary" size="mini" @click="clickAgentRebateDetail(scope.$index, scope.row)">查看明细</el-button>
           </template>
         </el-table-column>
@@ -120,18 +120,18 @@ export default {
     return {
       filters: {
         selechTime: '',
-        status: '2',
+        status: '1',
         startTime: '',
         endTime: ''
       },
       statusOptions: [ {
-        value: '2',
+        value: '1',
         label: '待结算'
       }, {
-        value: '3',
+        value: '2',
         label: '结算中'
       }, {
-        value: '4',
+        value: '3',
         label: '已结算'
       }],
 
@@ -153,7 +153,7 @@ export default {
       return row.settled_date.slice(0, 7)
     },
     formatterStatus(row, column){
-      return row.status === '1' ? '待核算' : row.status === '2' ? '待结算' : row.status === '3' ? '结算中' : row.status === '4' ? '已结算' : '未知'
+      return row.status === '4' ? '待核算' : row.status === '1' ? '待结算' : row.status === '2' ? '结算中' : row.status === '3' ? '已结算' : '未知'
     },
     clickAgentRebateDetail(index, row) {
       this.$router.push({ path: '/index1/tab2', query: { agentId: row.agent_id, date: row.settled_date } })
