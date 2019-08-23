@@ -1,130 +1,70 @@
-<style scoped>
-.search_top {
-  background: #f2f2f2;
-  margin: 20px 0;
-  padding: 20px 10px 0 10px;
-}
-.top_alert {
-  margin-top: 20px;
-}
-.img_protocol{
-  width: 200px;
-}
-</style>
-<style>
-.fixed_search_input {
-  max-width: 160px;
-}
-.fixed_search_date {
-  max-width: 220px;
-}
-</style>
-
 <template>
-  <section>
-    <el-form :inline="true" :model="filters" label-position="left" ref="filters" label-width="80px">
-      <div class="search_top">
-        <el-row>
-          <!-- <el-col :span="8">
-            <el-form-item label="选择日期">
-              <el-date-picker
-                v-model="filters.settledDate"
-                type="date"
-                placeholder="选择日期"
-                value-format="yyyy-MM-dd">
-              </el-date-picker>
-            </el-form-item>
-          </el-col> -->
-          <!-- <el-col :span="2">
-            <el-form-item>
-              <el-button type="primary" @click="getUsers" round icon="el-icon-search">查询</el-button>
-            </el-form-item>
-          </el-col> -->
-        </el-row>
-      </div>
-    </el-form>
-    <!--列表-->
-    <div v-loading="listLoading">
-      <el-table :data="users" border stripe highlight-current-row>
-        <el-table-column prop="settled_date" label="统计时间" :formatter="formatterDate" />
-        <el-table-column prop="sum_amt" label="有效交易金额（元）"/>
-        <el-table-column prop="sum_total" label="交易笔数"/>
-        <el-table-column prop="rebate_amt" label="返佣金额（元）"/>
-        <el-table-column prop="pay_way" label="支付方式" :formatter="formatterPayway" />
-        <!-- <el-table-column label="操作" align="center" width="200">
-          <template slot-scope="scope">
-            <el-button type="warning" size="mini" @click="clickAgentRebate(scope.$index, scope.row)">修改返佣</el-button>
-          </template>
-        </el-table-column> -->
-      </el-table>
-    </div>
-    <el-dialog
-      title="修改代理返佣"
-      :visible.sync="dialogVisibleAgentRebate"
-      :close-on-click-modal="false"
-      width="350px">
-      <el-form ref="updataAgentRebateForm" :model="updataAgentRebateForm" :rules="updataAgentRebateRules" label-width="80px">
-        <el-form-item label="交易金额" prop="sumAmount">
-          <el-input v-model="updataAgentRebateForm.sumAmount"></el-input>
-        </el-form-item>
-        <el-form-item label="交易笔数" prop="sumTotal">
-          <el-input v-model="updataAgentRebateForm.sumTotal"></el-input>
-        </el-form-item>
-        <el-form-item label="返佣金额" prop="rebateAmount">
-          <el-input v-model="updataAgentRebateForm.rebateAmount"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisibleAgentRebate = false">取 消</el-button>
-        <el-button type="primary" @click="submiltAgentRebateForm('updataAgentRebateForm')">确 定</el-button>
-      </span>
-    </el-dialog>
-    <!--工具条-->
-    <!-- <el-row>
-      <el-pagination
-        layout="prev, pager, next"
-        :current-page="page"
-        @current-change="handleCurrentChange"
-        :page-size="20"
-        :total="total"
-        background
-        style="text-align:center;background:#fff;padding:15px;"
-      />
-    </el-row> -->
-  </section>
+	<section>
+		<!--工具条-->
+	<el-row>
+      <h3 style="padding:10px 20px">概览</h3>
+      <el-form :inline="true" :model="Overview" style="padding:0 20px">
+        <el-col :span="12">
+  				<el-form-item label="统计时间：">
+  					<span name="name">{{Overview.settled_date}}</span>
+  				</el-form-item>
+        </el-col>
+        <el-col :span="12">
+  				<el-form-item label="提成金额（元）：">
+  					<span name="name">{{Overview.rebate_amt}}</span>
+  				</el-form-item>
+        </el-col>
+        <el-col :span="12">
+  				<el-form-item label="有效金额（元）：">
+  					<span name="name">{{Overview.sum_amt}}</span>
+  				</el-form-item>
+        </el-col>
+        <el-col :span="12">
+  				<el-form-item label="有效笔数（笔）：">
+  					<span name="name">{{Overview.sum_total}}</span>
+  				</el-form-item>
+        </el-col>
+        <el-col :span="12">
+  				<el-form-item label="状态：">
+  					<span name="name">{{Overview.status=="1"?"待结算":Overview.status=="2"?"结算中":"已结算"}}</span>
+  				</el-form-item>
+        </el-col>
+				 <el-button type="primary" icon="arrow-left" style="float:right" @click="Return">返回</el-button>
+  		</el-form>
+    </el-row>
+		<!--列表-->
+		<el-table :data="users" border highlight-current-row v-loading="listLoading" style="width: 100%;">
+			<el-table-column prop="mname" label="商户名称" min-width="100">
+			</el-table-column>
+			<el-table-column prop="sum_amt" label="有效金额" min-width="100">
+			</el-table-column>
+			<el-table-column prop="sum_total" label="有效笔数" min-width="100">
+			</el-table-column>
+			<el-table-column prop="rebate_rate" label="返佣费率（千分比）" min-width="100">
+			</el-table-column>
+			<el-table-column prop="commission" label="返佣金额" min-width="100">
+			</el-table-column>
+			<el-table-column prop="rebate_amt" label="提成金额" min-width="100">
+			</el-table-column>
+		</el-table>
+
+		<!--工具条-->
+		<el-row class="toolbar">
+			<el-pagination layout="prev, pager, next" :current-page="page" @current-change="handleCurrentChange" :page-size="20" :total="total" background style="text-align:center;background:#fff;padding:15px;">
+			</el-pagination>
+		</el-row>
+	</section>
 </template>
 
 <script>
 import * as util from "../../../util/util.js";
-import {
-  queryAgentRebateDetail
-} from "@/api/agent";
-import { validateAmount, validateNumber } from "@/util/async-validator.js"
-
+import { queryMerRebate } from "../../../api/agent";
 export default {
   data() {
     return {
-      filters: {
-        settledDate: ''
-      },
-
-      dialogVisibleAgentRebate: false,
-      updataAgentRebateForm: {
-        id: '',
-        sumAmount: '',
-        sumTotal: '',
-        rebateAmount: ''
-      },
-      updataAgentRebateRules: {
-        sumAmount: [
-          { validator: validateAmount, trigger: 'blur' }
-        ],
-        sumTotal: [
-          { validator: validateNumber, trigger: 'blur' }
-        ],
-        rebateAmount: [
-          { validator: validateAmount, trigger: 'blur' }
-        ]
+      Overview: {
+        settled_date: "",
+        status: ""
       },
       total: 0,
       page: 1,
@@ -133,66 +73,55 @@ export default {
     };
   },
   methods: {
-    formatterPayway(row, column){
-      return util.formatPayment(row.pay_way)
+    //返回上一页
+    Return: function() {
+      sessionStorage.removeItem("rid"); //删除session
+      this.$router.push("/index1/tab1");
     },
-    formatterDate(row, column){
-      return util.formatDate.format(new Date(row.settled_date), 'yyyy/MM')
+    //获取用户列表
+    handleCurrentChange(val) {
+      this.page = val;
+      this.getList();
     },
-    // clickAgentRebate(index, row) {
-    //   this.dialogVisibleAgentRebate = true
-    //   this.$nextTick(res => {
-    //     let r = util.deepcopy(row)
-    //     this.updataAgentRebateForm = {
-    //       id: r.id,
-    //       sumAmount: r.sum_amt,
-    //       sumTotal: r.sum_total,
-    //       rebateAmount: r.rebate_amt,
-    //     }
-    //   })
-    // },
-    // submiltAgentRebateForm(formName) {
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       let para = this.updataAgentRebateForm
-    //       updateAgentRebateDetail(para).then(res => {
-    //         this.$message({
-    //           message: res.message,
-    //           type: 'success'
-    //         });
-    //         this.dialogVisibleAgentRebate = false
-    //         this.getUsers()
-    //       })
-    //     } else {
-    //       console.log('error submit!!');
-    //       return false;
-    //     }
-    //   });
-    // },
-    handleCurrentChange (val) {
-      this.page = val
-      this.getList()
-    },
-    getUsers () {
+    getUsers(){
       this.page = 1
       this.getList()
     },
     getList() {
-      this.listLoading = true
+      let rid = JSON.parse(sessionStorage.getItem("rid"));
       let para = {
-        agentId: this.$route.query.agentId,
-        settledDate: this.$route.query.date
-      }
-      para.agentId = this.$route.query.agentId
-      queryAgentRebateDetail(para).then(res => {
-        this.listLoading = false
-        this.users = res.data.detailList;
-        this.total = res.data.totalCount;
+        pageNum: this.page,
+        id: rid
+      };
+      this.listLoading = true;
+      queryMerRebate(para).then(res => {
+        let { data, message, status } = res;
+        if (status == 200) {
+          this.total = res.data.totalCount;
+          this.users = res.data.merRebateList;
+          this.Overview = res.data.agentRebate;
+          this.Overview.settled_date = util.formatDate.format(
+            new Date(this.Overview.settled_date),
+            "yyyy-MM-dd"
+          );
+          var sta;
+          for (var i = 0; i < this.users.length; i++) {
+            sta = this.users[i];
+            sta.settled_date = util.formatDate.format(
+              new Date(sta.settled_date),
+              "yyyy-MM"
+            );
+          }
+        }
+        this.listLoading = false;
       });
     }
   },
-  mounted () {
-    this.getUsers()
+  mounted() {
+    this.getUsers();
   }
 };
 </script>
+
+<style scoped>
+</style>

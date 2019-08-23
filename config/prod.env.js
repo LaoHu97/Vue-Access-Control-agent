@@ -11,7 +11,7 @@ if (target === 'test') {
   var configObj = {
     NODE_ENV: '"production"',
     API_ROOT: '""',
-    API_DOWNLOAD: '"http://download.weupay.com"'
+    API_DOWNLOAD: '"https://download.wandingkeji.cn"'
   }
 }
 

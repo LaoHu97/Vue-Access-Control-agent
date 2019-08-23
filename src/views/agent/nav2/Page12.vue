@@ -37,6 +37,29 @@
   padding: 4px;
   border-radius: 4px;
 }
+  .iconfont{
+    font-size: 34px;
+    vertical-align:middle;
+    margin:  0 10px;
+  }
+  .icon-weixin{
+    color: #65da4e;
+  }
+  .icon-zhifubao{
+    color: #1296db;
+  }
+  .icon-card{
+    color: #2F559B;
+  }
+  .icon-paybest{
+    color: #F1900E;
+  }
+  .icon-cardb{
+    color: tomato;
+  }
+  .icon-yinlian1193427easyiconnet{
+    color: coral;
+  }
 </style>
 
 <template>
@@ -133,14 +156,14 @@
         </el-row>
       </div>
     </el-card>
-    <!-- <el-card class="box-card">
+    <el-card class="box-card">
       <div slot="header">
         <svg
           class="icon"
           aria-hidden="true">
           <use xlink:href="#icon-saomazhifu"/>
         </svg>
-        <span>支付配置</span>
+        <span>商户费率(‰)</span>
       </div>
       <div class="box-card-pay">
         <el-row>
@@ -150,12 +173,7 @@
               aria-hidden="true">
               <use xlink:href="#icon-weixin"/>
             </svg>
-            <span>微信支付
-              <b :style="{ color: switchValue ? '#19C862' :'#F56C6C' }">（{{ switchValue ? '开启' : '关闭' }}）</b>
-            </span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#19C862"/>
+            <span>微信：{{format_rate(rateForm.wx_rate)}}</span>
           </el-col>
           <el-col :span="8">
             <svg
@@ -163,62 +181,29 @@
               aria-hidden="true">
               <use xlink:href="#icon-big-Pay"/>
             </svg>
-            <span>支付宝支付
-              <b :style="{ color: switchValue ? '#19C862' :'#F56C6C' }">（{{ switchValue ? '开启' : '关闭' }}）</b>
-            </span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
+            <span>支付宝：{{format_rate(rateForm.ali_rate)}}</span>
           </el-col>
           <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
+            <i class="iconfont icon-paybest"></i>
+            <span>翼支付：{{format_rate(rateForm.best_rate)}}</span>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
+            <i class="iconfont icon-card"></i>
+            <span>借记卡：{{format_rate(rateForm.debit_rate)}}</span>
           </el-col>
           <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
+            <i class="iconfont icon-cardb"></i>
+            <span>贷记卡：{{format_rate(rateForm.crebit_rate)}}</span>
           </el-col>
           <el-col :span="8">
-            <svg
-              class="box-card-pay-icon"
-              aria-hidden="true">
-              <use xlink:href="#icon-weixin"/>
-            </svg>
-            <span>微信支付（打开）</span>
-            <el-switch
-              v-model="switchValue"
-              active-color="#13ce66"/>
+            <i class="iconfont icon-yinlian1193427easyiconnet"></i>
+            <span>银联二维码：{{format_rate(rateForm.unionpay_rate)}}</span>
           </el-col>
         </el-row>
       </div>
-    </el-card>-->
+    </el-card>
 
     <el-card class="box-card">
       <div slot="header">
@@ -431,7 +416,8 @@ import {
   selectSaleByName,
   updateAgentSalesman,
   queryAgentShopMer,
-  resetMerMpwd
+  resetMerMpwd,
+  queryShopRate
 } from "../../../api/agent";
 import CryptoJS from "crypto-js";
 import * as util from "../../../util/util.js";
@@ -448,13 +434,23 @@ export default {
       editSaleForm: {
         sale: ""
       },
-      dialogPhoneVisible: false
+      dialogPhoneVisible: false,
+      rateForm: {}
     };
   },
   mounted() {
     this.getMerDetails();
+    this.getShopRate()
   },
   methods: {
+    getShopRate() {
+      queryShopRate({ mid: this.$route.query.mid }).then(res => {
+        this.rateForm = res.data.resultMap
+      })
+    },
+    format_rate(props) {
+      return props !== undefined ? props : '暂无'
+    },
     formatCreate_time(row) {
       return (row = util.formatDate.format(
         new Date(row),

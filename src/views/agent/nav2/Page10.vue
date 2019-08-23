@@ -84,11 +84,6 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="翼支付费率（‰）" label-width="100px">
-              <el-input-number v-model="imageUrl.best_rate" :precision="1" :step="0.1" :min="3"  :max="50"></el-input-number>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-checkbox v-model="showRate" style="margin-top:40px;">银行卡</el-checkbox>
           </el-col>
         </el-row>
@@ -369,7 +364,6 @@ export default {
         id: this.$route.query.id,
         wx_rate: 6.0,
         ali_rate: 6.0,
-        best_rate: 3.0,
         debit_rate: 5.0,
         crebit_rate: 6.0,
         unionpay_rate: 3.8,
@@ -644,7 +638,6 @@ export default {
           this.imageUrl.id = imageUrl.id || ''
           this.imageUrl.wx_rate = imageUrl.wx_rate || ''
           this.imageUrl.ali_rate = imageUrl.ali_rate || ''
-          this.imageUrl.best_rate = imageUrl.best_rate || ''
           this.imageUrl.debit_rate = imageUrl.debit_rate || ''
           this.imageUrl.crebit_rate = imageUrl.crebit_rate || ''
           this.imageUrl.unionpay_rate = imageUrl.unionpay_rate || ''

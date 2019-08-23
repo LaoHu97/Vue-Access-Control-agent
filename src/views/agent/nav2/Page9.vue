@@ -25,6 +25,12 @@
   float: right;
   margin-top: 10px;
 }
+.connType_text{
+  margin: 0;
+  margin-bottom: 20px;
+  color: #f00;
+  margin-left: 20px;
+}
 </style>
 
 <template lang="html">
@@ -49,8 +55,33 @@
       <el-form ref="form" :model="form" :disabled="formDisabled" :rules="rules" label-width="150px" label-position="left" class="form_contron">
         <el-row>
           <el-col>
+            <el-form-item label="直连间连" prop="connType">
+              <el-radio v-model="form.connType" label="ZL"  :disabled="editDisabled">直连</el-radio>
+              <el-radio v-model="form.connType" label="JL" :disabled="editDisabled">间连</el-radio>
+              <el-popover
+                title="备注"
+                trigger="hover"
+                placement="top"
+                width="800">
+                  <el-image
+                    style="width: 800px; height: 500px"
+                    src="https://s2.ax1x.com/2019/08/08/eTnXOf.png"
+                    fit="fit"></el-image>
+                <i class="el-icon-question" style="font-size: 24px" slot="reference"></i>
+              </el-popover>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="form.connType === 'ZL'">
+          <el-col>
+            <el-form-item label="支付宝账号" prop="aliAccountNub">
+              <el-input v-model.trim="form.aliAccountNub"  :disabled="editDisabled" ></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
             <el-form-item label="商户结算入网类型" prop="settlement_mer_type">
-              <template>
                 <el-select v-model="form.settlement_mer_type" :disabled="editDisabled" placeholder="请选择">
                   <el-option
                     v-for="item in settlementOptions"
@@ -59,7 +90,6 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-              </template>
             </el-form-item>
           </el-col>
         </el-row>
@@ -94,7 +124,7 @@
               <template>
                 <el-radio-group v-model="form.account_type" :disabled="form.settlement_mer_type=='XW' || editDisabled">
                   <el-radio label="1">对公</el-radio>
-                  <el-radio label="2">对私</el-radio>
+                  <el-radio label="2" :disabled="form.connType === 'ZL' && form.settlement_mer_type === 'QY' ">对私</el-radio>
                 </el-radio-group>
               </template>
             </el-form-item>
@@ -103,7 +133,6 @@
         <el-row>
           <el-col v-if="form.settlement_mer_type!=='XW'">
             <el-form-item label="入网证件类型：" prop="document_type">
-              <template>
                 <el-select v-model="form.document_type" :disabled="form.settlement_mer_type === 'GT'" placeholder="请选择">
                   <el-option
                     v-for="item in net_networkOptions"
@@ -112,19 +141,16 @@
                     :value="item.value">
                   </el-option>
                 </el-select>
-              </template>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row v-if="form.account_type == '2'&&form.settlement_mer_type!=='XW'">
           <el-col>
             <el-form-item label="是否法人入账：" prop="is_liable_account">
-              <template>
                 <el-radio-group v-model="form.is_liable_account" :disabled="editDisabled">
                   <el-radio label="1">法人入账</el-radio>
-                  <el-radio label="2">非法人入账</el-radio>
+                  <el-radio label="2" :disabled="form.connType === 'ZL' && form.account_type === '2' ">非法人入账</el-radio>
                 </el-radio-group>
-              </template>
             </el-form-item>
           </el-col>
         </el-row>
@@ -243,7 +269,6 @@
         <el-row>
           <el-col>
             <el-form-item label="结算户开户支行：" prop="bank_no">
-              <template>
                 <el-select v-model="form.bank_no" placeholder="请选择" @visible-change="bankBranch" :multiple="false" filterable remote :remote-method="remoteBranch" :loading="loading">
                   <el-option
                     v-for="item in branchNameList"
@@ -252,14 +277,12 @@
                     :value="item.bank_no">
                   </el-option>
                 </el-select>
-              </template>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col>
             <el-form-item label="业务员：" prop="salesman_id">
-              <template>
                 <el-select v-model="form.salesman_id" :disabled="editDisabled" placeholder="请选择业务员" :multiple="false" filterable remote :remote-method="remoteSale" :loading="saleLoading" clearable @visible-change="clickSale">
                   <el-option v-for="item in optionsSale" :key="item.id" :value="item.id" :label="item.value">
                   </el-option>
@@ -272,7 +295,6 @@
                     :key="item.id">
                   </el-option>
                 </el-select> -->
-              </template>
             </el-form-item>
           </el-col>
         </el-row>
@@ -282,6 +304,7 @@
         <el-button type="primary" size="large" @click.native="addSubmit" :loading="addLoading">下一步</el-button>
       </div>
     </div>
+
   </section>
 </template>
 
@@ -325,6 +348,8 @@ export default {
     return {
       form: {
         id: this.$route.query.id,
+        connType: 'ZL',
+        aliAccountNub: '',
         settlement_mer_type:'QY',//商户结算入网类型
         licenseno:'',//执照证件号码
         licensen_expire: '',//证件到期日期
@@ -377,6 +402,18 @@ export default {
         }
       },
       rules: {
+        connType: [{
+            required: true,
+            message: '请选择直连间连',
+            trigger: 'blur'
+          }
+        ],
+        aliAccountNub: [{
+            required: true,
+            message: '请输入支付宝账号',
+            trigger: 'blur'
+          }
+        ],
         settlement_mer_type: [{
             required: true,
             message: '请选择商户结算入网类型',
@@ -520,6 +557,10 @@ export default {
         salesman_id: [{
           required: true,
           message: '请选择业务员'
+        }],
+        bank_no: [{
+          required: true,
+          message: '请选择开户行支行'
         }]
       },
       formDisabled: false

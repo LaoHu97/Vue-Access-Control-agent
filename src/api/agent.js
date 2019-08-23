@@ -188,3 +188,7 @@ export const queryAgentRebateDetail = params => {
 export const updateAgentRebateStatus = params => {
   return instance.post(`${preUrlPath}/admin/wp/ag/updateAgentRebateStatus`, params).then(res => res.data);
 };
+
+export const queryShopRate = params => {
+  return instance.post(`${preUrlPath}/admin/wp/ag/queryShopRate`, params).then(res => res.data);
+};

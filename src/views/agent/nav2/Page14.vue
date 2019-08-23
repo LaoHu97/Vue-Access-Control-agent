@@ -181,7 +181,16 @@
           <span>{{detForm.active_code}}</span>
         </el-form-item>
         <el-form-item label="创建时间：">
-          <span>{{formatterGmtCreate(detForm)}}</span>
+          <span>{{detForm.active_code}}</span>
+        </el-form-item>
+        <el-form-item label="账号：" v-if="detForm.terminal_type === '14'">
+          <span>{{detForm.accountNum}}</span>
+        </el-form-item>
+        <el-form-item label="密码：" v-if="detForm.terminal_type === '14'">
+          <span>{{detForm.password}}</span>
+        </el-form-item>
+        <el-form-item label="工号：" v-if="detForm.terminal_type === '14'">
+          <span>{{detForm.jobNum}}</span>
         </el-form-item>
       </el-form>
       <div slot="footer">
@@ -323,6 +332,10 @@ export default {
         {
           value: "13",
           label: "微收银"
+        },
+        {
+          value: "14",
+          label: "钱客多"
         }
       ],
       terminalVersionOptions: [
@@ -420,6 +433,15 @@ export default {
             label: "WSY"
           }
         ];
+      } else if (newVal == "14") {
+        this.editForm.terminal_version = "QD21";
+        this.editFormRules.SN[0].required = false;
+        this.terminalVersionOptions = [
+          {
+            value: "QD21",
+            label: "QD21"
+          }
+        ];
       }
     }
   },
@@ -442,6 +464,8 @@ export default {
           ? "新大陆POS"
           : row.terminal_type === "13"
             ? "微收银"
+            : row.terminal_type === "14"
+            ? "钱客多"
             : "未知";
     },
     formatterGmtCreate(row, column) {

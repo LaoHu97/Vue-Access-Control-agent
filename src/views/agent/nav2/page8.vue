@@ -47,11 +47,11 @@
           <el-button type="success" size="mini" @click="handleCode(scope.$index, scope.row)">二维码</el-button>
         </template>
     </el-table-column>
-    <el-table-column label="会员支付二维码" width="140" v-if="showVipCode">
+    <!-- <el-table-column label="会员支付二维码" width="140" v-if="showVipCode">
       <template slot-scope="scope">
           <el-button type="success" size="mini" @click="handleVipCode(scope.$index, scope.row)">会员支付二维码</el-button>
         </template>
-    </el-table-column>
+    </el-table-column> -->
     <el-table-column label="操作" width="260">
       <template slot-scope="scope">
           <el-button type="danger" size="mini" @click="handleReset(scope.$index, scope.row)">密码重置</el-button>
@@ -70,13 +70,10 @@
   <el-dialog title="修改信息" :visible.sync="modFormVisible" :close-on-click-modal="false" width="600px">
     <el-form :model="modForm" :rules="modFormRules" ref="editForm">
       <el-form-item label="款台名称" prop="username">
-        <el-input v-model="modForm.username" auto-complete="off"></el-input>
+        <el-input v-model="modForm.username"></el-input>
       </el-form-item>
-      <!-- <el-form-item label="支付宝操作员编号：" prop="ali_operation_id">
-          <el-input v-model="modForm.ali_operation_id"></el-input>
-        </el-form-item> -->
       <el-form-item label="电话" prop="phone">
-        <el-input v-model="modForm.phone" auto-complete="off"></el-input>
+        <el-input v-model="modForm.phone"></el-input>
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
         <el-input v-model="modForm.email"></el-input>
@@ -212,8 +209,8 @@ export default {
       }
     };
     return {
-      querySource: [],
-      source: [],
+      // querySource: [],
+      // source: [],
       filters: {
         username: '',
         account: '',
@@ -316,8 +313,12 @@ export default {
       stateForm: {},
       modForm: {
         value: '',
+        username: '',
+        ali_operation_id: '',
+        phone: '',
+        email: '',
+        terminal_id: '',
         options: '',
-        eid: '',
         wsy_num: ''
       },
       //新增界面数据
@@ -509,18 +510,20 @@ export default {
     //修改款台列表
     handleModify: function(index, row) {
       this.modFormVisible = true;
-      this.modForm.username = row.username;
-      this.modForm.phone = row.phone;
-      this.modForm.email = row.email;
-      this.modForm.terminal_id = row.terminal_id;
-      this.modForm.eid = row.eid,
-      this.modForm.ali_operation_id = row.ali_operation_id
-      this.modForm.wsy_num = row.device_num
-      this.querySource = this.source.filter(() => {
-        return true
+      this.$nextTick(() => {
+        this.modForm.username = row.username;
+        this.modForm.phone = row.phone;
+        this.modForm.email = row.email;
+        this.modForm.terminal_id = row.terminal_id;
+        this.modForm.eid = row.eid,
+        this.modForm.ali_operation_id = row.ali_operation_id
+        this.modForm.wsy_num = row.device_num
+        // this.querySource = this.source.filter(() => {
+        //   return true
+        // })
+        this.clickShop();
+        this.modForm.value = row.storeId;
       })
-      this.clickShop();
-      this.modForm.value = row.storeId;      
     },
     //显示编辑界面
     handleEdit: function(index, row) {
@@ -631,9 +634,9 @@ export default {
     },
   },
   mounted() {
-    this.querySource = this.source.filter(() => {
-      return true
-    })
+    // this.querySource = this.source.filter(() => {
+    //   return true
+    // })
     this.clickShop();
     this.filters.value = parseInt(this.$route.query.id) || '';
     this.getUsers();
