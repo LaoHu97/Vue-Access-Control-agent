@@ -327,7 +327,7 @@ export default {
         },
         {
           value: "12",
-          label: "新大陆POS"
+          label: "新大陆"
         },
         {
           value: "13",
@@ -348,8 +348,8 @@ export default {
           label: "波普"
         },
         {
-          value: "N910",
-          label: "N910"
+          value: "N910(POS)",
+          label: "N910(POS)"
         },
         {
           value: "WSY",
@@ -416,12 +416,16 @@ export default {
           }
         ];
       } else if (newVal == "12") {
-        this.editForm.terminal_version = "N910";
+        this.editForm.terminal_version = "N910(POS)";
         this.editFormRules.SN[0].required = true;
         this.terminalVersionOptions = [
           {
-            value: "N910",
-            label: "N910"
+            value: "N910(POS)",
+            label: "N910(POS)"
+          },
+          {
+            value: "蜻蜓",
+            label: "蜻蜓"
           }
         ];
       } else if (newVal == "13") {
@@ -461,7 +465,7 @@ export default {
       return row.terminal_type === "11"
         ? "富友POS"
         : row.terminal_type === "12"
-          ? "新大陆POS"
+          ? "新大陆"
           : row.terminal_type === "13"
             ? "微收银"
             : row.terminal_type === "14"

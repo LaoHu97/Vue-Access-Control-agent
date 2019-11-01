@@ -64,6 +64,35 @@
 
 <template>
   <div>
+    <!--修改分配业务员界面-->
+    <el-dialog title="分配业务员" :visible.sync="editFormVisible" width="30%">
+      <el-form :model="editSaleForm">
+        <el-form-item label="业务员：">
+          <el-select
+            v-model="editSaleForm.sale"
+            placeholder="请选择业务员"
+            :multiple="false"
+            filterable
+            remote
+            :remote-method="remoteSale"
+            :loading="saleLoading"
+            clearable
+            @visible-change="clickSale"
+          >
+            <el-option
+              v-for="item in saleOptions"
+              :value="item.id"
+              :label="item.value"
+              :key="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="editFormVisible = false">取消</el-button>
+        <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
+      </div>
+    </el-dialog>
     <el-card class="box-card">
       <div slot="header">
         <svg class="icon" aria-hidden="true">
@@ -293,35 +322,7 @@
         </el-row>
       </div>
     </el-card>
-    <!--修改分配业务员界面-->
-    <el-dialog title="分配业务员" :visible.sync="editFormVisible" width="30%">
-      <el-form :model="editSaleForm">
-        <el-form-item label="业务员：">
-          <el-select
-            v-model="editSaleForm.sale"
-            placeholder="请选择业务员"
-            :multiple="false"
-            filterable
-            remote
-            :remote-method="remoteSale"
-            :loading="saleLoading"
-            clearable
-            @visible-change="clickSale"
-          >
-            <el-option
-              v-for="item in saleOptions"
-              :value="item.id"
-              :label="item.value"
-              :key="item.id"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click.native="editFormVisible = false">取消</el-button>
-        <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
-      </div>
-    </el-dialog>
+
     <!-- 资质证照预览 -->
     <el-dialog
       :title="`资质证照（${boxCardText.merchant_name}）`"
@@ -445,7 +446,7 @@ export default {
   methods: {
     getShopRate() {
       queryShopRate({ mid: this.$route.query.mid }).then(res => {
-        this.rateForm = res.data.resultMap
+        this.rateForm = res.data.resultMap || {}
       })
     },
     format_rate(props) {
@@ -509,6 +510,8 @@ export default {
     },
     //显示修改业务员界面
     allotSale: function(index, row) {
+      console.log('123123');
+      
       this.editFormVisible = true;
     },
     //业务员远程搜索
