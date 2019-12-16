@@ -19,7 +19,7 @@ module.exports = {
         }
       },
       '/download': {
-        target: 'http://test.weupay.com:8080',
+        target: 'https://devdownload.wandingkeji.cn',
         changeOrigin: true,
         pathRewrite: {
           '^/download': '/download'

@@ -192,3 +192,11 @@ export const updateAgentRebateStatus = params => {
 export const queryShopRate = params => {
   return instance.post(`${preUrlPath}/admin/wp/ag/queryShopRate`, params).then(res => res.data);
 };
+
+/**
+ * 2019-11-19
+ */
+
+export const queryDownloadFileUrl = params => { return instance.post(`${downloadPath}/download/downloadFileUrl/queryDownloadFileUrl`,params).then(res => res.data); };
+
+export const downloadExcelFile = `${downloadPath}/download/downloadFileUrl/downloadExcelFile`;
